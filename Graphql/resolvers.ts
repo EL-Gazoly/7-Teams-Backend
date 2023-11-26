@@ -3,7 +3,7 @@ import Mutation from "./Mutaions"
 import prisma from "../config/database";
 const resolvers = {
     Query,
-  Mutation
+    Mutation
 };
 
 export default resolvers;

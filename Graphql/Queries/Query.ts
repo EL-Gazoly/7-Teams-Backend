@@ -1,5 +1,5 @@
 import prisma from "../../config/database";
-import {userQuery} from '../../Resolvers/User';
+import {userQuery} from '../../Resolvers';
 const Query = {
     ...userQuery,
     devices : async () => {

@@ -1,4 +1,4 @@
-import {userMuation} from '../../Resolvers/User'
+import {userMuation} from '../../Resolvers'
 const Mutation = {
     ...userMuation
 }
