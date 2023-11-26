@@ -1,4 +1,14 @@
 import prisma from "../../config/database";
+type CreateUserInput =  {
+  name: string
+  email: string
+  hashedPassword: string
+  role: string
+  isLocked?: boolean | undefined
+  LockedUntil?: Date
+  passwordRetryCount?: number | undefined
+}
+
 const userQuery = {
     users : async () => {
         return await prisma.user.findMany();
@@ -13,11 +23,8 @@ const userQuery = {
 }
 
 const userMuation = {
-    createUser: async (_ : any,data: { data: any }) => {
-      if (!data.data.name) {
-        throw new Error('Name is required');
-      }
-
+    createUser: async (_ : any,data: { data: CreateUserInput }) => {
+    data.data.hashedPassword = Bun.password.hashSync(data.data.hashedPassword);
       const user = await prisma.user.create({
         data: data.data,
       });

@@ -129,9 +129,9 @@ input CreateUserInput {
   email: String!
   hashedPassword: String!
   role: String!
-  isLocked: Boolean!
+  isLocked: Boolean
   LockedUntil: DateTime
-  passwordRetryCount: Int!
+  passwordRetryCount: Int
 }
 
 input UpdateUserInput {
