@@ -1,11 +1,12 @@
 import {userMuation, deviceMutation, studentMutations,
-signInOutMutations, exprimentMutations } from '../../Resolvers'
+signInOutMutations, exprimentMutations, StudentExperimentMutations } from '../../Resolvers'
 const Mutation = {
     ...userMuation,
     ...deviceMutation,
     ...studentMutations,
     ...signInOutMutations,
-    ...exprimentMutations
+    ...exprimentMutations,
+    ...StudentExperimentMutations
 }
 
 export default Mutation;
