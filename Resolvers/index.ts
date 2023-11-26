@@ -4,6 +4,7 @@ import { studentQueries, studentMutations } from './Student'
 import { signInOutQueries, signInOutMutations } from './SingInOut'
 import { exprimentQueries, exprimentMutations } from "./Expriment";
 import { StudentExperimentQueries, StudentExperimentMutations } from "./StudentExpriments";
+import { CategoriesQueries, CategoriesMutations } from "./Categories";
 export {
      userMuation,
      userQuery ,
@@ -16,5 +17,8 @@ export {
      exprimentQueries,
      exprimentMutations,
      StudentExperimentQueries,
-     StudentExperimentMutations
+     StudentExperimentMutations,
+     CategoriesQueries,
+     CategoriesMutations
+     
     };

@@ -1,13 +1,14 @@
 import {userQuery, deviceQuery, studentQueries,
-signInOutQueries, exprimentQueries, StudentExperimentQueries } from '../../Resolvers';
+signInOutQueries, exprimentQueries, StudentExperimentQueries,
+CategoriesQueries } from '../../Resolvers';
 const Query = {
     ...userQuery,
     ...deviceQuery,
     ...studentQueries,
     ...signInOutQueries,
     ...exprimentQueries,
-    ...StudentExperimentQueries
-
+    ...StudentExperimentQueries,
+    ...CategoriesQueries
 }
 
 export default Query;
