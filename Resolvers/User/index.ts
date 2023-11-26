@@ -3,7 +3,7 @@ const userQuery = {
     users : async () => {
         return await prisma.user.findMany();
     },
-    user : async ( args: {id : string} ) => {
+    user : async ( _ : null, args: {id : string} ) => {
         return await prisma.user.findUnique({
             where: {
                 id: args.id,
