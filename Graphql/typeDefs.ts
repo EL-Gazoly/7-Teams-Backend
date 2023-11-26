@@ -2,6 +2,8 @@ const typeDefs = `#graphql
 type Query {
   users: [User!]!
   user(id: String!): User
+  devices: [Device!]!
+  device(id: String!): Device
  
 }
 scalar DateTime
@@ -10,6 +12,9 @@ type Mutation {
   createUser(data: CreateUserInput!): User!
   updateUser(id: String!, data: UpdateUserInput!): User!
   deleteUser(id: String!): User!
+  createDevice(data: CreateDeviceInput!): Device!
+  updateDevice(id: String!, data: UpdateDeviceInput!): Device!
+  deleteDevice(id: String!): Device!
 }
 
 type User {
@@ -55,6 +60,19 @@ type Device {
   user: User!
   student: [Student!]
 }
+input CreateDeviceInput {
+  name: String!
+  macAddress: String!
+  userId: String!
+
+}
+
+input UpdateDeviceInput {
+  name: String
+  macAddress: String
+  userId: String
+}
+
 type Student {
   studentId: String!
   name: String!
