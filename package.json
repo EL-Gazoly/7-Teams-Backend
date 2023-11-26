@@ -1,5 +1,5 @@
 {
-  "name": "7-Teams Backend",
+  "name": "7-teams-backend",
   "version": "1.0.50",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -11,7 +11,8 @@
     "graphql": "^16.8.1"
   },
   "devDependencies": {
-    "bun-types": "latest"
+    "bun-types": "latest",
+    "prisma": "^5.6.0"
   },
   "module": "src/index.js"
 }
