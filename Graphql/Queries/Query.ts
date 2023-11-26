@@ -1,8 +1,8 @@
-import prisma from "../../config/database";
-import {userQuery, deviceQuery} from '../../Resolvers';
+import {userQuery, deviceQuery, studentQueries} from '../../Resolvers';
 const Query = {
     ...userQuery,
-    ...deviceQuery
+    ...deviceQuery,
+    ...studentQueries
 
 }
 

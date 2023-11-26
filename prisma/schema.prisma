@@ -37,9 +37,10 @@ model Device {
 }
 
 model Student {
+  generatedId         Int               @default(0) @unique
   studentId           String            @id @default(uuid())
   name                String
-  facilityId          String
+  facilityId          String            @unique
   imageUrl            String?
   TotalTime           Int               @default(0)
   completedCourses    Int               @default(0)
