@@ -1,7 +1,34 @@
-import { Elysia } from "elysia";
+import { ApolloServer } from '@apollo/server';
+import { startStandaloneServer } from '@apollo/server/standalone';
 
-const app = new Elysia().get("/", () => "Hello Elysia").listen(3000);
+const server = new ApolloServer({
+  typeDefs: `#graphql
+  type Book {
+      title: String
+      author: String
+  }
 
-console.log(
-  `🦊 Elysia is running at ${app.server?.hostname}:${app.server?.port}`
-);
+  type Query {
+      books: [Book]
+  }
+`,
+  resolvers : {
+    Query: {
+      books: () => {
+          return [
+              {
+                  title: 'Elysia',
+                  author: 'saltyAom'
+              }
+          ]
+      }
+  }
+  },
+});
+
+const { url } = await startStandaloneServer(server, {
+  listen: { port: 4000 },
+});
+
+console.log(`🚀 Server ready at ${url}`);
+
