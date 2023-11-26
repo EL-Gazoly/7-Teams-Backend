@@ -24,34 +24,34 @@ model User{
   student Student[]
 }
 
-model Device{
-  deviceId String @id @default(uuid())
-  name String
-  macAddress String @unique
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  userId String
-  user User @relation(fields: [userId], references: [id])
-  student Student[]
+model Device {
+  deviceId     String    @id @default(uuid())
+  name         String
+  macAddress   String    @unique
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+  userId       String
+  user         User      @relation(fields: [userId], references: [id])
+  studentId    String?    @unique
+  student      Student?  @relation(fields: [studentId], references: [studentId])   
 }
 
 model Student {
-  studentId String @id @default(uuid())
-  name String
-  facilityId String
-  role String
-  imageUrl String
-  TotalTime Int @default(0)
-  completedCourses Int @default(0)
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  userId String
-  user User @relation(fields: [userId], references: [id])
-  signInOUT SignInOut[]
-  deviceID String
-  connectedDevice Device @relation(fields: [deviceID], references: [deviceId])
-  studentExpriment StudentExpriment[]
-  studentCategories StudentCategories[]
+  studentId           String            @id @default(uuid())
+  name                String
+  facilityId          String
+  imageUrl            String?
+  TotalTime           Int               @default(0)
+  completedCourses    Int               @default(0)
+  createdAt           DateTime          @default(now())
+  updatedAt           DateTime          @updatedAt
+  userId              String
+  user                User              @relation(fields: [userId], references: [id])
+  signInOUT           SignInOut[]
+  deviceID            String?
+  connectedDevice     Device?         
+  studentExpriment    StudentExpriment[]
+  studentCategories   StudentCategories[]
 }
 
 model SignInOut {
@@ -59,7 +59,7 @@ model SignInOut {
   studentId String
   student Student @relation(fields: [studentId], references: [studentId])
   signIn DateTime @default(now())
-  signOut DateTime
+  signOut DateTime?
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
@@ -81,9 +81,9 @@ model StudentExpriment {
   id String @id @default(uuid())
   studentId String
   exprimentId String
-  progress Float
-  practicalTestGrade Float
-  theoreticalTestGrade Float
+  progress Float @default(0.0)
+  practicalTestGrade Float @default(0.0)
+  theoreticalTestGrade Float @default(0.0)
   student Student @relation(fields: [studentId], references: [studentId])
   expriment Expriments @relation(fields: [exprimentId], references: [ExprimentId])
   createdAt DateTime @default(now())
