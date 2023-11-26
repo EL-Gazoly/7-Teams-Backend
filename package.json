@@ -8,7 +8,8 @@
   "dependencies": {
     "@apollo/server": "^4.9.5",
     "elysia": "latest",
-    "graphql": "^16.8.1"
+    "graphql": "^16.8.1",
+    "typegraphql-prisma": "^0.27.1"
   },
   "devDependencies": {
     "bun-types": "latest",
