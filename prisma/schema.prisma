@@ -95,6 +95,7 @@ model StudentCategories {
   id String @id @default(uuid())
   studentId String
   categoryId String
+  classNumber Int
   student Student @relation(fields: [studentId], references: [studentId])
   categories Categories @relation(fields: [categoryId], references: [id])
   createdAt DateTime @default(now())

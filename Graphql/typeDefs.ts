@@ -213,23 +213,17 @@ type StudentCategory{
   categoryId: String!
   student: Student!
   categories: Categories!
-  progress: Float!
-  practicalTestGrade: Float!
-  theoreticalTestGrade: Float!
+  classNumber: Int!
 }
 input CreateStudentCategoryInput {
   studentId: String!
   categoryId: String!
-  progress: Float
-  practicalTestGrade: Float
-  theoreticalTestGrade: Float
+  classNumber: Int!
 }
 input UpdateStudentCategoryInput {
   studentId: String
   categoryId: String
-  progress: Float
-  practicalTestGrade: Float
-  theoreticalTestGrade: Float
+  classNumber: Int
 }
 
 
