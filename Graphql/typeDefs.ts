@@ -10,6 +10,12 @@ type Query {
   signInOut(id: String!): SignInOut
   expriments: [Expriment!]!
   expriment(id: String!): Expriment
+  studentExperiments: [StudentExperiment!]!
+  studentExperiment(id: String!): StudentExperiment
+  categories: [Categories!]!
+  category(id: String!): Categories
+  studentCategories: [StudentCategory!]!
+  studentCategory(id: String!): StudentCategory
  
 }
 scalar DateTime
@@ -31,6 +37,15 @@ type Mutation {
   createExpriment(data: CreateExprimentInput!): Expriment!
   updateExpriment(id: String!, data: UpdateExprimentInput!): Expriment!
   deleteExpriment(id: String!): Expriment!
+  createStudentExperiment(data: CreateStudentExperimentInput!): StudentExperiment!
+  updateStudentExperiment(id: String!, data: UpdateStudentExperimentInput!): StudentExperiment!
+  deleteStudentExperiment(id: String!): StudentExperiment!
+  createCategories(data: CreateCategoriesInput!): Categories!
+  updateCategories(id: String!, data: UpdateCategoriesInput!): Categories!
+  deleteCategories(id: String!): Categories!
+  createStudentCategory(data: CreateStudentCategoryInput!): StudentCategory!
+  updateStudentCategory(id: String!, data: UpdateStudentCategoryInput!): StudentCategory!
+  deleteStudentCategory(id: String!): StudentCategory!
 }
 
 type User {
@@ -166,10 +181,30 @@ type StudentExperiment{
   practicalTestGrade: Float!
   theoreticalTestGrade: Float!
 }
+input CreateStudentExperimentInput {
+  studentId: String!
+  exprimentId: String!
+  progress: Float
+  practicalTestGrade: Float
+  theoreticalTestGrade: Float
+}
+input UpdateStudentExperimentInput {
+  studentId: String
+  exprimentId: String
+  progress: Float
+  practicalTestGrade: Float
+  theoreticalTestGrade: Float
+}
 type Categories{
   id: String!
   name: String!
   StudentCategory: [StudentCategory!]
+}
+input CreateCategoriesInput {
+  name: String!
+}
+input UpdateCategoriesInput {
+  name: String
 }
 
 type StudentCategory{
@@ -182,6 +217,21 @@ type StudentCategory{
   practicalTestGrade: Float!
   theoreticalTestGrade: Float!
 }
+input CreateStudentCategoryInput {
+  studentId: String!
+  categoryId: String!
+  progress: Float
+  practicalTestGrade: Float
+  theoreticalTestGrade: Float
+}
+input UpdateStudentCategoryInput {
+  studentId: String
+  categoryId: String
+  progress: Float
+  practicalTestGrade: Float
+  theoreticalTestGrade: Float
+}
+
 
 
 
