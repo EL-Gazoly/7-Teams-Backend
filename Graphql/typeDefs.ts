@@ -6,6 +6,8 @@ type Query {
   device(id: String!): Device
   students: [Student!]!
   student(id: String!): Student
+  signInOuts: [SignInOut!]!
+  signInOut(id: String!): SignInOut
  
 }
 scalar DateTime
@@ -21,6 +23,9 @@ type Mutation {
   updateStudent(id: String!, data: UpdateStudentInput!): Student!
   deleteStudent(id: String!): Student!
   deleteManyStudents(ids: [String!]!): [Student!]!
+  createSignInOut(data: CreateSignInOutInput!): SignInOut!
+  updateSignInOut(id: String!, data: UpdateSignInOutInput!): SignInOut!
+  deleteSignInOut(id: String!): SignInOut!
 }
 
 type User {
@@ -118,9 +123,19 @@ input UpdateStudentInput {
 type SignInOut{
   id: String!
   studentId: String!
-  signInTime: DateTime!
-  signOutTime: DateTime
+  signIn: DateTime!
+  signOut: DateTime
   student: Student!
+}
+input CreateSignInOutInput {
+  studentId: String!
+  signIn: DateTime!
+  signOut: DateTime
+}
+input UpdateSignInOutInput {
+  studentId: String
+  signIn: DateTime
+  signOut: DateTime
 }
 type Expriment{
   ExprimentId: String!

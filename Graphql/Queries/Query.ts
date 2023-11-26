@@ -1,8 +1,10 @@
-import {userQuery, deviceQuery, studentQueries} from '../../Resolvers';
+import {userQuery, deviceQuery, studentQueries,
+signInOutQueries } from '../../Resolvers';
 const Query = {
     ...userQuery,
     ...deviceQuery,
-    ...studentQueries
+    ...studentQueries,
+    ...signInOutQueries
 
 }
 

@@ -1,8 +1,10 @@
-import {userMuation, deviceMutation, studentMutations} from '../../Resolvers'
+import {userMuation, deviceMutation, studentMutations,
+signInOutMutations } from '../../Resolvers'
 const Mutation = {
     ...userMuation,
     ...deviceMutation,
-    ...studentMutations
+    ...studentMutations,
+    ...signInOutMutations
 }
 
 export default Mutation;
