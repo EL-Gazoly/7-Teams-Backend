@@ -1,30 +1,8 @@
 import { ApolloServer } from '@apollo/server';
 import { startStandaloneServer } from '@apollo/server/standalone';
-
-const server = new ApolloServer({
-  typeDefs: `#graphql
-  type Book {
-      title: String
-      author: String
-  }
-
-  type Query {
-      books: [Book]
-  }
-`,
-  resolvers : {
-    Query: {
-      books: () => {
-          return [
-              {
-                  title: 'Elysia',
-                  author: 'saltyAom'
-              }
-          ]
-      }
-  }
-  },
-});
+import typeDefs from '../Graphql/typeDefs';
+import resolvers from '../Graphql/resolvers';
+const server = new ApolloServer({typeDefs,resolvers,});
 
 const { url } = await startStandaloneServer(server, {
   listen: { port: 4000 },

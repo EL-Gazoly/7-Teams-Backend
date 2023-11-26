@@ -9,6 +9,7 @@
     "@apollo/server": "^4.9.5",
     "elysia": "latest",
     "graphql": "^16.8.1",
+    "graphql-scalars": "^1.22.4",
     "typegraphql-prisma": "^0.27.1"
   },
   "devDependencies": {
