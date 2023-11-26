@@ -9,7 +9,9 @@ type Query {
   signInOuts: [SignInOut!]!
   categories: [Categories!]!
   experiments: [Experiment!]!
+  experiment(id: String!): Experiment
   studentExperiments: [StudentExperiment!]!
+  studentExperimentsByStudentId(studentId: String!): [StudentExperiment!]!
 }
 scalar DateTime
 
@@ -35,13 +37,13 @@ type User {
   email: String!
   hashedPassword: String!
   role: String!
-  isLocked: Boolean!
-  lockedUntil: DateTime
-  passwordRetryCount: Int!
-  createdAt: DateTime!
-  updatedAt: DateTime!
-  devices: [Device!]!
-  student: [Student!]!
+  isLocked: Boolean
+  LockedUntil: DateTime
+  passwordRetryCount: Int
+  createdAt: DateTime
+  updatedAt: DateTime
+  devices: [Device!]
+  student: [Student!]
 }
 
 type Device {
@@ -128,7 +130,7 @@ input CreateUserInput {
   hashedPassword: String!
   role: String!
   isLocked: Boolean!
-  lockedUntil: DateTime
+  LockedUntil: DateTime
   passwordRetryCount: Int!
 }
 

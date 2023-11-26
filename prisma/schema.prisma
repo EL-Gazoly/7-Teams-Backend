@@ -16,7 +16,7 @@ model User{
   hashedPassword String
   role String
   isLocked Boolean @default(false)
-  LockedUntil DateTime
+  LockedUntil DateTime @default(now())
   passwordRetryCount Int @default(0)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -71,7 +71,6 @@ model Categories{
   updatedAt DateTime @updatedAt
   studentCategories StudentCategories[]
 }
-
 model Expriments {
   ExprimentId String @id @default(uuid())
   name String
