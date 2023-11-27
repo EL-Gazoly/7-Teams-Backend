@@ -81,7 +81,7 @@ const studentRelation = {
             })
         },
         device : async (parent : any) => {
-            return await prisma.device.findMany({
+            return await prisma.device.findUnique({
                 where: {
                     studentId: parent.studentId,
                 },
