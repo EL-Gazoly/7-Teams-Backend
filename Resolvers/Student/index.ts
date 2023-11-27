@@ -8,7 +8,7 @@ type CreateStudentInput = {
     TotalTime?: number
     completedCourses?: number
     userId: string
-    deviceId?: String
+    deviceId?: string
   }
 type UpdateStudentInput = {
     name?: string
@@ -17,7 +17,7 @@ type UpdateStudentInput = {
     TotalTime?: number
     completedCourses?: number
     userId?: string
-    deviceId?: String
+    deviceId?: string
   }
 
 const studentQueries = {
@@ -70,6 +70,53 @@ const studentMutations = {
     }
 }
 
+const studentRelation = {
+    Student : {
+        user : async (parent : any) => {
+            return await prisma.user.findUnique({
+                where: {
+                    id: parent.userId,
+                },
+            
+            })
+        },
+        device : async (parent : any) => {
+            return await prisma.device.findMany({
+                where: {
+                    studentId: parent.studentId,
+                },
+            
+            })
+        },
+      
+        signInOUT : async (parent : any) => {
+            return await prisma.signInOut.findMany({
+                where: {
+                    studentId: parent.studentId,
+                },
+            
+            })
+        },
+        studnetExpriment : async (parent : any) => {
+            return await prisma.studentExpriment.findMany({
+                where: {
+                    studentId: parent.studentId,
+                },
+            
+            })
+        },
+        studentCategories : async (parent : any) => {
+            return await prisma.studentCategories.findMany({
+                where: {
+                    studentId: parent.studentId,
+                },
+            
+            })
+        }
+
+      },
+}
+
 const generateID = async (name: string, facilityid : string) => {
     const uniqueString = `${name}${facilityid}`;
     return limitToFourDigits(await hashCode(uniqueString));
@@ -91,5 +138,6 @@ const generateID = async (name: string, facilityid : string) => {
 
 export {
     studentQueries,
-     studentMutations
+    studentMutations,
+    studentRelation
 }

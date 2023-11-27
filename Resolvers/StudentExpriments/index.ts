@@ -55,7 +55,30 @@ const StudentExperimentMutations = {
     }
 }
 
+const StudentExperimentRelation = {
+    StudentExperiment : {
+        student : async (parent : any) => {
+            return await prisma.student.findUnique({
+                where: {
+                    studentId: parent.studentId,
+                },
+            
+            })
+        },
+        expriment : async (parent : any) => {
+            return await prisma.expriments.findUnique({
+                where: {
+                    ExprimentId: parent.exprimentId,
+                },
+            
+            })
+        }
+
+    }
+}
+
 export {
     StudentExperimentQueries,
-    StudentExperimentMutations
+    StudentExperimentMutations,
+    StudentExperimentRelation
 }

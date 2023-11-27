@@ -33,7 +33,7 @@ model Device {
   userId       String
   user         User      @relation(fields: [userId], references: [id])
   studentId    String?    @unique
-  student      Student?  @relation(fields: [studentId], references: [studentId])   
+  student      Student? 
 }
 
 model Student {
@@ -49,8 +49,8 @@ model Student {
   userId              String
   user                User              @relation(fields: [userId], references: [id])
   signInOUT           SignInOut[]
-  deviceID            String?
-  connectedDevice     Device?         
+  deviceId            String?           @unique
+  connectedDevice     Device?          @relation(fields: [deviceId], references: [deviceId]) 
   studentExpriment    StudentExpriment[]
   studentCategories   StudentCategories[]
 }

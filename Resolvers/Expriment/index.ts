@@ -46,7 +46,22 @@ const exprimentMutations = {
     },
 }
 
+const exprimentRelation = {
+    Expriment : {
+        StudentExpriment : async (parent : any) => {
+            return await prisma.studentExpriment.findMany({
+                where: {
+                    exprimentId: parent.ExprimentId,
+                },
+            
+            })
+        }
+
+    }
+}
+
 export  {
     exprimentQueries,
-    exprimentMutations
+    exprimentMutations,
+    exprimentRelation
 }

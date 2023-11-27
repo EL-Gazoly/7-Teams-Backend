@@ -62,7 +62,30 @@ const userMuation = {
     },
 }
 
+const userRelation = {
+  User: {
+    student : async (parent : any) => {
+        return await prisma.student.findMany({
+            where: {
+                userId: parent.id,
+            },
+        
+        })
+    },
+    devices : async (parent : any) => {
+        return await prisma.device.findMany({
+            where: {
+                userId: parent.id,
+            },
+        
+        })
+    },
+
+  },
+}
+
 export {
     userQuery,
-    userMuation
+    userMuation,
+    userRelation
 };

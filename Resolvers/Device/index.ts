@@ -11,6 +11,7 @@ type CreateDeviceInput = {
     name?: string
     macAddress?: string
     userId?: string
+    studentId?: string
   }
 
 const deviceQuery = {
@@ -49,4 +50,26 @@ const deviceMutation = {
     } 
 };
 
-export { deviceQuery, deviceMutation };
+const deviceRelation = {
+  Device : {
+    user : async (parent : any) => {
+        return await prisma.user.findUnique({
+            where: {
+                id: parent.userId,
+            },
+        
+        })
+    },
+    student : async (parent : any) => {
+        return await prisma.student.findMany({
+            where: {
+                deviceId: parent.deviceId,
+            },
+        
+        })
+    },
+
+  }
+}
+
+export { deviceQuery, deviceMutation, deviceRelation };

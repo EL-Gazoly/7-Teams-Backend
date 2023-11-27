@@ -47,8 +47,23 @@ const CategoriesMutations = {
     }
 }
 
+const CategoriesRelation = {
+    Categories : {
+        StudentCategory : async (parent : any) => {
+            return await prisma.studentCategories.findMany({
+                where: {
+                    categoryId: parent.id,
+                },
+            
+            })
+        }
+
+    },
+}
+
 export {
     CategoriesQueries,
-    CategoriesMutations
+    CategoriesMutations,
+    CategoriesRelation
 }
 

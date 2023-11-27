@@ -46,7 +46,22 @@ const signInOutMutations = {
     },
 }
 
+const signInOutRelation = {
+    SignInOut : {
+        student : async (parent : any) => {
+            return await prisma.student.findUnique({
+                where: {
+                    studentId: parent.studentId,
+                },
+            
+            })
+        },
+
+    }
+}
+
 export  {
     signInOutQueries,
-    signInOutMutations
+    signInOutMutations,
+    signInOutRelation
 }

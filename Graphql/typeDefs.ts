@@ -89,20 +89,20 @@ type Device {
   macAddress: String!
   userId: String!
   user: User!
+  studentId: String
   student: [Student!]
 }
 input CreateDeviceInput {
-  generatedId: Int
   name: String!
   macAddress: String!
   userId: String!
-
 }
 
 input UpdateDeviceInput {
   name: String
   macAddress: String
   userId: String
+  studentId: String
 }
 
 type Student {
@@ -117,7 +117,7 @@ type Student {
   user: User!
   deviceId: String
   signInOUT: [SignInOut!]
-  connectDevice: Device
+  device: Device
   studnetExpriment: [StudentExperiment!]
   studentCategories: [StudentCategory!]
 }

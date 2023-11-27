@@ -50,7 +50,30 @@ type CreateStudentCategoryInput = {
         }
     }
 
+    const StudentCategoryRelation = {
+        StudentCategory : {
+            student : async (parent : any) => {
+                return await prisma.student.findUnique({
+                    where: {
+                        studentId: parent.studentId,
+                    },
+                
+                })
+            },
+            categories : async (parent : any) => {
+                return await prisma.categories.findUnique({
+                    where: {
+                        id: parent.categoryId,
+                    },
+                
+                })
+            }
+    
+        },
+    }
+
     export {
         StudentCategoryQueries,
-        StudentCategoryMutations
+        StudentCategoryMutations,
+        StudentCategoryRelation
     }
