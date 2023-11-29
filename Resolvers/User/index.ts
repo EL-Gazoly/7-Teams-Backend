@@ -1,4 +1,5 @@
 import prisma from "../../config/database";
+import  jwt from 'jsonwebtoken';
 type CreateUserInput =  {
   name: string
   email: string
@@ -38,6 +39,8 @@ const userMuation = {
       const user = await prisma.user.create({
         data: data.data,
       });
+      const token = jwt.sign({ user }, `${Bun.env.JWT_SECRET_KET}`);
+      console.log(token);
       return user;
     },
     updateUser: async (_ : undefined, data: { id: string, data: UpdateUserInput }) => {

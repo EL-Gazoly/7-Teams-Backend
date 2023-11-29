@@ -7,9 +7,13 @@
   },
   "dependencies": {
     "@apollo/server": "^4.9.5",
+    "@types/jsonwebtoken": "^9.0.5",
     "elysia": "latest",
     "graphql": "^16.8.1",
+    "graphql-middleware": "^6.1.35",
     "graphql-scalars": "^1.22.4",
+    "graphql-shield": "^7.6.5",
+    "jsonwebtoken": "^9.0.2",
     "typegraphql-prisma": "^0.27.1"
   },
   "devDependencies": {
