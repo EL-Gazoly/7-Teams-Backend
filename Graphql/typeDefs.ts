@@ -1,5 +1,7 @@
 const typeDefs = `#graphql
 type Query {
+  admins: [Admin!]!
+  admin(id: String!): Admin
   users: [User!]!
   user(id: String!): User
   roles: [Role!]!
@@ -23,6 +25,9 @@ type Query {
 scalar DateTime
 
 type Mutation {
+  createAdmin(data: CreateAdminInput!): Admin!
+  updateAdmin(id: String!, data: UpdateAdminInput!): Admin!
+  deleteAdmin(id: String!): Admin!
   createUser(data: CreateUserInput!): User!
   updateUser(id: String!, data: UpdateUserInput!): User!
   deleteUser(id: String!): User!
@@ -68,6 +73,25 @@ type Admin {
   roles: [Role!]
 
 }
+
+input CreateAdminInput {
+  name: String!
+  email: String!
+  hashedPassword: String!
+  isLocked: Boolean
+  LockedUntil: DateTime
+  passwordRetryCount: Int
+}
+
+input UpdateAdminInput {
+  name: String
+  email: String
+  hashedPassword: String
+  isLocked: Boolean
+  LockedUntil: DateTime
+  passwordRetryCount: Int
+}
+
 type Role {
   id: String!
   name: String!

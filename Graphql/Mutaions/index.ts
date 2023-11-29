@@ -1,7 +1,9 @@
 import {userMuation, deviceMutation, studentMutations,
 signInOutMutations, exprimentMutations, StudentExperimentMutations,
-CategoriesMutations, StudentCategoryMutations } from '../../Resolvers'
+CategoriesMutations, StudentCategoryMutations, adminMuation, roleMuation } from '../../Resolvers'
 const Mutation = {
+    ...adminMuation,
+    ...roleMuation,
     ...userMuation,
     ...deviceMutation,
     ...studentMutations,
