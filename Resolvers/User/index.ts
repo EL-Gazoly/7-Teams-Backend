@@ -68,7 +68,7 @@ const userMuation = {
 
 const userRelation = {
   User: {
-    student : async (parent : any) => {
+    students : async (parent : any) => {
         return await prisma.student.findMany({
             where: {
               adminId: parent.adminId,

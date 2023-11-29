@@ -55,6 +55,7 @@ type Mutation {
   deleteStudentCategory(id: String!): StudentCategory!
   createRole(data: CreateRoleInput!): Role!
   updateRole(id: String!, data: UpdateRoleInput!): Role!
+  deleteRole(id: String!): Role!
 }
 
 type Admin {
@@ -68,7 +69,7 @@ type Admin {
   createdAt: DateTime
   updatedAt: DateTime
   devices: [Device!]
-  student: [Student!]
+  students: [Student!]
   users: [User!]
   roles: [Role!]
 
@@ -137,6 +138,8 @@ type User {
   passwordRetryCount: Int
   adminId: String!
   admin: Admin!
+  students: [Student!]
+  devices: [Device!]
   roleId: String!
   role: String!
   createdAt: DateTime

@@ -72,10 +72,10 @@ const studentMutations = {
 
 const studentRelation = {
     Student : {
-        user : async (parent : any) => {
-            return await prisma.user.findUnique({
+        admin : async (parent : any) => {
+            return await prisma.admin.findUnique({
                 where: {
-                    id: parent.userId,
+                    id: parent.adminId,
                 },
             
             })
