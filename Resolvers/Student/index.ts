@@ -7,7 +7,7 @@ type CreateStudentInput = {
     imageUrl?: string
     TotalTime?: number
     completedCourses?: number
-    userId: string
+    adminId: string
     deviceId?: string
   }
 type UpdateStudentInput = {

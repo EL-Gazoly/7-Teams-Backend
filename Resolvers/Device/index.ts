@@ -3,14 +3,14 @@ import prisma from "../../config/database";
 type CreateDeviceInput = {
     name: string
     macAddress: string
-    userId: string
+    adminId: string
   
   }
   
   type UpdateDeviceInput =  {
     name?: string
     macAddress?: string
-    userId?: string
+    adminId?: string
     studentId?: string
   }
 

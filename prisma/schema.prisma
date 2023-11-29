@@ -9,12 +9,11 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model User{
-  id  String @id @default(uuid())
+model Admin {
+  id String @id @default(uuid())
   name String
   email String @unique
   hashedPassword String
-  role String
   isLocked Boolean @default(false)
   LockedUntil DateTime @default(now())
   passwordRetryCount Int @default(0)
@@ -22,6 +21,24 @@ model User{
   updatedAt DateTime @updatedAt
   devices Device[]
   student Student[]
+  user    User[]
+  roles Roles[]
+}
+
+model User{
+  id  String @id @default(uuid())
+  name String
+  email String @unique
+  hashedPassword String
+  isLocked Boolean @default(false)
+  LockedUntil DateTime @default(now())
+  passwordRetryCount Int @default(0)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  adminId   String
+  admin Admin @relation(fields: [adminId], references: [id])
+  roleId String
+  roles Roles @relation(fields: [roleId], references: [id])
 }
 
 model Device {
@@ -30,8 +47,8 @@ model Device {
   macAddress   String    @unique
   createdAt    DateTime  @default(now())
   updatedAt    DateTime  @updatedAt
-  userId       String
-  user         User      @relation(fields: [userId], references: [id])
+  adminId       String
+  admin         Admin @relation(fields: [adminId], references: [id])
   studentId    String?    @unique
   student      Student? 
 }
@@ -46,8 +63,8 @@ model Student {
   completedCourses    Int               @default(0)
   createdAt           DateTime          @default(now())
   updatedAt           DateTime          @updatedAt
-  userId              String
-  user                User              @relation(fields: [userId], references: [id])
+  adminId             String
+  admin               Admin @relation(fields: [adminId], references: [id])
   signInOUT           SignInOut[]
   deviceId            String?           @unique
   connectedDevice     Device?          @relation(fields: [deviceId], references: [deviceId]) 
@@ -98,6 +115,22 @@ model StudentCategories {
   classNumber Int
   student Student @relation(fields: [studentId], references: [studentId])
   categories Categories @relation(fields: [categoryId], references: [id])
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Roles {
+  id String @id @default(uuid())
+  name String
+  isDevicesAccess Boolean @default(false)
+  isStudentsAccess Boolean @default(false)
+  isReportsAccess Boolean @default(false)
+  isLogsAccess Boolean @default(false)
+  isRolesAccess Boolean @default(false)
+  isUsersAccess Boolean @default(false)
+  adminId String
+  admin Admin @relation(fields: [adminId], references: [id])
+  users User[]
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }

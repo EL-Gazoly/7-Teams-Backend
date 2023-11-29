@@ -4,10 +4,11 @@ type CreateUserInput =  {
   name: string
   email: string
   hashedPassword: string
-  role: string
   isLocked?: boolean | undefined
   LockedUntil?: Date
   passwordRetryCount?: number | undefined
+  adminId: string
+  roleId: string
 }
 type UpdateUserInput =  {
     name: string
@@ -70,7 +71,7 @@ const userRelation = {
     student : async (parent : any) => {
         return await prisma.student.findMany({
             where: {
-                userId: parent.id,
+              adminId: parent.adminId,
             },
         
         })
@@ -78,7 +79,7 @@ const userRelation = {
     devices : async (parent : any) => {
         return await prisma.device.findMany({
             where: {
-                userId: parent.id,
+              adminId: parent.adminId,
             },
         
         })

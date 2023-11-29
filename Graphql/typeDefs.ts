@@ -2,6 +2,8 @@ const typeDefs = `#graphql
 type Query {
   users: [User!]!
   user(id: String!): User
+  roles: [Role!]!
+  role(id: String!): Role
   devices: [Device!]!
   device(id: String!): Device
   students: [Student!]!
@@ -46,14 +48,15 @@ type Mutation {
   createStudentCategory(data: CreateStudentCategoryInput!): StudentCategory!
   updateStudentCategory(id: String!, data: UpdateStudentCategoryInput!): StudentCategory!
   deleteStudentCategory(id: String!): StudentCategory!
+  createRole(data: CreateRoleInput!): Role!
+  updateRole(id: String!, data: UpdateRoleInput!): Role!
 }
 
-type User {
+type Admin {
   id: String!
   name: String!
   email: String!
   hashedPassword: String!
-  role: String!
   isLocked: Boolean
   LockedUntil: DateTime
   passwordRetryCount: Int
@@ -61,6 +64,60 @@ type User {
   updatedAt: DateTime
   devices: [Device!]
   student: [Student!]
+  users: [User!]
+  roles: [Role!]
+
+}
+type Role {
+  id: String!
+  name: String!
+  users: [User!]
+  adminId: String!
+  admin: Admin!
+  isDevicesAccess: Boolean 
+  isStudentsAccess: Boolean 
+  isReportsAccess: Boolean 
+  isLogsAccess: Boolean 
+  isRolesAccess: Boolean 
+  isUsersAccess: Boolean 
+}
+
+input CreateRoleInput {
+  name: String!
+  adminId: String!
+  isDevicesAccess: Boolean 
+  isStudentsAccess: Boolean 
+  isReportsAccess: Boolean 
+  isLogsAccess: Boolean 
+  isRolesAccess: Boolean 
+  isUsersAccess: Boolean 
+}
+
+input UpdateRoleInput {
+  name: String
+  isDevicesAccess: Boolean 
+  isStudentsAccess: Boolean 
+  isReportsAccess: Boolean 
+  isLogsAccess: Boolean 
+  isRolesAccess: Boolean 
+  isUsersAccess: Boolean
+}
+
+type User {
+  id: String!
+  name: String!
+  email: String!
+  hashedPassword: String!
+  isLocked: Boolean
+  LockedUntil: DateTime
+  passwordRetryCount: Int
+  adminId: String!
+  admin: Admin!
+  roleId: String!
+  role: String!
+  createdAt: DateTime
+  updatedAt: DateTime
+ 
 }
 
 input CreateUserInput {
@@ -71,6 +128,7 @@ input CreateUserInput {
   isLocked: Boolean
   LockedUntil: DateTime
   passwordRetryCount: Int
+  adminId: String!
 }
 
 input UpdateUserInput {
@@ -87,21 +145,21 @@ type Device {
   deviceId: String!
   name: String!
   macAddress: String!
-  userId: String!
-  user: User!
+  adminId: String!
+  admin: Admin!
   studentId: String
   student: [Student!]
 }
 input CreateDeviceInput {
   name: String!
   macAddress: String!
-  userId: String!
+  adminId: String!
 }
 
 input UpdateDeviceInput {
   name: String
   macAddress: String
-  userId: String
+  adminId: String
   studentId: String
 }
 
@@ -113,8 +171,8 @@ type Student {
   imageUrl: String
   TotalTime: Int
   completedCourses: Int
-  userId: String!
-  user: User!
+  adminId: String!
+  admin: Admin!
   deviceId: String
   signInOUT: [SignInOut!]
   device: Device
@@ -127,7 +185,7 @@ input CreateStudentInput {
   imageUrl: String
   TotalTime: Int
   completedCourses: Int
-  userId: String!
+  adminId: String!
   deviceId: String
 }
 input UpdateStudentInput {
@@ -136,7 +194,7 @@ input UpdateStudentInput {
   imageUrl: String
   TotalTime: Int
   completedCourses: Int
-  userId: String
+  adminId: String
   deviceId: String
 
 }
