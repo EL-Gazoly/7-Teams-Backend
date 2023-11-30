@@ -45,18 +45,6 @@ const userMuation = {
           id: user.roleId,
         },
       })
-      const token = jwt.sign({ 
-          roleId: user.roleId,
-          adminId: user.adminId,
-          userid: user.id,
-          isDevicesAccess: getRolePermission?.isDevicesAccess,
-          isStudentsAccess: getRolePermission?.isStudentsAccess,
-          isReportsAccess: getRolePermission?.isReportsAccess,
-          isLogsAccess: getRolePermission?.isLogsAccess,
-          isRolesAccess: getRolePermission?.isRolesAccess,
-          isUsersAccess: getRolePermission?.isUsersAccess
-       }, `${Bun.env.JWT_SECRET_KET}`);
-      console.log(token);
       return user;
     },
     updateUser: async (_ : undefined, data: { id: string, data: UpdateUserInput }) => {
