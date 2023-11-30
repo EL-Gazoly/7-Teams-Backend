@@ -40,11 +40,6 @@ const userMuation = {
       const user = await prisma.user.create({
         data: data.data,
       });
-      const getRolePermission = await prisma.roles.findUnique({
-        where: {
-          id: user.roleId,
-        },
-      })
       return user;
     },
     updateUser: async (_ : undefined, data: { id: string, data: UpdateUserInput }) => {
