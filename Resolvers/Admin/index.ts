@@ -16,6 +16,7 @@ type UpdateAdminInput = {
     isLocked: boolean
     LockedUntil: Date
     passwordRetryCount: number
+    tokne?: string
   }
 
 const adminQuery = {
@@ -79,6 +80,16 @@ const adminMuation = {
         isAdmin : true,
        }, `${Bun.env.JWT_SECRET_KET}`);
       console.log(token);
+
+      await prisma.admin.update({
+        where: {
+          id: admin.id,
+        },
+        data: {
+          token : token
+        },
+      });
+
       return admin;
     
     }

@@ -74,6 +74,7 @@ type Admin {
   students: [Student!]
   users: [User!]
   roles: [Role!]
+  token: String
 
 }
 
@@ -93,6 +94,7 @@ input UpdateAdminInput {
   isLocked: Boolean
   LockedUntil: DateTime
   passwordRetryCount: Int
+  token: String
 }
 
 type Role {
@@ -107,6 +109,7 @@ type Role {
   isLogsAccess: Boolean 
   isRolesAccess: Boolean 
   isUsersAccess: Boolean 
+  token: String
 }
 
 input CreateRoleInput {
@@ -128,6 +131,7 @@ input UpdateRoleInput {
   isLogsAccess: Boolean 
   isRolesAccess: Boolean 
   isUsersAccess: Boolean
+  token: String
 }
 
 type User {

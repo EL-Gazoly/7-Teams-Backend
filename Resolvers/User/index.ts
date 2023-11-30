@@ -18,6 +18,7 @@ type UpdateUserInput =  {
     isLocked: boolean
     LockedUntil: Date
     passwordRetryCount: number
+    token?: string
   }
   
 const userQuery = {
@@ -92,7 +93,14 @@ const userMuation = {
           isRolesAccess: getRolePermission?.isRolesAccess,
           isUsersAccess: getRolePermission?.isUsersAccess
        }, `${Bun.env.JWT_SECRET_KET}`);
-      console.log(token);
+      await prisma.user.update({
+        where: {
+          id: user.id,
+        },
+        data: {
+          token : token
+        },
+      });
       return user;
     
     }
