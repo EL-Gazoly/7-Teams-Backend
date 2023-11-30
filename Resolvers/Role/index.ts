@@ -62,22 +62,23 @@ const roleMuation = {
 
 const roleRelation = {
     Role: {
-        users: async (parent: { roleId: string }) => {
-            return await prisma.roles.findUnique({
+        users: async (parent: { id: string }) => {
+            return await prisma.user.findMany({
                 where: {
-                    id: parent.roleId,
+                    roleId: parent.id,
                 },
             })
         },
-        admin: async (parent: { id: string }) => {
-            return await prisma.roles.findFirst({
+        admin: async (parent: { id : string, adminId : string }) => {
+            return await prisma.admin.findUnique({
                 where: {
-                    adminId: parent.id,
+                    id: parent.adminId,
                 },
             });
         },
     }
 }
+
 export{
     roleQuery,
     roleMuation,

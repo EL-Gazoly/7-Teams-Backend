@@ -61,6 +61,27 @@ const adminMuation = {
       });
       return admin;
     },
+    loginAdmin: async (_ : undefined, data: { email: string, password: string }) => {
+      const admin = await prisma.admin.findUnique({
+        where: {
+          email: data.email,
+        },
+      });
+      if (!admin) {
+        throw new Error('No such user found');
+      }
+      const isPasswordValid = Bun.password.verifySync(data.password, admin.hashedPassword);
+      if (!isPasswordValid) {
+        throw new Error('Invalid password');
+      }
+      const token = jwt.sign({ 
+        adminId : admin.id,
+        isAdmin : true,
+       }, `${Bun.env.JWT_SECRET_KET}`);
+      console.log(token);
+      return admin;
+    
+    }
 }
 
 const adminRelation = {

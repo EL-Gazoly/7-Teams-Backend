@@ -40,7 +40,22 @@ const userMuation = {
       const user = await prisma.user.create({
         data: data.data,
       });
-      const token = jwt.sign({ user }, `${Bun.env.JWT_SECRET_KET}`);
+      const getRolePermission = await prisma.roles.findUnique({
+        where: {
+          id: user.roleId,
+        },
+      })
+      const token = jwt.sign({ 
+          roleId: user.roleId,
+          adminId: user.adminId,
+          userid: user.id,
+          isDevicesAccess: getRolePermission?.isDevicesAccess,
+          isStudentsAccess: getRolePermission?.isStudentsAccess,
+          isReportsAccess: getRolePermission?.isReportsAccess,
+          isLogsAccess: getRolePermission?.isLogsAccess,
+          isRolesAccess: getRolePermission?.isRolesAccess,
+          isUsersAccess: getRolePermission?.isUsersAccess
+       }, `${Bun.env.JWT_SECRET_KET}`);
       console.log(token);
       return user;
     },
@@ -64,11 +79,45 @@ const userMuation = {
       });
       return user;
     },
+
+    loginUser : async (_ : undefined, data: { email: string, hashedPassword: string }) => {
+      const user = await prisma.user.findUnique({
+        where: {
+          email: data.email,
+        },
+      });
+      if (!user) {
+        throw new Error('User not found');
+      }
+      const isMatch = Bun.password.verifySync(data.hashedPassword, user.hashedPassword);
+      if (!isMatch) {
+        throw new Error('Invalid password');
+      }
+      const getRolePermission = await prisma.roles.findUnique({
+        where: {
+          id: user.roleId,
+        },
+      })
+      const token = jwt.sign({ 
+          roleId: user.roleId,
+          adminId: user.adminId,
+          userid: user.id,
+          isDevicesAccess: getRolePermission?.isDevicesAccess,
+          isStudentsAccess: getRolePermission?.isStudentsAccess,
+          isReportsAccess: getRolePermission?.isReportsAccess,
+          isLogsAccess: getRolePermission?.isLogsAccess,
+          isRolesAccess: getRolePermission?.isRolesAccess,
+          isUsersAccess: getRolePermission?.isUsersAccess
+       }, `${Bun.env.JWT_SECRET_KET}`);
+      console.log(token);
+      return user;
+    
+    }
 }
 
 const userRelation = {
   User: {
-    students : async (parent : any) => {
+    students : async (parent : {adminId : string}) => {
         return await prisma.student.findMany({
             where: {
               adminId: parent.adminId,
@@ -76,7 +125,7 @@ const userRelation = {
         
         })
     },
-    devices : async (parent : any) => {
+    devices : async (parent : {adminId : string}) => {
         return await prisma.device.findMany({
             where: {
               adminId: parent.adminId,
@@ -84,6 +133,15 @@ const userRelation = {
         
         })
     },
+
+    admin : async (parent : {adminId : string}) => {
+        return await prisma.admin.findUnique({
+            where: {
+              id: parent.adminId,
+            },
+        
+        })
+    }
 
   },
 }

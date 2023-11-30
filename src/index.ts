@@ -22,6 +22,9 @@ const isAuthenticated = rule({ cache: 'contextual' })(
     }
   },
 );
+const allowAll = rule({ cache: 'contextual' })(async (parent, args, ctx, info) => {
+  return true; // Allow access for all operations not explicitly mentioned
+});
 
 const permession = shield({
   Query: {
@@ -39,7 +42,8 @@ const schema = applyMiddleware(
   makeExecutableSchema({
     typeDefs,
     resolvers,
-  })
+  }),
+  permession,
 )
 
 const server = new ApolloServer({
