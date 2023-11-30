@@ -14,7 +14,7 @@ type UpdateUserInput =  {
     name: string
     email: string
     hashedPassword: string
-    role: string
+    roleId: string
     isLocked: boolean
     LockedUntil: Date
     passwordRetryCount: number

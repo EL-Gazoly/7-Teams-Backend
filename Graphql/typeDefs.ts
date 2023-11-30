@@ -141,7 +141,7 @@ type User {
   students: [Student!]
   devices: [Device!]
   roleId: String!
-  role: String!
+  roles: Role
   createdAt: DateTime
   updatedAt: DateTime
  
@@ -151,7 +151,7 @@ input CreateUserInput {
   name: String!
   email: String!
   hashedPassword: String!
-  role: String!
+  roleId: String!
   isLocked: Boolean
   LockedUntil: DateTime
   passwordRetryCount: Int
@@ -162,7 +162,7 @@ input UpdateUserInput {
   name: String
   email: String
   hashedPassword: String
-  role: String
+  roleId: String
   isLocked: Boolean
   LockedUntil: DateTime
   passwordRetryCount: Int

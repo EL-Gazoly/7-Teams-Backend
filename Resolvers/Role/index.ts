@@ -36,7 +36,7 @@ const roleQuery = {
 
 const roleMuation = {
     createRole: async (_ : undefined, data: { data: CreateRoleInput }) => {
-      const role = await prisma.roles.create({
+        const role = await prisma.roles.create({
         data: data.data,
       });
       return role;
@@ -67,14 +67,14 @@ const roleRelation = {
                 where: {
                     id: parent.roleId,
                 },
-            }).users();
+            })
         },
-        admin: async (parent: { adminId: string }) => {
+        admin: async (parent: { id: string }) => {
             return await prisma.roles.findFirst({
                 where: {
-                    adminId: parent.adminId,
+                    adminId: parent.id,
                 },
-            }).admin();
+            });
         },
     }
 }
