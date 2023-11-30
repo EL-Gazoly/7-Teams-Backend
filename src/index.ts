@@ -16,6 +16,7 @@ const isAuthenticated = rule({ cache: 'contextual' })(
     try {
       const decoded = await jwt.verify(token, `${Bun.env.JWT_SECRET_KET}`);
       ctx.user = decoded;
+      console.log(decoded);
       return true;
     } catch (error) {
       return false;
@@ -23,8 +24,109 @@ const isAuthenticated = rule({ cache: 'contextual' })(
   },
 );
 const allowAll = rule({ cache: 'contextual' })(async (parent, args, ctx, info) => {
-  return true; // Allow access for all operations not explicitly mentioned
+  return true;
 });
+
+
+const isAdmin = rule({ cache: 'contextual' })(async (parent, args, ctx, info) => {
+  const token = ctx.req.headers.authorization;
+  if (!token) {
+    return false;
+  }
+  try {
+    const decoded = await jwt.verify(token, `${Bun.env.JWT_SECRET_KET}`);
+    ctx.user = decoded;
+    return ctx.user.isAdmin;
+  } catch (error) {
+    return false;
+  }
+});
+
+const isDevicesAccess = rule({ cache: 'contextual' })(async (parent, args, ctx, info) => {
+  const token = ctx.req.headers.authorization;
+  if (!token) {
+    return false;
+  }
+  try {
+    const decoded = await jwt.verify(token, `${Bun.env.JWT_SECRET_KET}`);
+    ctx.user = decoded;
+    return ctx.user.isDevicesAccess;
+  } catch (error) {
+    return false;
+  }
+});
+
+const isStudentsAccess = rule({ cache: 'contextual' })(async (parent, args, ctx, info) => {
+  const token = ctx.req.headers.authorization;
+  if (!token) {
+    return false;
+  }
+  try {
+    const decoded = await jwt.verify(token, `${Bun.env.JWT_SECRET_KET}`);
+    ctx.user = decoded;
+    return ctx.user.isStudentsAccess;
+  } catch (error) {
+    return false;
+  }
+});
+
+const isReportsAccess = rule({ cache: 'contextual' })(async (parent, args, ctx, info) => {
+  const token = ctx.req.headers.authorization;
+  if (!token) {
+    return false;
+  }
+  try {
+    const decoded = await jwt.verify(token, `${Bun.env.JWT_SECRET_KET}`);
+    ctx.user = decoded;
+    return ctx.user.isReportsAccess;
+  } catch (error) {
+    return false;
+  }
+});
+
+const isLogsAccess = rule({ cache: 'contextual' })(async (parent, args, ctx, info) => {
+  const token = ctx.req.headers.authorization;
+  if (!token) {
+    return false;
+  }
+  try {
+    const decoded = await jwt.verify(token, `${Bun.env.JWT_SECRET_KET}`);
+    ctx.user = decoded;
+    return ctx.user.isLogsAccess;
+  } catch (error) {
+    return false;
+  }
+});
+
+const isRolesAccess = rule({ cache: 'contextual' })(async (parent, args, ctx, info) => {
+  const token = ctx.req.headers.authorization;
+  if (!token) {
+    return false;
+  }
+  try {
+    const decoded = await jwt.verify(token, `${Bun.env.JWT_SECRET_KET}`);
+    ctx.user = decoded;
+    return ctx.user.isRolesAccess;
+  } catch (error) {
+    return false;
+  }
+});
+
+const isUsersAccess = rule({ cache: 'contextual' })(async (parent, args, ctx, info) => {
+  const token = ctx.req.headers.authorization;
+  if (!token) {
+    return false;
+  }
+  try {
+    const decoded = await jwt.verify(token, `${Bun.env.JWT_SECRET_KET}`);
+    ctx.user = decoded;
+    return ctx.user.isUsersAccess;
+  } catch (error) {
+    return false;
+  }
+});
+
+
 
 const permession = shield({
   Query: {
@@ -33,8 +135,9 @@ const permession = shield({
     
   },
   Mutation: {
-    updateUser: isAuthenticated,
-    deleteUser: isAuthenticated,
+    '*': isAuthenticated,
+    loginAdmin: allowAll,
+    loginUser: allowAll,
   },
 })
 
