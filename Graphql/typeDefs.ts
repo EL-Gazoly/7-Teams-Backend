@@ -36,7 +36,7 @@ type Mutation {
   createDevice(data: CreateDeviceInput!): Device!
   updateDevice(id: String!, data: UpdateDeviceInput!): Device!
   deleteDevice(id: String!): Device!
-  createStudent(data: CreateStudentInput!) : Student!
+  createStudent(data: CreateStudentInput!, image: Upload) : Student!
   updateStudent(id: String!, data: UpdateStudentInput!): Student!
   deleteStudent(id: String!): Student!
   deleteManyStudents(ids: [String!]!): [Student!]!
@@ -195,6 +195,7 @@ input UpdateDeviceInput {
   adminId: String
   studentId: String
 }
+scalar Upload
 
 type Student {
   generatedId: Int!

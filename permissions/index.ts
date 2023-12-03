@@ -158,7 +158,7 @@ const isAuthenticated = rule({ cache: 'contextual' })(
       createDevice: or(isAdmin, isDevicesAccess),
       updateDevice: or(isAdmin, isDevicesAccess),
       deleteDevice: or(isAdmin, isDevicesAccess),
-      createStudent: or(isAdmin, isStudentsAccess),
+      createStudent: allowAll,
       updateStudent: or(isAdmin, isStudentsAccess),
       deleteStudent: or(isAdmin, isStudentsAccess),
       deleteManyStudents: or(isAdmin, isStudentsAccess),

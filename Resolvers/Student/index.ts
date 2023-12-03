@@ -1,4 +1,7 @@
 import prisma from "../../config/database"
+const fs = require('fs');
+const path = require('path');
+
 
 type CreateStudentInput = {
     generatedId: number
@@ -6,6 +9,7 @@ type CreateStudentInput = {
     facilityId: string
     imageUrl?: string
     TotalTime?: number
+    image?: any
     completedCourses?: number
     adminId: string
     deviceId?: string
@@ -34,10 +38,19 @@ const studentQueries = {
 }
 
 const studentMutations = {
-    createStudent : async( _: undefined, args: {data : CreateStudentInput})=> {
+    createStudent : async( _: undefined, args: {data : CreateStudentInput, image : File})=> {
         const {name, facilityId} = args.data;
         const studentId = await generateID(name, facilityId);
         args.data.generatedId = studentId;
+        // const { createReadStream, filename } = await image;
+
+        // await new Promise(res =>
+        //     createReadStream()
+        //     .pipe(fs.createWriteStream(path.join(__dirname, `../../../public/images/${filename}`)))
+        //     .on("close", res)
+        //     )
+        console.log(args.image)
+  
         return await prisma.student.create({
             data : args.data
         })

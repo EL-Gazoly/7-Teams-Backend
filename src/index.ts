@@ -12,7 +12,7 @@ const schema = applyMiddleware(
     typeDefs,
     resolvers,
   }),
-  permession,
+  permession
 )
 
 const server = new ApolloServer({
@@ -24,7 +24,7 @@ const { url } = await startStandaloneServer(server, {
   context: async ({ req }) => ({
     req
   }),
-  listen: { port: 4000 },
+  listen: { port: 3000 },
 });
 
 console.log(`🚀 Server ready at ${url}`);
