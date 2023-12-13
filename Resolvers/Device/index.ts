@@ -25,6 +25,13 @@ const deviceQuery = {
       },
     });
   },
+  deviceByMac:async (_:undefined , args: {macAddress : string}) => {
+    return await prisma.device.findUnique({
+      where: {
+        macAddress: args.macAddress,
+      },
+    });
+  }
 };
 
 const deviceMutation = {

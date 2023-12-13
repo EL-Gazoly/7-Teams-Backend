@@ -8,6 +8,7 @@ type Query {
   role(id: String!): Role
   devices: [Device!]!
   device(id: String!): Device
+  deviceByMac(macAddress: String!): Device
   students: [Student!]!
   student(id: String!): Student
   signInOuts: [SignInOut!]!
