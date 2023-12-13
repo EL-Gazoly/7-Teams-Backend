@@ -132,9 +132,18 @@ const userRelation = {
             },
         
         })
-    }
+    },
+    roles : async (parent : {roleId : string}) => {
+      return await prisma.roles.findUnique({
+          where: {
+            id: parent.roleId,
+          },
+      
+      })
+  }
 
   },
+
 }
 
 export {

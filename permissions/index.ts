@@ -10,7 +10,6 @@ const isAuthenticated = rule({ cache: 'contextual' })(
       try {
         const decoded = await jwt.verify(token, `${Bun.env.JWT_SECRET_KET}`);
         ctx.user = decoded;
-        console.log(decoded);
         return true;
       } catch (error) {
         return false;

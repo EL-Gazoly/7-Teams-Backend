@@ -1,7 +1,7 @@
 const typeDefs = `#graphql
 type Query {
   admins: [Admin!]!
-  admin(id: String!): Admin
+  admin: Admin
   users: [User!]!
   user(id: String!): User
   roles: [Role!]!

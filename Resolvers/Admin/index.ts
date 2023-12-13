@@ -23,10 +23,10 @@ const adminQuery = {
     admins : async () => {
         return await prisma.admin.findMany();
     },
-    admin : async ( _ : null, args: {id : string} ) => {
+    admin : async ( _ : null, _args : undefined , ctx : any ) => {
         return await prisma.admin.findUnique({
             where: {
-                id: args.id,
+                id: ctx.user.adminId,
             },
         })
     },
@@ -38,8 +38,7 @@ const adminMuation = {
       const admin = await prisma.admin.create({
         data: data.data,
       });
-      const token = jwt.sign({ admin }, `${Bun.env.JWT_SECRET_KET}`);
-      console.log(token);
+      jwt.sign({ admin }, `${Bun.env.JWT_SECRET_KET}`);
       return admin;
     },
     updateAdmin: async (_ : undefined, data: { id: string, data: UpdateAdminInput }) => {
