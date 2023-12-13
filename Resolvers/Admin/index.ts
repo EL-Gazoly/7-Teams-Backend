@@ -79,7 +79,6 @@ const adminMuation = {
         adminId : admin.id,
         isAdmin : true,
        }, `${Bun.env.JWT_SECRET_KET}`);
-      console.log(token);
 
       await prisma.admin.update({
         where: {
