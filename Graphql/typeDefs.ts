@@ -150,6 +150,7 @@ type User {
   roles: Role
   createdAt: DateTime
   updatedAt: DateTime
+  token: String
  
 }
 
