@@ -139,6 +139,7 @@ type User {
   id: String!
   name: String!
   email: String!
+  imageUrl: String
   hashedPassword: String!
   isLocked: Boolean
   LockedUntil: DateTime
@@ -159,6 +160,7 @@ input CreateUserInput {
   name: String!
   email: String!
   hashedPassword: String!
+  imageUrl: String
   roleId: String!
   isLocked: Boolean
   LockedUntil: DateTime
@@ -169,6 +171,7 @@ input CreateUserInput {
 input UpdateUserInput {
   name: String
   email: String
+  imageUrl: String
   hashedPassword: String
   roleId: String
   isLocked: Boolean

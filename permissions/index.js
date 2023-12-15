@@ -29,6 +29,7 @@ const isAuthenticated = rule({ cache: 'contextual' })(
     try {
       const decoded = await jwt.verify(token, `${process.env.JWT_SECRET_KET}`);
       ctx.user = decoded;
+      console.log(ctx.user)
       return ctx.user.isAdmin;
     } catch (error) {
       return false;
