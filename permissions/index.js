@@ -1,5 +1,5 @@
-import { or, rule, shield } from 'graphql-shield';
-import  jwt from 'jsonwebtoken';
+const { or, rule, shield } = require('graphql-shield');
+const jwt = require('jsonwebtoken');
 
 const isAuthenticated = rule({ cache: 'contextual' })(
     async (parent, args, ctx, info) => {
@@ -8,7 +8,7 @@ const isAuthenticated = rule({ cache: 'contextual' })(
         return false;
       }
       try {
-        const decoded = await jwt.verify(token, `${Bun.env.JWT_SECRET_KET}`);
+        const decoded = await jwt.verify(token, `${process.env.JWT_SECRET_KET}`);
         ctx.user = decoded;
         return true;
       } catch (error) {
@@ -27,7 +27,7 @@ const isAuthenticated = rule({ cache: 'contextual' })(
       return false;
     }
     try {
-      const decoded = await jwt.verify(token, `${Bun.env.JWT_SECRET_KET}`);
+      const decoded = await jwt.verify(token, `${process.env.JWT_SECRET_KET}`);
       ctx.user = decoded;
       return ctx.user.isAdmin;
     } catch (error) {
@@ -41,7 +41,7 @@ const isAuthenticated = rule({ cache: 'contextual' })(
       return false;
     }
     try {
-      const decoded = await jwt.verify(token, `${Bun.env.JWT_SECRET_KET}`);
+      const decoded = await jwt.verify(token, `${process.env.JWT_SECRET_KET}`);
       ctx.user = decoded;
       return ctx.user.isDevicesAccess;
     } catch (error) {
@@ -55,7 +55,7 @@ const isAuthenticated = rule({ cache: 'contextual' })(
       return false;
     }
     try {
-      const decoded = await jwt.verify(token, `${Bun.env.JWT_SECRET_KET}`);
+      const decoded = await jwt.verify(token, `${process.env.JWT_SECRET_KET}`);
       ctx.user = decoded;
       return ctx.user.isStudentsAccess;
     } catch (error) {
@@ -69,7 +69,7 @@ const isAuthenticated = rule({ cache: 'contextual' })(
       return false;
     }
     try {
-      const decoded = await jwt.verify(token, `${Bun.env.JWT_SECRET_KET}`);
+      const decoded = await jwt.verify(token, `${process.env.JWT_SECRET_KET}`);
       ctx.user = decoded;
       return ctx.user.isReportsAccess;
     } catch (error) {
@@ -83,7 +83,7 @@ const isAuthenticated = rule({ cache: 'contextual' })(
       return false;
     }
     try {
-      const decoded = await jwt.verify(token, `${Bun.env.JWT_SECRET_KET}`);
+      const decoded = await jwt.verify(token, `${process.env.JWT_SECRET_KET}`);
       ctx.user = decoded;
       return ctx.user.isLogsAccess;
     } catch (error) {
@@ -97,7 +97,7 @@ const isAuthenticated = rule({ cache: 'contextual' })(
       return false;
     }
     try {
-      const decoded = await jwt.verify(token, `${Bun.env.JWT_SECRET_KET}`);
+      const decoded = await jwt.verify(token, `${process.env.JWT_SECRET_KET}`);
       ctx.user = decoded;
       return ctx.user.isRolesAccess;
     } catch (error) {
@@ -111,7 +111,7 @@ const isAuthenticated = rule({ cache: 'contextual' })(
       return false;
     }
     try {
-      const decoded = await jwt.verify(token, `${Bun.env.JWT_SECRET_KET}`);
+      const decoded = await jwt.verify(token, `${process.env.JWT_SECRET_KET}`);
       ctx.user = decoded;
       return ctx.user.isUsersAccess;
     } catch (error) {
@@ -179,4 +179,4 @@ const isAuthenticated = rule({ cache: 'contextual' })(
     },
   })
 
-export default permession;
+  module.exports = permession;

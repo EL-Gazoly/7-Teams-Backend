@@ -327,4 +327,4 @@ input UpdateStudentCategoryInput {
 `;
 
 
-export default typeDefs;
+module.exports = typeDefs;
