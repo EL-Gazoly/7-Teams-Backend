@@ -165,7 +165,7 @@ input CreateUserInput {
   isLocked: Boolean
   LockedUntil: DateTime
   passwordRetryCount: Int
-  adminId: String!
+  adminId: String
 }
 
 input UpdateUserInput {
@@ -224,7 +224,6 @@ input CreateStudentInput {
   imageUrl: String
   TotalTime: Int
   completedCourses: Int
-  adminId: String!
   deviceId: String
 }
 input UpdateStudentInput {

@@ -40,3 +40,9 @@ yarn-error.log*
 **/*.log
 package-lock.json
 **/*.bun
+
+# images 
+**/*.png
+**/*.jpg
+**/*.jpeg
+**/*.svg

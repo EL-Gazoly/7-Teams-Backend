@@ -29,7 +29,6 @@ const isAuthenticated = rule({ cache: 'contextual' })(
     try {
       const decoded = await jwt.verify(token, `${process.env.JWT_SECRET_KET}`);
       ctx.user = decoded;
-      console.log(ctx.user)
       return ctx.user.isAdmin;
     } catch (error) {
       return false;
@@ -158,7 +157,7 @@ const isAuthenticated = rule({ cache: 'contextual' })(
       createDevice: or(isAdmin, isDevicesAccess),
       updateDevice: or(isAdmin, isDevicesAccess),
       deleteDevice: or(isAdmin, isDevicesAccess),
-      createStudent: allowAll,
+      createStudent: or(isAdmin, isStudentsAccess),
       updateStudent: or(isAdmin, isStudentsAccess),
       deleteStudent: or(isAdmin, isStudentsAccess),
       deleteManyStudents: or(isAdmin, isStudentsAccess),

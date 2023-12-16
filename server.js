@@ -9,6 +9,7 @@ const typeDefs = require('./Graphql/typeDefs');
 const {graphqlUploadExpress} = require("graphql-upload")
 const path = require('path');
 const app = express();
+const cors = require('cors');
 
 const schema = applyMiddleware(
     makeExecutableSchema({
@@ -27,6 +28,11 @@ const server = new ApolloServer({
   },
   plugins: [ApolloServerPluginLandingPageLocalDefault()],
 });
+
+app.use(cors({
+    origin: '*',
+    credentials: true,
+}));
 
 server.start().then(() => {
     app.use('/public', express.static(path.join(__dirname, 'public')));

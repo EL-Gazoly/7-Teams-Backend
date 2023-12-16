@@ -17,12 +17,15 @@ const userQuery = {
 };
 
 const userMuation = {
-  createUser: async (_parent, args) => {
+  createUser: async (_parent, args, ctx) => {
     // data.data.hashedPassword = process.password.hashSync(data.data.hashedPassword);
     const { data, image } = args;
+    if( image ) data.imageUrl = await readFile(image);
+    data.adminId = ctx.user.adminId;
+
 
     const user = await prisma.user.create({
-      data: data.data,
+      data: data,
     });
     if(image) data.imageUrl = await readFile(image);
     return user;
