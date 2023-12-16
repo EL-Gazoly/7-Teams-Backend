@@ -21,6 +21,7 @@ const userMuation = {
     // data.data.hashedPassword = process.password.hashSync(data.data.hashedPassword);
     const { data, image } = args;
     if( image ) data.imageUrl = await readFile(image);
+  
     data.adminId = ctx.user.adminId;
 
 
