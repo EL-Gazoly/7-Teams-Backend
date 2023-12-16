@@ -1,5 +1,6 @@
 const prisma = require("../../config/database");
 const jwt = require('jsonwebtoken');
+const { readFile } = require('../../Middlewares/file')
 
 const userQuery = {
   users: async () => {
@@ -16,21 +17,28 @@ const userQuery = {
 };
 
 const userMuation = {
-  createUser: async (_parent, data) => {
+  createUser: async (_parent, args) => {
     // data.data.hashedPassword = process.password.hashSync(data.data.hashedPassword);
+    const { data, image } = args;
+
     const user = await prisma.user.create({
       data: data.data,
     });
+    if(image) data.imageUrl = await readFile(image);
     return user;
   },
   updateUser: async (_parent, data) => {
+    const { data, image } = args;
     // if (data.data.hashedPassword) {
     //   data.data.hashedPassword = Bun.password.hashSync(data.data.hashedPassword);
     // }
+    if(image) data.imageUrl = await readFile(image);
+
     const user = await prisma.user.update({
       where: {
         id: data.id,
       },
+
       data: data.data,
     });
     return user;

@@ -1,6 +1,4 @@
 const prisma = require("../../config/database");
-const fs = require('fs');
-const path = require('path');
 const { readFile } = require('../../Middlewares/file')
 const studentQueries = {
   students: async () => {
