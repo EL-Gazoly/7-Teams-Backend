@@ -27,7 +27,7 @@ const userMuation = {
     if(image) data.imageUrl = await readFile(image);
     return user;
   },
-  updateUser: async (_parent, data) => {
+  updateUser: async (_parent, args) => {
     const { data, image } = args;
     // if (data.data.hashedPassword) {
     //   data.data.hashedPassword = Bun.password.hashSync(data.data.hashedPassword);
