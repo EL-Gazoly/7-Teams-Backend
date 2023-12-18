@@ -131,6 +131,10 @@ model Roles {
   isLogsAccess Boolean @default(false)
   isRolesAccess Boolean @default(false)
   isUsersAccess Boolean @default(false)
+  isCoursesAccsess Boolean @default(false)
+  isCertificatesAccess Boolean @default(false)
+  isDashboardAccess Boolean @default(false)
+  isLibraryAccess Boolean @default(false)
   adminId String
   admin Admin @relation(fields: [adminId], references: [id])
   users User[]

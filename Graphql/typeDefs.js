@@ -110,6 +110,10 @@ type Role {
   isLogsAccess: Boolean 
   isRolesAccess: Boolean 
   isUsersAccess: Boolean 
+  isCoursesAccess: Boolean
+  isCertificatesAccess: Boolean
+  isDashboardAccess: Boolean
+  isLibraryAccess: Boolean
   token: String
 }
 
@@ -122,6 +126,10 @@ input CreateRoleInput {
   isLogsAccess: Boolean 
   isRolesAccess: Boolean 
   isUsersAccess: Boolean 
+  isCoursesAccess: Boolean
+  isCertificatesAccess: Boolean
+  isDashboardAccess: Boolean
+  isLibraryAccess: Boolean
 }
 
 input UpdateRoleInput {
@@ -132,6 +140,10 @@ input UpdateRoleInput {
   isLogsAccess: Boolean 
   isRolesAccess: Boolean 
   isUsersAccess: Boolean
+  isCoursesAccess: Boolean
+  isCertificatesAccess: Boolean
+  isDashboardAccess: Boolean
+  isLibraryAccess: Boolean
   token: String
 }
 
