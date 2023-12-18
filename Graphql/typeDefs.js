@@ -119,7 +119,7 @@ type Role {
 
 input CreateRoleInput {
   name: String!
-  adminId: String!
+  adminId: String
   isDevicesAccess: Boolean 
   isStudentsAccess: Boolean 
   isReportsAccess: Boolean 

@@ -14,11 +14,21 @@ const roleQuery = {
 };
 
 const roleMuation = {
-  createRole: async (_parent, { data }) => {
-    const role = await prisma.roles.create({
-      data: data,
-    });
-    return role;
+  createRole: async (_, { data }, ctx) => {
+    try {
+      const {  ...roles } = data;
+
+      const createdRole = await prisma.roles.create({
+        data: {
+          ...roles,
+          admin: { connect: { id: ctx.user.adminId } },
+        },
+      });
+
+      return createdRole;
+    } catch (error) {
+      throw new Error(`Could not create role: ${error}`);
+    }
   },
   updateRole: async (_parent, { id, data }) => {
     const role = await prisma.roles.update({
