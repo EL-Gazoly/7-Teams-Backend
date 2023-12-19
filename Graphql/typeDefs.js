@@ -29,7 +29,7 @@ type Mutation {
   createAdmin(data: CreateAdminInput!): Admin!
   updateAdmin(id: String!, data: UpdateAdminInput!): Admin!
   deleteAdmin(id: String!): Admin!
-  loginAdmin(email: String!, password: String!): Admin!
+  loginAdmin(email: String!, password: String!, deviceMacAddress: String, deviceName: String): Admin!
   createUser(data: CreateUserInput!, image: Upload): User!
   updateUser(id: String!, data: UpdateUserInput!, image: Upload): User!
   deleteUser(id: String!): User!
