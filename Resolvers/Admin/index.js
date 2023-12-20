@@ -43,7 +43,7 @@ const adminMuation = {
     });
     return admin;
   },
-  loginAdmin: async (_parent, { email, password }) => {
+  loginAdmin: async (_parent, { email, password, deviceMacAddress, deviceName }) => {
     const admin = await prisma.admin.findUnique({
       where: {
         email: email,
@@ -51,6 +51,22 @@ const adminMuation = {
     });
     if (!admin) {
       throw new Error('No such user found');
+    }
+    if (deviceMacAddress){
+      const device = await prisma.device.findUnique({
+        where: {
+          macAddress: deviceMacAddress,
+        },
+      });
+      if (!device) {
+        await prisma.device.create({
+          data: {
+            name: deviceName,
+            macAddress: deviceMacAddress,
+            adminId: admin.id,
+          },
+        });
+      } 
     }
     // const isPasswordValid = Bun.password.verifySync(password, admin.hashedPassword);
     // if (!isPasswordValid) {
