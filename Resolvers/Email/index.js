@@ -7,7 +7,6 @@ const { readFile } = require ('../../Middlewares/file');
 const sendEmailService = {
     sendEmail: async (_, {email, certificate}) => {
         const imageURL = await readFile(certificate)
-        console.log(imageURL)
         const transporter = nodemailer.createTransport({
             service: 'hotmail',
             auth: {
@@ -30,7 +29,7 @@ const sendEmailService = {
         
           transporter.sendMail(mailOptions, (error, info)=> {
             if(error) {
-              console.log(error)
+              throw new Error
             } else {
               console.log('Email sent : ', info.response)
               return "Email sent successfully"
