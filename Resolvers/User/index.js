@@ -32,18 +32,19 @@ const userMuation = {
     return user;
   },
   updateUser: async (_parent, args) => {
-    const { data, image } = args;
+    const { id, data, image } = args;
     // if (data.data.hashedPassword) {
     //   data.data.hashedPassword = Bun.password.hashSync(data.data.hashedPassword);
     // }
     if(image) data.imageUrl = await readFile(image);
+    else if (!image) data.imageUrl = null;
 
     const user = await prisma.user.update({
       where: {
-        id: data.id,
+        id: id,
       },
 
-      data: data.data,
+      data: data,
     });
     return user;
   },

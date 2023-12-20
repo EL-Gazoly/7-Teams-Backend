@@ -8,7 +8,8 @@ const {
     CategoriesMutations,
     StudentCategoryMutations,
     adminMuation,
-    roleMuation
+    roleMuation,
+    sendEmailService
   } = require('../../Resolvers');
   
   const Mutation = {
@@ -21,7 +22,8 @@ const {
     ...exprimentMutations,
     ...StudentExperimentMutations,
     ...CategoriesMutations,
-    ...StudentCategoryMutations
+    ...StudentCategoryMutations,
+    ...sendEmailService
   };
   
   module.exports = Mutation;

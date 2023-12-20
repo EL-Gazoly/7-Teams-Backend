@@ -59,6 +59,8 @@ type Mutation {
   createRole(data: CreateRoleInput!): Role!
   updateRole(id: String!, data: UpdateRoleInput!): Role!
   deleteRole(id: String!): Role!
+
+  sendEmail(email: String!, certificate: Upload): String
 }
 
 type Admin {
@@ -333,7 +335,6 @@ input UpdateStudentCategoryInput {
   categoryId: String
   classNumber: Int
 }
-
 
 
 

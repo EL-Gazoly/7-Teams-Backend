@@ -57,6 +57,8 @@ const {
      StudentCategoryMutations,
      StudentCategoryRelation
    } = require("./StudentCategory/index.js");
+
+   const sendEmailService = require("./Email/index.js");
    
    module.exports = {
      adminQuery,
@@ -97,6 +99,8 @@ const {
    
      StudentCategoryQueries,
      StudentCategoryMutations,
-     StudentCategoryRelation
+     StudentCategoryRelation,
+
+      sendEmailService
    };
    
