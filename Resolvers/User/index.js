@@ -36,11 +36,13 @@ const userMuation = {
   },
   updateUser: async (_parent, args) => {
     const { id, data, image } = args;
-    // if (data.data.hashedPassword) {
-    //   data.data.hashedPassword = Bun.password.hashSync(data.data.hashedPassword);
-    // }
+
     if(image) data.imageUrl = await readFile(image);
     else if (!image) data.imageUrl = null;
+
+    if (data.hashedPassword) {
+      data.hashedPassword = generatePassword(data.hashedPassword);
+    }
 
     const user = await prisma.user.update({
       where: {
