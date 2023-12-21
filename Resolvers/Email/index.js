@@ -29,7 +29,7 @@ const sendEmailService = {
         
           transporter.sendMail(mailOptions, (error, info)=> {
             if(error) {
-              throw new Error
+              return new Error ("error sending email")
             } else {
               console.log('Email sent : ', info.response)
               return "Email sent successfully"

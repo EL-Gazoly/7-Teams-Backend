@@ -1,5 +1,6 @@
 const prisma = require("../../config/database");
 const jwt = require('jsonwebtoken');
+const  { generatePassword, validatePassword } = require ("../../Middlewares/password");
 
 const adminQuery = {
   admins: async () => {
@@ -16,7 +17,7 @@ const adminQuery = {
 
 const adminMuation = {
   createAdmin: async (_parent, { data }) => {
-    // data.hashedPassword = Bun.password.hashSync(data.hashedPassword);
+    data.hashedPassword = generatePassword(data.hashedPassword)
     const admin = await prisma.admin.create({
       data: data,
     });
@@ -24,9 +25,6 @@ const adminMuation = {
     return admin;
   },
   updateAdmin: async (_parent, { id, data }) => {
-    // if (data.hashedPassword) {
-    //   data.hashedPassword = Bun.password.hashSync(data.hashedPassword);
-    // }
     const admin = await prisma.admin.update({
       where: {
         id: id,
@@ -44,6 +42,7 @@ const adminMuation = {
     return admin;
   },
   loginAdmin: async (_parent, { email, password, deviceMacAddress, deviceName }) => {
+  
     const admin = await prisma.admin.findUnique({
       where: {
         email: email,
@@ -52,6 +51,8 @@ const adminMuation = {
     if (!admin) {
       throw new Error('No such user found');
     }
+    const isPasswordValid = validatePassword(password, admin.hashedPassword);
+    if (!isPasswordValid) return new Error('Invalid password');
     if (deviceMacAddress){
       const device = await prisma.device.findUnique({
         where: {

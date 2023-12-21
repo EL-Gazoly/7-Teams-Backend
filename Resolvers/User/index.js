@@ -1,6 +1,7 @@
 const prisma = require("../../config/database");
 const jwt = require('jsonwebtoken');
 const { readFile } = require('../../Middlewares/file')
+const  { generatePassword, validatePassword } = require ("../../Middlewares/password");
 
 const userQuery = {
   users: async () => {
@@ -21,6 +22,8 @@ const userMuation = {
     // data.data.hashedPassword = process.password.hashSync(data.data.hashedPassword);
     const { data, image } = args;
     if( image ) data.imageUrl = await readFile(image);
+
+    data.hashedPassword= generatePassword(data.hashedPassword);
   
     data.adminId = ctx.user.adminId;
 
@@ -69,6 +72,8 @@ const userMuation = {
     // if (!isMatch) {
     //   throw new Error('Invalid password');
     // }
+    const isPasswordValid = validatePassword(data.hashedPassword, user.hashedPassword);
+    if (!isPasswordValid) return new Error('Invalid password');
     const getRolePermission = await prisma.roles.findUnique({
       where: {
         id: user.roleId,
