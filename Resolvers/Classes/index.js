@@ -56,7 +56,7 @@ const classesRelations = {
             })
         },
         students: async (parent, args, context, info) => {
-            return await prisma.students.findMany({
+            return await prisma.student.findMany({
                 where: {
                     classId: parent.classId
                 }
