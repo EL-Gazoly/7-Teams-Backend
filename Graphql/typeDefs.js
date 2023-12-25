@@ -90,6 +90,7 @@ type Admin {
   users: [User!]
   roles: [Role!]
   token: String
+  Team: [Teams!]
 
 }
 
@@ -315,6 +316,8 @@ type Teams{
   name: String!
   students: [Student!]!
   classes: [Classes!]!
+  adminId: String!
+  admin: Admin!
 }
 
 input CreateTeamInput {

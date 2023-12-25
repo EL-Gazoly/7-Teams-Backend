@@ -15,11 +15,11 @@ const teamQuery = {
 }
 
 const teamMutation = {
-    createTeam: async (_parent, { data }) => {
-        const team = await prisma.teams.create({
+    createTeam: async (_parent, { data }, ctx) => {
+        data.adminId =  ctx.user.adminId;
+        return await prisma.teams.create({
             data: data,
         });
-        return team;
     },
     updateTeam: async (_parent, { id, data }) => {
         const team = await prisma.teams.update({
@@ -57,6 +57,13 @@ const teamRelation = {
         },
         });
     },
+    admin: async (parent) => {
+        return await prisma.admin.findUnique({
+        where: {
+            id: parent.adminId,
+        },
+        });
+    }
 
     },
 }

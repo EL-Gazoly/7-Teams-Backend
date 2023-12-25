@@ -140,6 +140,8 @@ const isAuthenticated = rule({ cache: 'contextual' })(
       expriment: isAuthenticated,
       admins: isAuthenticated,
       admin: isAuthenticated,
+      teams: isAuthenticated,
+      team: isAuthenticated,
       
     },
     Mutation: {
@@ -164,6 +166,7 @@ const isAuthenticated = rule({ cache: 'contextual' })(
       createAdmin: allowAll,
       updateAdmin: allowAll,
       deleteAdmin: allowAll,
+      createTeam: isAuthenticated,
     },
   })
 

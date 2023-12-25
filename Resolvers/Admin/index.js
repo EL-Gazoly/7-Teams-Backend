@@ -122,6 +122,13 @@ const adminRelation = {
         },
       });
     },
+    Team: async (parent) => {
+      return await prisma.teams.findMany({
+        where: {
+          adminId: parent.id,
+        },
+      });
+    },
   }
 };
 
