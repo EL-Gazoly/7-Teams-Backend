@@ -24,6 +24,7 @@ model Admin {
   user    User[]
   roles Roles[]
   token String?
+  Team Teams[]
 }
 
 model User{
@@ -85,6 +86,8 @@ model Teams{
   classes Classes[]
   courses Courses[]
   student Student[]
+  adminId String
+  admin Admin @relation(fields: [adminId], references: [id])
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
