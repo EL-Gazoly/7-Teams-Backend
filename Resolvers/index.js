@@ -29,12 +29,6 @@ const {
    } = require('./Student/index.js');
    
    const {
-     signInOutQueries,
-     signInOutMutations,
-     signInOutRelation
-   } = require('./SingInOut/index.js');
-   
-   const {
      exprimentQueries,
      exprimentMutations,
      exprimentRelation
@@ -46,18 +40,6 @@ const {
      StudentExperimentRelation
    } = require("./StudentExpriments/index.js");
    
-   const {
-     CategoriesQueries,
-     CategoriesMutations,
-     CategoriesRelation
-   } = require("./Categories/index.js");
-   
-   const {
-     StudentCategoryQueries,
-     StudentCategoryMutations,
-     StudentCategoryRelation
-   } = require("./StudentCategory/index.js");
-
    const sendEmailService = require("./Email/index.js");
    
    module.exports = {
@@ -81,10 +63,6 @@ const {
      studentMutations,
      studentRelation,
    
-     signInOutQueries,
-     signInOutMutations,
-     signInOutRelation,
-   
      exprimentQueries,
      exprimentMutations,
      exprimentRelation,
@@ -93,14 +71,6 @@ const {
      StudentExperimentMutations,
      StudentExperimentRelation,
    
-     CategoriesQueries,
-     CategoriesMutations,
-     CategoriesRelation,
-   
-     StudentCategoryQueries,
-     StudentCategoryMutations,
-     StudentCategoryRelation,
-
       sendEmailService
    };
    

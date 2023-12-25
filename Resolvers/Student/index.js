@@ -71,22 +71,8 @@ const studentRelation = {
         },
       });
     },
-    signInOUT: async (parent) => {
-      return await prisma.signInOut.findMany({
-        where: {
-          studentId: parent.studentId,
-        },
-      });
-    },
     studnetExpriment: async (parent) => {
       return await prisma.studentExpriment.findMany({
-        where: {
-          studentId: parent.studentId,
-        },
-      });
-    },
-    studentCategories: async (parent) => {
-      return await prisma.studentCategories.findMany({
         where: {
           studentId: parent.studentId,
         },

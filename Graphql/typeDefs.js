@@ -11,16 +11,20 @@ type Query {
   deviceByMac(macAddress: String!): Device
   students: [Student!]!
   student(id: String!): Student
-  signInOuts: [SignInOut!]!
-  signInOut(id: String!): SignInOut
   expriments: [Expriment!]!
   expriment(id: String!): Expriment
   studentExperiments: [StudentExperiment!]!
   studentExperiment(id: String!): StudentExperiment
-  categories: [Categories!]!
-  category(id: String!): Categories
-  studentCategories: [StudentCategory!]!
-  studentCategory(id: String!): StudentCategory
+  teams: [Teams!]!
+  team(id: String!): Teams
+  classes: [Classes!]!
+  class(id: String!): Classes
+  courses: [Courses!]!
+  course(id: String!): Courses
+  chapters: [Chapters!]!
+  chapter(id: String!): Chapters
+  certificates: [Certificates!]!
+  certificate(id: String!): Certificates
  
 }
 scalar DateTime
@@ -41,24 +45,32 @@ type Mutation {
   updateStudent(id: String!, data: UpdateStudentInput!): Student!
   deleteStudent(id: String!): Student!
   deleteManyStudents(ids: [String!]!): [Student!]!
-  createSignInOut(data: CreateSignInOutInput!): SignInOut!
-  updateSignInOut(id: String!, data: UpdateSignInOutInput!): SignInOut!
-  deleteSignInOut(id: String!): SignInOut!
   createExpriment(data: CreateExprimentInput!): Expriment!
   updateExpriment(id: String!, data: UpdateExprimentInput!): Expriment!
   deleteExpriment(id: String!): Expriment!
   createStudentExperiment(data: CreateStudentExperimentInput!): StudentExperiment!
   updateStudentExperiment(id: String!, data: UpdateStudentExperimentInput!): StudentExperiment!
   deleteStudentExperiment(id: String!): StudentExperiment!
-  createCategories(data: CreateCategoriesInput!): Categories!
-  updateCategories(id: String!, data: UpdateCategoriesInput!): Categories!
-  deleteCategories(id: String!): Categories!
-  createStudentCategory(data: CreateStudentCategoryInput!): StudentCategory!
-  updateStudentCategory(id: String!, data: UpdateStudentCategoryInput!): StudentCategory!
-  deleteStudentCategory(id: String!): StudentCategory!
   createRole(data: CreateRoleInput!): Role!
   updateRole(id: String!, data: UpdateRoleInput!): Role!
   deleteRole(id: String!): Role!
+  createTeam(data: CreateTeamInput!): Teams!
+  updateTeam(id: String!, data: UpdateTeamInput!): Teams!
+  deleteTeam(id: String!): Teams!
+  createClass(data: CreateClassInput!): Classes!
+  updateClass(id: String!, data: UpdateClassInput!): Classes!
+  deleteClass(id: String!): Classes!
+  createCourse(data: CreateCourseInput!): Courses!
+  updateCourse(id: String!, data: UpdateCourseInput!): Courses!
+  deleteCourse(id: String!): Courses!
+  createChapter(data: CreateChapterInput!): Chapters!
+  updateChapter(id: String!, data: UpdateChapterInput!): Chapters!
+  deleteChapter(id: String!): Chapters!
+  createCertificate(data: CreateCertificateInput!): Certificates!
+  updateCertificate(id: String!, data: UpdateCertificateInput!): Certificates!
+  deleteCertificate(id: String!): Certificates!
+
+  loginStudent(generatedId: String!, deviceId: String!): Student!
 
   sendEmail(email: String!, certificate: Upload): String
 }
@@ -222,23 +234,24 @@ type Student {
   name: String!
   facilityId: String!
   imageUrl: String
-  TotalTime: Int
-  completedCourses: Int
   adminId: String!
   admin: Admin!
   deviceId: String
-  signInOUT: [SignInOut!]
   device: Device
+  teamId: String
+  team: Teams
+  classId: String
+  class: Classes
+  certificates: [Certificates!]
   studnetExpriment: [StudentExperiment!]
-  studentCategories: [StudentCategory!]
 }
+
 input CreateStudentInput {
   name: String!
   facilityId: String!
   imageUrl: String
-  TotalTime: Int
-  completedCourses: Int
-  deviceId: String
+  teamId: String
+  classId: String
 }
 input UpdateStudentInput {
   name: String
@@ -248,38 +261,24 @@ input UpdateStudentInput {
   completedCourses: Int
   adminId: String
   deviceId: String
+  teamId: String
+  classId: String
+}
 
-}
-type SignInOut{
-  id: String!
-  studentId: String!
-  signIn: DateTime!
-  signOut: DateTime
-  student: Student!
-}
-input CreateSignInOutInput {
-  studentId: String!
-  signIn: DateTime!
-  signOut: DateTime
-}
-input UpdateSignInOutInput {
-  studentId: String
-  signIn: DateTime
-  signOut: DateTime
-}
 type Expriment{
-  ExprimentId: String!
+  exprimentId: String!
   name: String!
-  chatperNumber: Int!
+  chapterId: String!
+  chapter: Chapters!
   StudentExpriment: [StudentExperiment!]
 }
 input CreateExprimentInput {
   name: String!
-  chatperNumber: Int!
+  chapterId: String!
 }
 input UpdateExprimentInput {
   name: String
-  chatperNumber: Int
+  chapterId: Int
 }
 type StudentExperiment{
   id: String!
@@ -290,6 +289,8 @@ type StudentExperiment{
   progress: Float!
   practicalTestGrade: Float!
   theoreticalTestGrade: Float!
+  enterCourse: Int!
+  totalTimeSpent: Float!
 }
 input CreateStudentExperimentInput {
   studentId: String!
@@ -297,6 +298,8 @@ input CreateStudentExperimentInput {
   progress: Float
   practicalTestGrade: Float
   theoreticalTestGrade: Float
+  enterCourse: Int
+  totalTimeSpent: Float
 }
 input UpdateStudentExperimentInput {
   studentId: String
@@ -304,36 +307,92 @@ input UpdateStudentExperimentInput {
   progress: Float
   practicalTestGrade: Float
   theoreticalTestGrade: Float
+  enterCourse: Float
+  totalTimeSpent: Float
 }
-type Categories{
-  id: String!
+type Teams{
+  teamId: String!
   name: String!
-  StudentCategory: [StudentCategory!]
+  students: [Student!]!
+  classes: [Classes!]!
 }
-input CreateCategoriesInput {
+
+input CreateTeamInput {
   name: String!
 }
-input UpdateCategoriesInput {
+input UpdateTeamInput {
   name: String
 }
 
-type StudentCategory{
-  id: String!
+type Classes{
+  classId: String!
+  name: String!
+  students: [Student!]!
+  teamId: String!
+  team: Teams!
+}
+input CreateClassInput {
+  name: String!
+  teamId: String!
+}
+input UpdateClassInput {
+  name: String
+  teamId: String
+}
+
+
+type Courses{
+  courseId: String!
+  name: String!
+  teamId: String!
+  team: Teams!
+  classId: String!
+  class: Classes!
+  chapters: [Chapters!]!
+
+}
+
+input CreateCourseInput {
+  name: String!
+  teamId: String!
+  classId: String!
+}
+input UpdateCourseInput {
+  name: String
+  teamId: String
+  classId: String
+}
+
+type Chapters{
+  chapterId: String!
+  name: String!
+  courseId: String!
+  course: Courses!
+  expriments: [Expriment!]
+}
+input CreateChapterInput {
+  name: String!
+  courseId: String!
+}
+input UpdateChapterInput {
+  name: String
+  courseId: String
+}
+type Certificates{
+  certificateId: String!
+  name: String!
   studentId: String!
-  categoryId: String!
   student: Student!
-  categories: Categories!
-  classNumber: Int!
+  createdAt: DateTime!
+  updatedAt: DateTime!
 }
-input CreateStudentCategoryInput {
+input CreateCertificateInput {
+  name: String!
   studentId: String!
-  categoryId: String!
-  classNumber: Int!
 }
-input UpdateStudentCategoryInput {
+input UpdateCertificateInput {
+  name: String
   studentId: String
-  categoryId: String
-  classNumber: Int
 }
 
 
