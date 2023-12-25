@@ -8,7 +8,8 @@ const {
     roleMuation,
     sendEmailService,
     teamMutation,
-    ClassesMutations
+    ClassesMutations,
+    ChapterMutations
   } = require('../../Resolvers');
   
   const Mutation = {
@@ -21,7 +22,8 @@ const {
     ...StudentExperimentMutations,
     ...sendEmailService,
     ...teamMutation,
-    ...ClassesMutations
+    ...ClassesMutations,
+    ...ChapterMutations
     
   };
   

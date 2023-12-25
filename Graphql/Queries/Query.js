@@ -7,7 +7,8 @@ const {
     adminQuery,
     roleQuery,
     teamQuery,
-    ClassesQueries
+    ClassesQueries,
+    ChapterQueries
   } = require('../../Resolvers');
   
   const Query = {
@@ -19,7 +20,8 @@ const {
     ...exprimentQueries,
     ...StudentExperimentQueries,
     ...teamQuery,
-    ...ClassesQueries
+    ...ClassesQueries,
+    ...ChapterQueries
   };
   
   module.exports = Query;

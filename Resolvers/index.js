@@ -54,6 +54,13 @@ const {
       classesRelations
 
    } = require('./Classes/index.js')
+
+  const {
+    ChapterQueries,
+    ChapterMutations,
+    ChapterRelations
+    
+  } = require('./Chapters/index.js')
    
    module.exports = {
      adminQuery,
@@ -91,6 +98,10 @@ const {
       ClassesQueries,
       ClassesMutations,
       classesRelations,
+
+      ChapterQueries,
+      ChapterMutations,
+      ChapterRelations,
    
       sendEmailService
    };

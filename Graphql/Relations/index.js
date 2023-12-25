@@ -7,7 +7,8 @@ const {
     adminRelation,
     roleRelation,
     teamRelation,
-    classesRelations
+    classesRelations,
+    ChapterRelations
   } = require('../../Resolvers');
   
   const Relations = {
@@ -19,8 +20,9 @@ const {
     ...exprimentRelation,
     ...StudentExperimentRelation,
     ...teamRelation,
-    ...classesRelations
-
+    ...classesRelations,
+    ...ChapterRelations
+ 
   };
   
   module.exports = Relations;
