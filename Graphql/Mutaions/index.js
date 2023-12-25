@@ -9,7 +9,8 @@ const {
     sendEmailService,
     teamMutation,
     ClassesMutations,
-    ChapterMutations
+    ChapterMutations,
+    CourseMutation
   } = require('../../Resolvers');
   
   const Mutation = {
@@ -23,6 +24,7 @@ const {
     ...sendEmailService,
     ...teamMutation,
     ...ClassesMutations,
+    ...CourseMutation,
     ...ChapterMutations
     
   };

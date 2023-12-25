@@ -8,6 +8,7 @@ const {
     roleQuery,
     teamQuery,
     ClassesQueries,
+    CoursesQuery,
     ChapterQueries
   } = require('../../Resolvers');
   
@@ -21,6 +22,7 @@ const {
     ...StudentExperimentQueries,
     ...teamQuery,
     ...ClassesQueries,
+    ...CoursesQuery,
     ...ChapterQueries
   };
   

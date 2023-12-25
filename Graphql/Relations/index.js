@@ -8,7 +8,8 @@ const {
     roleRelation,
     teamRelation,
     classesRelations,
-    ChapterRelations
+    ChapterRelations,
+    CourseRelation
   } = require('../../Resolvers');
   
   const Relations = {
@@ -21,6 +22,7 @@ const {
     ...StudentExperimentRelation,
     ...teamRelation,
     ...classesRelations,
+    ...CourseRelation,
     ...ChapterRelations
  
   };
