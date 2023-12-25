@@ -78,6 +78,20 @@ const studentRelation = {
         },
       });
     },
+    class: async (parent) => {
+      return await prisma.classes.findUnique({
+        where: {
+          classId: parent.classId,
+        },
+      });
+    },
+    certificates: async (parent) => {
+      return await prisma.certificates.findMany({
+        where: {
+          studentId: parent.studentId,
+        },
+      });
+    },
   },
 };
 

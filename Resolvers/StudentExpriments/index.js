@@ -52,7 +52,7 @@ const StudentExperimentRelation = {
     expriment: async (parent) => {
       return await prisma.expriments.findUnique({
         where: {
-          ExprimentId: parent.exprimentId,
+          exprimentId: parent.exprimentId,
         },
       });
     },

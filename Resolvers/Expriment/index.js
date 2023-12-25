@@ -1,3 +1,4 @@
+const { chapter } = require("../../Graphql/Queries/Query");
 const prisma = require("../../config/database");
 
 const exprimentQueries = {
@@ -7,7 +8,7 @@ const exprimentQueries = {
   expriment: async (_parent, args) => {
     return await prisma.expriments.findUnique({
       where: {
-        ExprimentId: args.id,
+        exprimentId: args.id,
       },
     });
   },
@@ -22,7 +23,7 @@ const exprimentMutations = {
   updateExpriment: async (_parent, { id, data }) => {
     return await prisma.expriments.update({
       where: {
-        ExprimentId: id,
+        exprimentId: id,
       },
       data,
     });
@@ -30,7 +31,7 @@ const exprimentMutations = {
   deleteExpriment: async (_parent, { id }) => {
     return await prisma.expriments.delete({
       where: {
-        ExprimentId: id,
+        exprimentId: id,
       },
     });
   },
@@ -41,10 +42,18 @@ const exprimentRelation = {
     StudentExpriment: async (parent) => {
       return await prisma.studentExpriment.findMany({
         where: {
-          exprimentId: parent.ExprimentId,
+          exprimentId: parent.exprimentId,
         },
       });
     },
+    chapter: async (parent) => {
+      return await prisma.chatpers.findUnique({
+        where: {
+          chapterId: parent.chapterId,
+        },
+      });
+    }, 
+
   },
 };
 
