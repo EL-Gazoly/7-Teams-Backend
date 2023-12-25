@@ -116,7 +116,7 @@ model Courses{
 }
 
 model Student {
-  generatedId         Int               @default(0) @unique
+  generatedId         String             @unique
   studentId           String            @id @default(uuid())
   name                String
   facilityId          String            @unique

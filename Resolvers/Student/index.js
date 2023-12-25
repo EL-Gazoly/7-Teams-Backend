@@ -53,6 +53,89 @@ const studentMutations = {
       },
     });
   },
+
+  loginStudent: async (_parent, args) => {
+    const { generatedId, deviceId } = args;
+    const student =  await prisma.student.findFirst({
+      where: {
+        generatedId: generatedId,
+      },
+    });
+    if (!student) {
+      throw new Error('No such user found');
+    }
+    if (deviceId){
+      const device = await prisma.device.findUnique({
+        where: {
+          deviceId: deviceId,
+        },
+      }); 
+      if (!device){
+        throw new Error('No such device found');
+      }
+
+      // update student and device 
+      await prisma.student.update({ 
+        where: {
+          generatedId: generatedId,
+        },
+        data: {
+          deviceId: deviceId,
+        },
+      });
+      await prisma.device.update({
+        where: {
+          deviceId: deviceId,
+        },
+        data: {
+          studentId: student.studentId,
+        },
+      });
+
+      return student;
+    }
+  },
+  logoutStudent: async (_parent, args) => {
+    const { generatedId, deviceId } = args;
+    const student =  await prisma.student.findFirst({
+      where: {
+        generatedId: generatedId,
+      },
+    });
+    if (!student) {
+      throw new Error('No such user found');
+    }
+    if (deviceId){
+      const device = await prisma.device.findUnique({
+        where: {
+          deviceId: deviceId,
+        },
+      }); 
+      if (!device){
+        throw new Error('No such device found');
+      }
+
+      // update student and device 
+      await prisma.student.update({ 
+        where: {
+          generatedId: generatedId,
+        },
+        data: {
+          deviceId: null,
+        },
+      });
+      await prisma.device.update({
+        where: {
+          deviceId: deviceId,
+        },
+        data: {
+          studentId: null,
+        },
+      });
+
+      return student;
+    }
+  }
 };
 
 const studentRelation = {

@@ -1,0 +1,3 @@
+-- AlterTable
+ALTER TABLE "Student" ALTER COLUMN "generatedId" DROP DEFAULT,
+ALTER COLUMN "generatedId" SET DATA TYPE TEXT;

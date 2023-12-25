@@ -71,6 +71,7 @@ type Mutation {
   deleteCertificate(id: String!): Certificates!
 
   loginStudent(generatedId: String!, deviceId: String!): Student!
+  logoutStudent(generatedId: String!, deviceId: String!): Student!
 
   sendEmail(email: String!, certificate: Upload): String
 }
