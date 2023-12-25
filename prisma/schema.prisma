@@ -56,71 +56,6 @@ model Device {
   student      Student? 
 }
 
-model Student {
-  generatedId         Int               @default(0) @unique
-  studentId           String            @id @default(uuid())
-  name                String
-  facilityId          String            @unique
-  imageUrl            String?
-  TotalTime           Int               @default(0)
-  completedCourses    Int               @default(0)
-  createdAt           DateTime          @default(now())
-  updatedAt           DateTime          @updatedAt
-  adminId             String
-  admin               Admin @relation(fields: [adminId], references: [id])
-  signInOUT           SignInOut[]
-  deviceId            String?           @unique
-  connectedDevice     Device?          @relation(fields: [deviceId], references: [deviceId]) 
-  studentExpriment    StudentExpriment[]
-  studentCategories   StudentCategories[]
-}
-
-model SignInOut {
-  id String @id @default(uuid())
-  studentId String
-  student Student @relation(fields: [studentId], references: [studentId])
-  signIn DateTime @default(now())
-  signOut DateTime?
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-}
-
-model Categories{
-  id String @id @default(uuid())
-  name String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  studentCategories StudentCategories[]
-}
-model Expriments {
-  ExprimentId String @id @default(uuid())
-  name String
-  chatperNumber Int
-  studentExpriment StudentExpriment[]
-}
-model StudentExpriment {
-  id String @id @default(uuid())
-  studentId String
-  exprimentId String
-  progress Float @default(0.0)
-  practicalTestGrade Float @default(0.0)
-  theoreticalTestGrade Float @default(0.0)
-  student Student @relation(fields: [studentId], references: [studentId])
-  expriment Expriments @relation(fields: [exprimentId], references: [ExprimentId])
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-}
-
-model StudentCategories {
-  id String @id @default(uuid())
-  studentId String
-  categoryId String
-  classNumber Int
-  student Student @relation(fields: [studentId], references: [studentId])
-  categories Categories @relation(fields: [categoryId], references: [id])
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-}
 
 model Roles {
   id String @id @default(uuid())
@@ -142,4 +77,102 @@ model Roles {
   updatedAt DateTime @updatedAt
 
    @@unique([name, adminId])
+}
+
+model Teams{
+  teamId String @id @default(uuid())
+  name String
+  classes Classes[]
+  courses Courses[]
+  student Student[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Classes{
+  classId String @id @default(uuid())
+  number String
+  teamId String
+  team Teams @relation(fields: [teamId], references: [teamId])
+  courses Courses[]
+  student Student[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Courses{
+  courseId String @id @default(uuid())
+  name String
+  classId String
+  class Classes @relation(fields: [classId], references: [classId])
+  teamId String
+  team Teams @relation(fields: [teamId], references: [teamId])
+  chatpers Chatpers[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Student {
+  generatedId         Int               @default(0) @unique
+  studentId           String            @id @default(uuid())
+  name                String
+  facilityId          String            @unique
+  imageUrl            String?
+  TotalTime           Int               @default(0)
+  completedCourses    Int               @default(0)
+  createdAt           DateTime          @default(now())
+  updatedAt           DateTime          @updatedAt
+  adminId             String
+  admin               Admin @relation(fields: [adminId], references: [id])
+  deviceId            String?           @unique
+  teamId              String
+  team                Teams @relation(fields: [teamId], references: [teamId])
+  classId             String
+  class               Classes @relation(fields: [classId], references: [classId])
+  connectedDevice     Device?          @relation(fields: [deviceId], references: [deviceId]) 
+  studentExpriment    StudentExpriment[]
+  certificates        certificates[]
+}
+
+model Chatpers{
+  chapterId String @id @default(uuid())
+  name String
+  courseId String
+  course Courses @relation(fields: [courseId], references: [courseId])
+  expriment Expriments[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Expriments {
+  exprimentId String @id @default(uuid())
+  name String
+  chapterId String
+  chapter Chatpers @relation(fields: [chapterId], references: [chapterId])
+  studentExpriment StudentExpriment[]
+}
+
+
+model StudentExpriment {
+  id String @id @default(uuid())
+  studentId String
+  exprimentId String
+  progress Float @default(0.0)
+  practicalTestGrade Float @default(0.0)
+  theoreticalTestGrade Float @default(0.0)
+  enterCounter Int @default(0)
+  totalTimeSpent Int @default(0)
+  student Student @relation(fields: [studentId], references: [studentId])
+  expriment Expriments @relation(fields: [exprimentId], references: [exprimentId])
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+
+model certificates {
+  id String @id @default(uuid())
+  studentId String
+  student Student @relation(fields: [studentId], references: [studentId])
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
