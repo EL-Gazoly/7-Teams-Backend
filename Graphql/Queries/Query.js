@@ -2,13 +2,11 @@ const {
     userQuery,
     deviceQuery,
     studentQueries,
-    signInOutQueries,
     exprimentQueries,
     StudentExperimentQueries,
-    CategoriesQueries,
-    StudentCategoryQueries,
     adminQuery,
-    roleQuery
+    roleQuery,
+    teamQuery
   } = require('../../Resolvers');
   
   const Query = {
@@ -17,11 +15,9 @@ const {
     ...userQuery,
     ...deviceQuery,
     ...studentQueries,
-    ...signInOutQueries,
     ...exprimentQueries,
     ...StudentExperimentQueries,
-    ...CategoriesQueries,
-    ...StudentCategoryQueries
+    ...teamQuery
   };
   
   module.exports = Query;

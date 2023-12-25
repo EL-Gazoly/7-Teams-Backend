@@ -2,13 +2,11 @@ const {
     userRelation,
     studentRelation,
     deviceRelation,
-    signInOutRelation,
     exprimentRelation,
     StudentExperimentRelation,
-    StudentCategoryRelation,
-    CategoriesRelation,
     adminRelation,
-    roleRelation
+    roleRelation,
+    teamRelation
   } = require('../../Resolvers');
   
   const Relations = {
@@ -17,11 +15,10 @@ const {
     ...roleRelation,
     ...deviceRelation,
     ...studentRelation,
-    ...signInOutRelation,
     ...exprimentRelation,
     ...StudentExperimentRelation,
-    ...StudentCategoryRelation,
-    ...CategoriesRelation
+    ...teamRelation
+
   };
   
   module.exports = Relations;

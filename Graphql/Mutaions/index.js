@@ -2,14 +2,12 @@ const {
     userMuation,
     deviceMutation,
     studentMutations,
-    signInOutMutations,
     exprimentMutations,
     StudentExperimentMutations,
-    CategoriesMutations,
-    StudentCategoryMutations,
     adminMuation,
     roleMuation,
-    sendEmailService
+    sendEmailService,
+    teamMutation
   } = require('../../Resolvers');
   
   const Mutation = {
@@ -18,12 +16,11 @@ const {
     ...userMuation,
     ...deviceMutation,
     ...studentMutations,
-    ...signInOutMutations,
     ...exprimentMutations,
     ...StudentExperimentMutations,
-    ...CategoriesMutations,
-    ...StudentCategoryMutations,
-    ...sendEmailService
+    ...sendEmailService,
+    ...teamMutation
+    
   };
   
   module.exports = Mutation;

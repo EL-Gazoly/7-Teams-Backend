@@ -39,6 +39,12 @@ const {
      StudentExperimentMutations,
      StudentExperimentRelation
    } = require("./StudentExpriments/index.js");
+
+   const {
+      teamQuery,
+      teamMutation,
+      teamRelation
+   } = require('./Teams/index.js')
    
    const sendEmailService = require("./Email/index.js");
    
@@ -70,6 +76,10 @@ const {
      StudentExperimentQueries,
      StudentExperimentMutations,
      StudentExperimentRelation,
+
+      teamQuery,
+      teamMutation,
+      teamRelation,
    
       sendEmailService
    };
