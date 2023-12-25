@@ -326,20 +326,20 @@ input UpdateTeamInput {
 
 type Classes{
   classId: String!
-  name: String!
+  number: String!
   students: [Student!]!
+  courses: [Courses!]!
   teamId: String!
   team: Teams!
 }
 input CreateClassInput {
-  name: String!
+  number: String!
   teamId: String!
 }
 input UpdateClassInput {
-  name: String
+  number: String
   teamId: String
 }
-
 
 type Courses{
   courseId: String!

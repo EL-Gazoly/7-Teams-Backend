@@ -47,6 +47,13 @@ const {
    } = require('./Teams/index.js')
    
    const sendEmailService = require("./Email/index.js");
+
+   const {
+      ClassesQueries,
+      ClassesMutations,
+      classesRelations
+
+   } = require('./Classes/index.js')
    
    module.exports = {
      adminQuery,
@@ -80,6 +87,10 @@ const {
       teamQuery,
       teamMutation,
       teamRelation,
+
+      ClassesQueries,
+      ClassesMutations,
+      classesRelations,
    
       sendEmailService
    };
