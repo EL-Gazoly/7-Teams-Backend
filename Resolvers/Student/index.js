@@ -55,7 +55,7 @@ const studentMutations = {
   },
 
   loginStudent: async (_parent, args) => {
-    const { generatedId, deviceId } = args;
+    const { generatedId, macAddress } = args;
     const student =  await prisma.student.findFirst({
       where: {
         generatedId: generatedId,
@@ -64,28 +64,27 @@ const studentMutations = {
     if (!student) {
       throw new Error('No such user found');
     }
-    if (deviceId){
-      const device = await prisma.device.findUnique({
+    if (macAddress){
+      const device = await prisma.device.findFirst({
         where: {
-          deviceId: deviceId,
+          macAddress: macAddress,
         },
       }); 
       if (!device){
         throw new Error('No such device found');
       }
-
       // update student and device 
       await prisma.student.update({ 
         where: {
           generatedId: generatedId,
         },
         data: {
-          deviceId: deviceId,
+          deviceId: device.deviceId,
         },
       });
       await prisma.device.update({
         where: {
-          deviceId: deviceId,
+          deviceId: device.deviceId,
         },
         data: {
           studentId: student.studentId,
@@ -96,7 +95,7 @@ const studentMutations = {
     }
   },
   logoutStudent: async (_parent, args) => {
-    const { generatedId, deviceId } = args;
+    const { generatedId, macAddress } = args;
     const student =  await prisma.student.findFirst({
       where: {
         generatedId: generatedId,
@@ -105,10 +104,10 @@ const studentMutations = {
     if (!student) {
       throw new Error('No such user found');
     }
-    if (deviceId){
+    if (macAddress){
       const device = await prisma.device.findUnique({
         where: {
-          deviceId: deviceId,
+          macAddress: macAddress,
         },
       }); 
       if (!device){
@@ -126,7 +125,7 @@ const studentMutations = {
       });
       await prisma.device.update({
         where: {
-          deviceId: deviceId,
+          deviceId: device.deviceId,
         },
         data: {
           studentId: null,

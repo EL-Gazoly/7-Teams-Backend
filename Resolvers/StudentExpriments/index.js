@@ -22,13 +22,24 @@ const StudentExperimentMutations = {
     });
   },
   updateStudentExperiment: async (_parent, args) => {
-    const { id, data } = args;
+    const { data } = args;
+    const studentExperiment = await prisma.studentExpriment.findFirst({
+      where: {
+        exprimentId: data.exprimentId,
+        studentId: data.studentId,
+      }
+    })
+    if (!studentExperiment) {
+      return await prisma.studentExpriment.create({
+        data,
+      });
+    }
     return await prisma.studentExpriment.update({
       where: {
-        id,
+        id: studentExperiment.id,
       },
       data,
-    });
+    })
   },
   deleteStudentExperiment: async (_parent, args) => {
     const { id } = args;

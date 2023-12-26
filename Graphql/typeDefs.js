@@ -49,7 +49,7 @@ type Mutation {
   updateExpriment(id: String!, data: UpdateExprimentInput!): Expriment!
   deleteExpriment(id: String!): Expriment!
   createStudentExperiment(data: CreateStudentExperimentInput!): StudentExperiment!
-  updateStudentExperiment(id: String!, data: UpdateStudentExperimentInput!): StudentExperiment!
+  updateStudentExperiment( data: UpdateStudentExperimentInput!): StudentExperiment!
   deleteStudentExperiment(id: String!): StudentExperiment!
   createRole(data: CreateRoleInput!): Role!
   updateRole(id: String!, data: UpdateRoleInput!): Role!
@@ -70,8 +70,8 @@ type Mutation {
   updateCertificate(id: String!, data: UpdateCertificateInput!): Certificates!
   deleteCertificate(id: String!): Certificates!
 
-  loginStudent(generatedId: String!, deviceId: String!): Student!
-  logoutStudent(generatedId: String!, deviceId: String!): Student!
+  loginStudent(generatedId: String!, macAddress: String!): Student!
+  logoutStudent(generatedId: String!, macAddress: String!): Student!
 
   sendEmail(email: String!, certificate: Upload): String
 }
@@ -291,7 +291,9 @@ type StudentExperiment{
   progress: Float!
   practicalTestGrade: Float!
   theoreticalTestGrade: Float!
-  enterCourse: Int!
+  enterTraining: Int
+  enterTheortical: Int
+  enterPractical: Int
   totalTimeSpent: Float!
 }
 input CreateStudentExperimentInput {
@@ -300,7 +302,9 @@ input CreateStudentExperimentInput {
   progress: Float
   practicalTestGrade: Float
   theoreticalTestGrade: Float
-  enterCourse: Int
+  enterTraining: Int
+  enterTheortical: Int
+  enterPractical: Int
   totalTimeSpent: Float
 }
 input UpdateStudentExperimentInput {
@@ -309,7 +313,9 @@ input UpdateStudentExperimentInput {
   progress: Float
   practicalTestGrade: Float
   theoreticalTestGrade: Float
-  enterCourse: Float
+  enterTraining: Int
+  enterTheortical: Int
+  enterPractical: Int
   totalTimeSpent: Float
 }
 type Teams{
