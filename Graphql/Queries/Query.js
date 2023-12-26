@@ -9,7 +9,8 @@ const {
     teamQuery,
     ClassesQueries,
     CoursesQuery,
-    ChapterQueries
+    ChapterQueries,
+    certificatesQuery
   } = require('../../Resolvers');
   
   const Query = {
@@ -23,7 +24,8 @@ const {
     ...teamQuery,
     ...ClassesQueries,
     ...CoursesQuery,
-    ...ChapterQueries
+    ...ChapterQueries,
+    ...certificatesQuery
   };
   
   module.exports = Query;

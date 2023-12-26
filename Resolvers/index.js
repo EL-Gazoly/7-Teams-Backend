@@ -67,6 +67,13 @@ const {
     CourseRelation,
     CourseMutation
   }= require('./Courses/index.js')
+
+  const {
+    certificatesQuery,
+    certificatesMutation,
+    certificatesRelations
+
+  } = require('./Certificates/index.js')
    
    module.exports = {
      adminQuery,
@@ -112,6 +119,10 @@ const {
       ChapterQueries,
       ChapterMutations,
       ChapterRelations,
+
+      certificatesQuery,
+      certificatesMutation,
+      certificatesRelations,
    
       sendEmailService
    };

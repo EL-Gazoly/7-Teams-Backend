@@ -10,7 +10,8 @@ const {
     teamMutation,
     ClassesMutations,
     ChapterMutations,
-    CourseMutation
+    CourseMutation,
+    certificatesMutation
   } = require('../../Resolvers');
   
   const Mutation = {
@@ -25,7 +26,8 @@ const {
     ...teamMutation,
     ...ClassesMutations,
     ...CourseMutation,
-    ...ChapterMutations
+    ...ChapterMutations,
+    ...certificatesMutation
     
   };
   

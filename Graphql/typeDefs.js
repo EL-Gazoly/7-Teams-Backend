@@ -383,19 +383,16 @@ input UpdateChapterInput {
   courseId: String
 }
 type Certificates{
-  certificateId: String!
-  name: String!
+  id: String!
   studentId: String!
   student: Student!
   createdAt: DateTime!
   updatedAt: DateTime!
 }
 input CreateCertificateInput {
-  name: String!
   studentId: String!
 }
 input UpdateCertificateInput {
-  name: String
   studentId: String
 }
 
