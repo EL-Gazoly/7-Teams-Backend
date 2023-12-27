@@ -18,7 +18,7 @@ const studentMutations = {
     const { data, image } = args;
     const { name, facilityId } = data;
     const studentId = await generateID(name, facilityId);
-    data.generatedId = studentId;
+    data.generatedId = studentId.toString();
     if(image) data.imageUrl = await readFile(image);
       data.adminId = ctx.user.adminId;
     return await prisma.student.create({
