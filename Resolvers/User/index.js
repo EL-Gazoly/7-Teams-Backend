@@ -22,6 +22,7 @@ const userMuation = {
     // data.data.hashedPassword = process.password.hashSync(data.data.hashedPassword);
     const { data, image } = args;
     if( image ) data.imageUrl = await readFile(image);
+    data.email = data.email.toLowerCase();
 
     data.hashedPassword= generatePassword(data.hashedPassword);
   
@@ -36,6 +37,7 @@ const userMuation = {
   },
   updateUser: async (_parent, args) => {
     const { id, data, image } = args;
+    if (data.email) data.email = data.email.toLowerCase();
 
     if(image) data.imageUrl = await readFile(image);
     else if (!image) data.imageUrl = null;
@@ -62,6 +64,7 @@ const userMuation = {
     return user;
   },
   loginUser: async (_parent, data) => {
+    data.email = data.email.toLowerCase();
     const user = await prisma.user.findUnique({
       where: {
         email: data.email,

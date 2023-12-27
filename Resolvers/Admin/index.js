@@ -18,6 +18,7 @@ const adminQuery = {
 const adminMuation = {
   createAdmin: async (_parent, { data }) => {
     data.hashedPassword = generatePassword(data.hashedPassword)
+    admin.email = data.email.toLowerCase();
     const admin = await prisma.admin.create({
       data: data,
     });
@@ -25,6 +26,7 @@ const adminMuation = {
     return admin;
   },
   updateAdmin: async (_parent, { id, data }) => {
+    if (data.email) data.email = data.email.toLowerCase();
     const admin = await prisma.admin.update({
       where: {
         id: id,
@@ -42,6 +44,7 @@ const adminMuation = {
     return admin;
   },
   loginAdmin: async (_parent, { email, password, deviceMacAddress, deviceName }) => {
+    email = email.toLowerCase();
   
     const admin = await prisma.admin.findUnique({
       where: {
