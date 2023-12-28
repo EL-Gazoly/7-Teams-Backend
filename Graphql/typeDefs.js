@@ -14,7 +14,7 @@ type Query {
   expriments: [Expriment!]!
   expriment(id: String!): Expriment
   studentExperiments: [StudentExperiment!]!
-  studentExperiment(id: String!): StudentExperiment
+  studentExperiment(studentId: String!, exprimentId: String!): StudentExperiment
   teams: [Teams!]!
   team(id: String!): Teams
   classes: [Classes!]!
@@ -294,7 +294,7 @@ type StudentExperiment{
   enterTraining: Int
   enterTheortical: Int
   enterPractical: Int
-  totalTimeSpent: Float!
+  totalTimeSpent: Int!
 }
 input CreateStudentExperimentInput {
   studentId: String!
@@ -305,7 +305,7 @@ input CreateStudentExperimentInput {
   enterTraining: Int
   enterTheortical: Int
   enterPractical: Int
-  totalTimeSpent: Float
+  totalTimeSpent: Int
 }
 input UpdateStudentExperimentInput {
   studentId: String
@@ -316,7 +316,7 @@ input UpdateStudentExperimentInput {
   enterTraining: Int
   enterTheortical: Int
   enterPractical: Int
-  totalTimeSpent: Float
+  totalTimeSpent: Int
 }
 type Teams{
   teamId: String!

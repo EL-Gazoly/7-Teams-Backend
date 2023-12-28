@@ -5,10 +5,11 @@ const StudentExperimentQueries = {
     return await prisma.studentExpriment.findMany();
   },
   studentExperiment: async (_parent, args) => {
-    const { id } = args;
-    return await prisma.studentExpriment.findUnique({
+    const { studentId, exprimentId } = args;
+    return await prisma.studentExpriment.findFirst({
       where: {
-        id,
+        studentId,
+        exprimentId,
       },
     });
   },
