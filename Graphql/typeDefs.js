@@ -293,7 +293,7 @@ type StudentExperiment{
   theoreticalTestGrade: Float!
   enterTraining: Int
   enterTheortical: Int
-  enterPractical: Int
+  enterPratical: Int
   totalTimeSpent: Int!
 }
 input CreateStudentExperimentInput {
@@ -304,7 +304,7 @@ input CreateStudentExperimentInput {
   theoreticalTestGrade: Float
   enterTraining: Int
   enterTheortical: Int
-  enterPractical: Int
+  enterPratical: Int
   totalTimeSpent: Int
 }
 input UpdateStudentExperimentInput {
@@ -315,7 +315,7 @@ input UpdateStudentExperimentInput {
   theoreticalTestGrade: Float
   enterTraining: Int
   enterTheortical: Int
-  enterPractical: Int
+  enterPratical: Int
   totalTimeSpent: Int
 }
 type Teams{
