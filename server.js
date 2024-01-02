@@ -16,7 +16,7 @@ const schema = applyMiddleware(
       typeDefs,
       resolvers,
     }),
-    
+    permession
   )
 
 const server = new ApolloServer({
