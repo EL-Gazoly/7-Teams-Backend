@@ -56,25 +56,63 @@ const studentMutations = {
 
   loginStudent: async (_parent, args) => {
     const { generatedId, macAddress } = args;
-    const student =  await prisma.student.findFirst({
+  
+    const student = await prisma.student.findUnique({
       where: {
         generatedId: generatedId,
       },
     });
+  
     if (!student) {
       throw new Error('No such user found');
     }
-    if (macAddress){
-      const device = await prisma.device.findFirst({
+  
+    if (macAddress) {
+      const device = await prisma.device.findUnique({
         where: {
           macAddress: macAddress,
         },
-      }); 
-      if (!device){
+      });
+  
+      if (!device) {
         throw new Error('No such device found');
       }
-      // update student and device 
-      await prisma.student.update({ 
+  
+      const oldStudent = await prisma.student.findUnique({
+        where: {
+          deviceId: device.deviceId,
+        },
+      });
+  
+      if (oldStudent) {
+        await prisma.student.update({
+          where: {
+            studentId: oldStudent.studentId,
+          },
+          data: {
+            deviceId: null,
+          },
+        });
+      }
+  
+      const oldDevice = await prisma.device.findUnique({
+        where: {
+          studentId: student.studentId,
+        },
+      });
+  
+      if (oldDevice) {
+        await prisma.device.update({
+          where: {
+            deviceId: oldDevice.deviceId,
+          },
+          data: {
+            studentId: null,
+          },
+        });
+      }
+  
+      await prisma.student.update({
         where: {
           generatedId: generatedId,
         },
@@ -82,6 +120,7 @@ const studentMutations = {
           deviceId: device.deviceId,
         },
       });
+  
       await prisma.device.update({
         where: {
           deviceId: device.deviceId,
@@ -90,10 +129,11 @@ const studentMutations = {
           studentId: student.studentId,
         },
       });
-
+  
       return student;
     }
   },
+  
   logoutStudent: async (_parent, args) => {
     const { generatedId, macAddress } = args;
     const student =  await prisma.student.findFirst({
