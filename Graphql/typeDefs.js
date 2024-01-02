@@ -294,7 +294,9 @@ type StudentExperiment{
   enterTraining: Int
   enterTheortical: Int
   enterPratical: Int
-  totalTimeSpent: Int!
+  totalTrainingTime: Int 
+  totalTheorticalTime: Int
+  totalPraticalTime: Int
 }
 input CreateStudentExperimentInput {
   studentId: String!
@@ -305,7 +307,9 @@ input CreateStudentExperimentInput {
   enterTraining: Int
   enterTheortical: Int
   enterPratical: Int
-  totalTimeSpent: Int
+  totalTrainingTime: Int 
+  totalTheorticalTime: Int
+  totalPraticalTime: Int
 }
 input UpdateStudentExperimentInput {
   studentId: String
@@ -316,7 +320,9 @@ input UpdateStudentExperimentInput {
   enterTraining: Int
   enterTheortical: Int
   enterPratical: Int
-  totalTimeSpent: Int
+  totalTrainingTime: Int 
+  totalTheorticalTime: Int
+  totalPraticalTime: Int
 }
 type Teams{
   teamId: String!
