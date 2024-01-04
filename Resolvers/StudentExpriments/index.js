@@ -24,23 +24,28 @@ const StudentExperimentMutations = {
   },
   updateStudentExperiment: async (_parent, args) => {
     const { data } = args;
-    const studentExperiment = await prisma.studentExpriment.findFirst({
+    const today = new Date();
+    const createdToday =  await prisma.studentExpriment.findMany({
       where: {
-        exprimentId: data.exprimentId,
         studentId: data.studentId,
+        exprimentId: data.exprimentId,
+        createdAt: {
+          gte: new Date(today.getFullYear(), today.getMonth(), today.getDate()) ,
+          lt: new Date(today.getFullYear(), today.getMonth(), today.getDate() + 1)
+        }
       }
     })
-    if (!studentExperiment) {
+    if (createdToday.length === 0) {
       return await prisma.studentExpriment.create({
         data,
       });
     }
     return await prisma.studentExpriment.update({
       where: {
-        id: studentExperiment.id,
+        id: createdToday[0].id,
       },
       data,
-    })
+    });
   },
   deleteStudentExperiment: async (_parent, args) => {
     const { id } = args;
