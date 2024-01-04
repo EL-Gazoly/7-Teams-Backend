@@ -2,7 +2,39 @@ const prisma = require("../../config/database");
 
 const StudentExperimentQueries = {
   studentExperiments: async () => {
-    return await prisma.studentExpriment.findMany();
+    const today = new Date();
+    const expriemntsByDay = prisma.studentExpriment.findMany({
+      where: {
+        createdAt: {
+          gte: new Date(today.getFullYear(), today.getMonth(), today.getDate()) ,
+          lt: new Date(today.getFullYear(), today.getMonth(), today.getDate() + 1)
+        }
+      }
+    });
+
+    const expriementsByMonth = prisma.studentExpriment.findMany({
+      where: {
+        createdAt: {
+          gte: new Date(today.getFullYear(), today.getMonth(), 1) ,
+          lt: new Date(today.getFullYear(), today.getMonth() + 1, 1)
+        }
+      }
+    });
+
+    const expriementsByYear = prisma.studentExpriment.findMany({
+      where: {
+        createdAt: {
+          gte: new Date(today.getFullYear(), 0, 1) ,
+          lt: new Date(today.getFullYear() + 1, 0, 1)
+        }
+      }
+    });
+
+    return {
+      expriemntsByDay ,
+      expriementsByMonth,
+      expriementsByYear
+    }
   },
   studentExperiment: async (_parent, args) => {
     const { studentId, exprimentId } = args;

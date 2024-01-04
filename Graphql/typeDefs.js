@@ -13,7 +13,7 @@ type Query {
   student(id: String!): Student
   expriments: [Expriment!]!
   expriment(id: String!): Expriment
-  studentExperiments: [StudentExperiment!]!
+  studentExperiments: StudentExperimentDates
   studentExperiment(studentId: String!, exprimentId: String!): StudentExperiment
   teams: [Teams!]!
   team(id: String!): Teams
@@ -298,6 +298,12 @@ type StudentExperiment{
   totalTheorticalTime: Int
   totalPraticalTime: Int
 }
+type StudentExperimentDates {
+  expriemntsByDay: [StudentExperiment!]
+  expriementsByMonth: [StudentExperiment!]
+  expriementsByYear: [StudentExperiment!]
+}
+
 input CreateStudentExperimentInput {
   studentId: String!
   exprimentId: String!
