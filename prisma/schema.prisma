@@ -75,9 +75,7 @@ model Roles {
   admin Admin @relation(fields: [adminId], references: [id])
   users User[]
   createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-   @@unique([name, adminId])
+  updatedAt DateTime @updatedAt @default(now())
 }
 
 model Teams{

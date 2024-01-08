@@ -18,11 +18,53 @@ const adminQuery = {
 const adminMuation = {
   createAdmin: async (_parent, { data }) => {
     data.hashedPassword = generatePassword(data.hashedPassword)
-    admin.email = data.email.toLowerCase();
+    data.email = data.email.toLowerCase();
     const admin = await prisma.admin.create({
       data: data,
     });
     jwt.sign({ admin }, `${process.env.JWT_SECRET_KET}`);
+    console.log(admin);
+    await prisma.roles.createMany({
+      data : [
+       {
+        name: "ادمن",
+        adminId: admin.id,
+        isDevicesAccess: true,
+        isStudentsAccess: true,
+        isReportsAccess: true,
+        isLogsAccess: true,
+        isRolesAccess: true,
+        isUsersAccess: true,
+        isCoursesAccsess: true,
+        isCertificatesAccess : true,
+        isDashboardAccess: true, 
+        isLibraryAccess : true,
+       },
+       {
+        name: "المدير التنفيذي",
+        adminId: admin.id,
+        isStudentsAccess: true,
+        isReportsAccess: true,
+        isRolesAccess: true,
+        isUsersAccess: true,
+        isCoursesAccsess: true,
+        isCertificatesAccess : true,
+        isDashboardAccess: true, 
+        isLibraryAccess : true,
+       },
+       {
+        name: "معلم",
+        adminId: admin.id,
+        name: "ادمن",
+        isDevicesAccess: true,
+        isStudentsAccess: true,
+        isCoursesAccsess: true,
+        isCertificatesAccess : true, 
+        isLibraryAccess : true,
+       }
+
+      ]
+    });
     return admin;
   },
   updateAdmin: async (_parent, { id, data }) => {
