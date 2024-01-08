@@ -25,6 +25,7 @@ type Query {
   chapter(id: String!): Chapters
   certificates: [Certificates!]!
   certificate(id: String!): Certificates
+  timeByMonth: [Int]
  
 }
 scalar DateTime

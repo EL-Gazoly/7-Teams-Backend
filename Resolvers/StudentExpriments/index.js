@@ -45,6 +45,43 @@ const StudentExperimentQueries = {
       },
     });
   },
+  timeByMonth: async (_parent, args) => {
+    const today = new Date();
+      const lastMonth = new Date(today.getFullYear(), today.getMonth() - 1, today.getDate());
+      const thisMonth = new Date(today.getFullYear(), today.getMonth(), today.getDate()+ 1); 
+      // handel january case
+      if (today.getMonth() === 0) {
+        lastMonth.setFullYear(today.getFullYear() - 1);
+      }
+      const expriemntsByMonth = await prisma.studentExpriment.findMany({
+        where: {
+          createdAt: {
+            gte: lastMonth,
+            lt: thisMonth
+          }
+        }
+      });
+      const weeks = []; 
+      for (let i = 0; i < 8; i++) {
+        weeks.push({
+          start : new Date(today.getFullYear(), today.getMonth(), today.getDate() - 7 * i + 1),
+          end: new Date(today.getFullYear(), today.getMonth(), today.getDate() - 7 * (i + 1))
+        })
+      }
+      
+      const expriemntsByWeek = weeks.map(week => {
+        return expriemntsByMonth.filter(expriemnt => {
+          return expriemnt.createdAt >= week.end && expriemnt.createdAt < week.start
+        })
+      })
+      const timeByMonth = await expriemntsByWeek.map(expriemnts => {
+        return expriemnts.reduce((total, expriemnt) => {
+          return total + expriemnt.totalTrainingTime + expriemnt.totalTheorticalTime + expriemnt.totalPraticalTime
+        }, 0)
+      })
+      return timeByMonth
+
+  }
 };
 
 const StudentExperimentMutations = {
