@@ -42,7 +42,7 @@ const CourseMutation = {
 const CourseRelation = {
     Courses: {
         chapters : async (parent) => {
-            return await prisma.chapters.findMany({
+            return await prisma.chatpers.findMany({
                 where: {
                     courseId: parent.courseId
                 }
