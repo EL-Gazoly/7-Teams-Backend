@@ -26,6 +26,7 @@ type Query {
   certificates: [Certificates!]!
   certificate(id: String!): Certificates
   timeByMonth: [Int]
+  studentActuallyBegein: [Int]
  
 }
 scalar DateTime

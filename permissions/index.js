@@ -152,6 +152,7 @@ const isAuthenticated = rule({ cache: 'contextual' })(
       chapter: isAuthenticated,
       certificates: isAuthenticated,
       certificate: isAuthenticated,
+      studentActuallyBegein: isAuthenticated,
       
     },
     Mutation: {

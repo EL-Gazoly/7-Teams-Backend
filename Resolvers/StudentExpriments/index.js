@@ -81,7 +81,50 @@ const StudentExperimentQueries = {
       })
       return timeByMonth
 
+  },
+  studentActuallyBegein: async (_parent, args, ctx) => {
+    const adminId = ctx.user.adminId;
+   const students = await prisma.student.findMany({
+      where: {
+        adminId
+      }
+   });
+  const studentWithExpriment = await Promise.all(students.map(async student => {
+    const expriment = await prisma.studentExpriment.findFirst({
+      where: {
+        studentId: student.studentId
+      }
+    })
+    if (expriment) {
+      return expriment
+    }
+  }))
+  const studentWithExprimentFiltered = studentWithExpriment.filter(student => student)
+
+  const studentWithCertification = await Promise.all(studentWithExprimentFiltered.map(async student => {
+    const certification = await prisma.certificates.findFirst({
+      where: {
+        studentId: student.studentId
+      }
+    })
+    if (certification) {
+      return student
+    }
   }
+  ))
+  const studentWithCertificationFiltered = studentWithCertification.filter(student => student)
+
+  const TotalTime = studentWithCertificationFiltered.reduce((total, student) => {
+    return total + student.totalTrainingTime + student.totalTheorticalTime + student.totalPraticalTime
+  }  , 0)
+  
+  return [
+    students.length,
+    studentWithExprimentFiltered.length,
+    studentWithCertificationFiltered.length,
+    TotalTime
+  ]
+  },
 };
 
 const StudentExperimentMutations = {
