@@ -84,22 +84,28 @@ const StudentExperimentQueries = {
   },
   studentActuallyBegein: async (_parent, args, ctx) => {
     const adminId = ctx.user.adminId;
-   const students = await prisma.student.findMany({
+    const students = await prisma.student.findMany({
       where: {
         adminId
       }
-   });
-  const studentWithExpriment = await Promise.all(students.map(async student => {
-    const expriment = await prisma.studentExpriment.findFirst({
-      where: {
-        studentId: student.studentId
-      }
-    })
-    if (expriment) {
-      return expriment
-    }
-  }))
-  const studentWithExprimentFiltered = studentWithExpriment.filter(student => student)
+    });
+    
+    const studentWithExpriment = await Promise.all(students.map(async student => {
+      return prisma.studentExpriment.findMany({
+        where: {
+          studentId: student.studentId
+        }
+      });
+    }));
+    
+    const studentWithExprimentFiltered = studentWithExpriment.filter(student => student && student.length > 0);
+    let total = 0;
+    studentWithExprimentFiltered.forEach(student => {
+      student.forEach(expriment => {
+        total += expriment.totalPraticalTime + expriment.totalTheorticalTime + expriment.totalTrainingTime
+      })
+    });
+    
 
   const studentWithCertification = await Promise.all(studentWithExprimentFiltered.map(async student => {
     const certification = await prisma.certificates.findFirst({
@@ -114,15 +120,14 @@ const StudentExperimentQueries = {
   ))
   const studentWithCertificationFiltered = studentWithCertification.filter(student => student)
 
-  const TotalTime = studentWithCertificationFiltered.reduce((total, student) => {
-    return total + student.totalTrainingTime + student.totalTheorticalTime + student.totalPraticalTime
-  }  , 0)
+   
+
   
   return [
     students.length,
     studentWithExprimentFiltered.length,
     studentWithCertificationFiltered.length,
-    TotalTime
+    total
   ]
   },
 };
