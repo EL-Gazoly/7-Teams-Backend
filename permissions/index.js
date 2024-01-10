@@ -195,6 +195,7 @@ const isAuthenticated = rule({ cache: 'contextual' })(
       createCertificate: isAuthenticated,
       updateCertificate: isAuthenticated,
       deleteCertificate: isAuthenticated,
+      uploadStudentByExcel: or(isAdmin, isStudentsAccess),
     },
   })
 
