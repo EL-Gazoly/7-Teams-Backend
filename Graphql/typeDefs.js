@@ -76,6 +76,7 @@ type Mutation {
   logoutStudent(generatedId: String!, macAddress: String!): Student!
 
   sendEmail(email: String!, certificate: Upload): String
+  uploadStudentByExcel(file: Upload): Int
 }
 
 type Admin {

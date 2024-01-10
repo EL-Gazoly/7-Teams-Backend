@@ -1,5 +1,7 @@
 const prisma = require("../../config/database");
-const { readFile } = require('../../Middlewares/file')
+const { readFile, readFileExcel } = require('../../Middlewares/file')
+const excelToJson = require('convert-excel-to-json');
+const { unlink } = require("fs");
 const studentQueries = {
   students: async () => {
     return await prisma.student.findMany({});
@@ -24,6 +26,77 @@ const studentMutations = {
     return await prisma.student.create({
       data: data,
     });
+  },
+
+  uploadStudentByExcel: async (_parent, args, ctx) => {
+    const { file } = args;
+   const excefile = await readFileExcel(file);
+      const excelData = await  excelToJson({
+        sourceFile: excefile,
+        header: {
+          rows: 1
+        },
+        columnToKey: {
+          '*': '{{columnHeader}}'
+        }
+      });
+     
+      unlink(excefile, (err) => {
+        if (err) {
+          console.error(err)
+          return
+        }
+      })
+      
+    const data = excelData.Sheet1.map((item) => {
+      return {
+        name: item["first-name"] + " " + item["middel-name"]+ " "+  item["last-name"],
+        facilityId: item["student-number"],
+        generatedId: item["secret-number"],
+        team : item["team"],
+        class: item["class"],
+        adminId: "5e8bfa0e-0119-4d9f-b106-3848bdc5cf67"
+        
+      }
+    })
+   
+    data.forEach(async (item) => {
+      item.generatedId = item.generatedId.toString()
+      item.facilityId = item.facilityId.toString()
+     if(item.team==="ثانوي" || item.team == "الثانوي"){
+      item.teamId = "1781aa8d-369d-4875-8a32-c8aac39ea543"
+      if (item.class == 1 ){
+        item.classId = "65d2322b-1d47-42b1-8739-f10a83378355"
+      }
+      else if (item.class == 2){
+        item.classId = "056e7db3-66c1-450d-99b6-50c8206efc78"
+      }
+      else if (item.class == 3){
+        item.classId = "5b9b06d4-2278-476c-a6f2-02dd366b18ef"
+      }
+     }
+    else if(item.team==="متوسط" || item.team == "المتوسط"){
+        item.teamId = "20f9b0c6-37fa-4509-987a-6be7b341d98e"
+        if (item.class == 1){
+          item.classId = "fad58648-c419-4701-985a-b8707446074b"
+        }
+        else if (item.class == 2){
+          item.classId = "42e9c8a6-7c33-4ada-8215-65465a495912"
+        }
+        else if (item.class == 3){
+          item.classId = "d401bb95-d5ad-4b34-ae7a-e5db984f2b14"
+        }
+      }
+      delete item.team
+      delete item.class
+    })
+     const createdStudents = await prisma.student.createMany({
+      data: data,
+      skipDuplicates: true,
+    });
+  
+    return createdStudents.count;
+ 
   },
 
   updateStudent: async (_parent, args) => {
