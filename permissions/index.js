@@ -50,16 +50,13 @@ const isAuthenticated = rule({ cache: 'contextual' })(
   });
   
   const isStudentsAccess = rule({ cache: 'contextual' })(async (parent, args, ctx, info) => {
-    console.log('isStudentsAccess')
     const token = ctx.req.headers.authorization;
-    console.log(token)
     if (!token) {
       return false;
     }
     try {
       const decoded = await jwt.verify(token, `${process.env.JWT_SECRET_KET}`);
       ctx.user = decoded;
-      console.log(ctx.user)
       return ctx.user.isStudentsAccess;
     } catch (error) {
       return false;

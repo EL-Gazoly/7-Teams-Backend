@@ -114,10 +114,10 @@ model Courses{
 }
 
 model Student {
-  generatedId         String             @unique
+  generatedId         String             
   studentId           String            @id @default(uuid())
   name                String
-  facilityId          String            @unique
+  facilityId          String            
   imageUrl            String?
   TotalTime           Int               @default(0)
   completedCourses    Int               @default(0)
@@ -133,6 +133,8 @@ model Student {
   connectedDevice     Device?          @relation(fields: [deviceId], references: [deviceId]) 
   studentExpriment    StudentExpriment[]
   certificates        certificates[]
+
+  @@unique([adminId, facilityId, generatedId])
 }
 
 model Chatpers{
