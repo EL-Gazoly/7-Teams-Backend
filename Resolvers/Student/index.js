@@ -19,7 +19,7 @@ const studentMutations = {
   createStudent: async (_parent, args, ctx) => {
     const { data, image } = args;
     const { name, facilityId } = data;
-    const studentId = await generateID(name, facilityId);
+    const studentId =  generateID(name, facilityId);
     data.generatedId = studentId.toString();
     if(image) data.imageUrl = await readFile(image);
       data.adminId = ctx.user.adminId;
@@ -40,6 +40,9 @@ const studentMutations = {
           '*': '{{columnHeader}}'
         }
       });
+      if (!excelData || !excelData.Sheet1 || excelData.Sheet1.length === 0) {
+        throw new Error('No data found in the uploaded Excel file.');
+      }
      
       unlink(excefile, (err) => {
         if (err) {
@@ -49,6 +52,9 @@ const studentMutations = {
       })
       
     const data = excelData.Sheet1.map((item) => {
+      if (!item["first-name"] || !item["student-number"] || !item["team"] || !item["class"]) {
+        throw new Error('Incomplete data. Please provide first name and last name.');
+      }
       return {
         name: item["first-name"] + " " + item["middel-name"]+ " "+  item["last-name"],
         facilityId: item["student-number"],
@@ -56,11 +62,13 @@ const studentMutations = {
         team : item["team"],
         class: item["class"],
         adminId: ctx.user.adminId,
-        
       }
     })
    
     data.forEach(async (item) => {
+      if (item.generatedId === undefined || item.generatedId === null || item.generatedId === ""){
+        item.generatedId =  generateID(item.name, item.facilityId);
+      }
       item.generatedId = item.generatedId.toString()
       item.facilityId = item.facilityId.toString()
      if(item.team==="ثانوي" || item.team == "الثانوي"){
@@ -90,6 +98,9 @@ const studentMutations = {
       delete item.team
       delete item.class
     })
+    if (data.length === 0) {
+      throw new Error('No data found in the uploaded Excel file.');
+    }
      const createdStudents = await prisma.student.createMany({
       data: data,
       skipDuplicates: true,
@@ -290,9 +301,9 @@ const studentRelation = {
   },
 };
 
-const generateID = async (name, facilityid) => {
+const generateID =  (name, facilityid) => {
   const uniqueString = `${name}${facilityid}`;
-  return limitToFourDigits(await hashCode(uniqueString));
+  return limitToFourDigits(hashCode(uniqueString));
 };
 
 const hashCode = (str) => {
