@@ -55,7 +55,7 @@ const studentMutations = {
         generatedId: item["secret-number"],
         team : item["team"],
         class: item["class"],
-        adminId: ctx.user.adminId,
+        adminId: "5e8bfa0e-0119-4d9f-b106-3848bdc5cf67",
         
       }
     })
