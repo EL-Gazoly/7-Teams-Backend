@@ -141,7 +141,7 @@ const studentMutations = {
   loginStudent: async (_parent, args) => {
     const { generatedId, macAddress } = args;
   
-    const student = await prisma.student.findUnique({
+    const student = await prisma.student.findFirst({
       where: {
         generatedId: generatedId,
       },
@@ -152,7 +152,7 @@ const studentMutations = {
     }
   
     if (macAddress) {
-      const device = await prisma.device.findUnique({
+      const device = await prisma.device.findFirst({
         where: {
           macAddress: macAddress,
         },
@@ -162,7 +162,7 @@ const studentMutations = {
         throw new Error('No such device found');
       }
   
-      const oldStudent = await prisma.student.findUnique({
+      const oldStudent = await prisma.student.findFirst({
         where: {
           deviceId: device.deviceId,
         },
@@ -179,7 +179,7 @@ const studentMutations = {
         });
       }
   
-      const oldDevice = await prisma.device.findUnique({
+      const oldDevice = await prisma.device.findFirst({
         where: {
           studentId: student.studentId,
         },
@@ -198,7 +198,7 @@ const studentMutations = {
   
       await prisma.student.update({
         where: {
-          generatedId: generatedId,
+          studentId: student.studentId,
         },
         data: {
           deviceId: device.deviceId,
@@ -241,7 +241,7 @@ const studentMutations = {
       // update student and device 
       await prisma.student.update({ 
         where: {
-          generatedId: generatedId,
+          studentId: student.studentId,
         },
         data: {
           deviceId: null,
