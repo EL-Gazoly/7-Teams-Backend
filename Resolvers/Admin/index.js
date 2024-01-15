@@ -174,6 +174,13 @@ const adminRelation = {
         },
       });
     },
+    closeApps: async (parent) => {
+      return await prisma.closeApp.findMany({
+        where: {
+          adminId: parent.id,
+        },
+      });
+    },
   }
 };
 

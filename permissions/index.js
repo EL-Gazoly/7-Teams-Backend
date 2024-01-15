@@ -150,6 +150,7 @@ const isAuthenticated = rule({ cache: 'contextual' })(
       certificates: isAuthenticated,
       certificate: isAuthenticated,
       studentActuallyBegein: isAuthenticated,
+      closeApps: isAuthenticated,
       
     },
     Mutation: {
@@ -193,6 +194,7 @@ const isAuthenticated = rule({ cache: 'contextual' })(
       updateCertificate: isAuthenticated,
       deleteCertificate: isAuthenticated,
       uploadStudentByExcel: or(isAdmin, isStudentsAccess),
+      createCloseApp: isAuthenticated,
     },
   })
 

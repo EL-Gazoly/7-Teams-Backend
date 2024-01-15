@@ -25,6 +25,7 @@ model Admin {
   roles Roles[]
   token String?
   Team Teams[]
+  closeApp CloseApp[]
 }
 
 model User{
@@ -133,6 +134,7 @@ model Student {
   connectedDevice     Device?          @relation(fields: [deviceId], references: [deviceId]) 
   studentExpriment    StudentExpriment[]
   certificates        certificates[]
+  closeApp            CloseApp[]
 
   @@unique([adminId, facilityId, generatedId])
 }
@@ -182,4 +184,16 @@ model certificates {
   student Student @relation(fields: [studentId], references: [studentId])
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+}
+
+model CloseApp {
+  closeAppId String @id @default(uuid())
+  studentId String
+  student Student @relation(fields: [studentId], references: [studentId])
+  adminId String
+  admin Admin @relation(fields: [adminId], references: [id])
+  reason String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  
 }

@@ -74,6 +74,12 @@ const {
     certificatesRelations
 
   } = require('./Certificates/index.js')
+
+  const {
+    closeAppQuery,
+    closeAppMutation,
+    closeAppRelation   
+  } = require('./CloseApp/index.js')
    
    module.exports = {
      adminQuery,
@@ -124,6 +130,10 @@ const {
       certificatesMutation,
       certificatesRelations,
    
-      sendEmailService
+      sendEmailService,
+
+      closeAppQuery,
+      closeAppMutation,
+      closeAppRelation
    };
    

@@ -298,7 +298,15 @@ const studentRelation = {
         },
       });
     },
+    closeApps: async (parent) => {
+      return await prisma.closeApp.findMany({
+        where: {
+          studentId: parent.studentId,
+        },
+      });
+    },
   },
+ 
 };
 
 const generateID =  (name, facilityid) => {

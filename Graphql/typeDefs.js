@@ -27,6 +27,8 @@ type Query {
   certificate(id: String!): Certificates
   timeByMonth: [Int]
   studentActuallyBegein: [Int]
+  closeApps: [CloseApp!]!
+  closeApp(id: String!): CloseApp
  
 }
 scalar DateTime
@@ -77,6 +79,9 @@ type Mutation {
 
   sendEmail(email: String!, certificate: Upload): String
   uploadStudentByExcel(file: Upload): Int
+  createCloseApp(data: CloseAppInput!): CloseApp!
+  updateCloseApp(id: String!, data: CloseAppInput!): CloseApp!
+  deleteCloseApp(id: String!): CloseApp!
 }
 
 type Admin {
@@ -95,6 +100,7 @@ type Admin {
   roles: [Role!]
   token: String
   Team: [Teams!]
+  closeApps: [CloseApp!]
 
 }
 
@@ -249,6 +255,7 @@ type Student {
   class: Classes
   certificates: [Certificates!]
   studnetExpriment: [StudentExperiment!]
+  closeApps: [CloseApp!]
 }
 
 input CreateStudentInput {
@@ -415,6 +422,21 @@ input CreateCertificateInput {
 }
 input UpdateCertificateInput {
   studentId: String
+}
+
+type CloseApp {
+  closeAppId: String!
+  studentId: String!
+  student: Student!
+  adminId: String!
+  admin: Admin!
+  reason: String!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+input CloseAppInput {
+  studentId: String!
+  reason: String!
 }
 
 
