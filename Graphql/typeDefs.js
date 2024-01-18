@@ -256,6 +256,7 @@ type Student {
   certificates: [Certificates!]
   studnetExpriment: [StudentExperiment!]
   closeApps: [CloseApp!]
+  classalpha: String
 }
 
 input CreateStudentInput {

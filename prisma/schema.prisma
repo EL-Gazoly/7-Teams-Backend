@@ -6,7 +6,7 @@ generator client {
 
 datasource db {
   provider = "postgresql"
-  url      = env("DATABASE_URL")
+  url      = env("DIRECT_URL")
 }
 
 model Admin {
@@ -135,6 +135,7 @@ model Student {
   studentExpriment    StudentExpriment[]
   certificates        certificates[]
   closeApp            CloseApp[]
+  classalpha          String @default("A")
 
   @@unique([adminId, facilityId, generatedId])
 }
