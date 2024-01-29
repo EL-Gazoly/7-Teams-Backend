@@ -305,6 +305,13 @@ const studentRelation = {
         },
       });
     },
+    team: async (parent) => {
+      return await prisma.teams.findUnique({
+        where: {
+          teamId: parent.teamId,
+        },
+      });
+    },
   },
  
 };
