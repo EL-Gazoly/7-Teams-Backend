@@ -29,6 +29,8 @@ type Query {
   studentActuallyBegein: [Int]
   closeApps: [CloseApp!]!
   closeApp(id: String!): CloseApp
+  
+  StudentExpermientByPeriod(studentId: String!) :StudentExperimentDates
  
 }
 scalar DateTime

@@ -13,6 +13,45 @@ const studentQueries = {
       },
     });
   },
+  StudentExpermientByPeriod: async (_parent, args) => {
+    const { studentId } = args;
+    const today = new Date();
+    const expriemntsByDay = prisma.studentExpriment.findMany({
+      where: {
+        studentId,
+        createdAt: {
+          gte: new Date(today.getFullYear(), today.getMonth(), today.getDate()) ,
+          lt: new Date(today.getFullYear(), today.getMonth(), today.getDate() + 1)
+        }
+      }
+    });
+
+    const expriementsByMonth = prisma.studentExpriment.findMany({
+      where: {
+        studentId,
+        createdAt: {
+          gte: new Date(today.getFullYear(), today.getMonth(), 1) ,
+          lt: new Date(today.getFullYear(), today.getMonth() + 1, 1)
+        }
+      }
+    });
+
+    const expriementsByYear = prisma.studentExpriment.findMany({
+      where: {
+        studentId,
+        createdAt: {
+          gte: new Date(today.getFullYear(), 0, 1) ,
+          lt: new Date(today.getFullYear() + 1, 0, 1)
+        }
+      }
+    });
+
+    return {
+      expriemntsByDay ,
+      expriementsByMonth,
+      expriementsByYear
+    }
+  },
 };
 
 const studentMutations = {
