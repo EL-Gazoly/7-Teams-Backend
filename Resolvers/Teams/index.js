@@ -7,7 +7,7 @@ const teamQuery = {
     team: async (_parent, { id }) => {
         return await prisma.teams.findUnique({
         where: {
-            id: id,
+            teamId: id,
         },
         });
     },
