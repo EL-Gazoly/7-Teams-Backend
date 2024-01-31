@@ -5,10 +5,10 @@ const ClassesQueries = {
         return await prisma.classes.findMany()
     },
     class: async (parent, args, context, info) => {
-        const { classId } = args
+        const { id } = args
         return await prisma.classes.findUnique({
             where: {
-                classId: classId
+                classId: id
             }
         })
     }

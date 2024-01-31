@@ -310,6 +310,8 @@ type StudentExperiment{
   totalTrainingTime: Int 
   totalTheorticalTime: Int
   totalPraticalTime: Int
+  createdAt: DateTime!
+  updatedAt: DateTime!
 }
 type StudentExperimentDates {
   expriemntsByDay: [StudentExperiment!]
