@@ -181,6 +181,13 @@ const adminRelation = {
         },
       });
     },
+    logs: async(parent)=>{
+      return await prisma.logs.findMany({
+        where:{
+          adminId: parent.id
+        }
+      })
+    }
   }
 };
 

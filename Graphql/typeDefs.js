@@ -31,6 +31,9 @@ type Query {
   closeApp(id: String!): CloseApp
   
   StudentExpermientByPeriod(studentId: String!) :StudentExperimentDates
+
+  logs: [Logs!]!
+  log(logId: String!): Logs
  
 }
 scalar DateTime
@@ -84,6 +87,9 @@ type Mutation {
   createCloseApp(data: CloseAppInput!): CloseApp!
   updateCloseApp(id: String!, data: CloseAppInput!): CloseApp!
   deleteCloseApp(id: String!): CloseApp!
+  createLog(data: CreateLogInput!): Logs!
+  updateLog(logId: String!, data: CreateLogInput!): Logs!
+  deleteLog(logId: String!): Logs!
 }
 
 type Admin {
@@ -103,6 +109,7 @@ type Admin {
   token: String
   Team: [Teams!]
   closeApps: [CloseApp!]
+  logs: [Logs!]
 
 }
 
@@ -442,6 +449,19 @@ type CloseApp {
 input CloseAppInput {
   studentId: String!
   reason: String!
+}
+
+type Logs {
+  logId: String!
+  adminId: String!
+  admin: Admin!
+  action: String!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
+input CreateLogInput {
+  action: String!
 }
 
 

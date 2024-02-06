@@ -80,6 +80,13 @@ const {
     closeAppMutation,
     closeAppRelation   
   } = require('./CloseApp/index.js')
+
+  const {
+    logQueries,
+    logMutations,
+    logRelation
+
+  } = require('./Logs/index.js')
    
    module.exports = {
      adminQuery,
@@ -134,6 +141,10 @@ const {
 
       closeAppQuery,
       closeAppMutation,
-      closeAppRelation
+      closeAppRelation,
+
+      logQueries,
+      logMutations,
+      logRelation
    };
    

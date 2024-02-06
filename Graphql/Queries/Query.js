@@ -11,7 +11,9 @@ const {
     CoursesQuery,
     ChapterQueries,
     certificatesQuery,
-    closeAppQuery
+    closeAppQuery,
+    logQueries
+    
   } = require('../../Resolvers');
   
   const Query = {
@@ -27,7 +29,8 @@ const {
     ...CoursesQuery,
     ...ChapterQueries,
     ...certificatesQuery,
-    ...closeAppQuery
+    ...closeAppQuery,
+    ...logQueries
   };
   
   module.exports = Query;
