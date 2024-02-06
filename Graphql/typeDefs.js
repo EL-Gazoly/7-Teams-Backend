@@ -32,7 +32,7 @@ type Query {
   
   StudentExpermientByPeriod(studentId: String!) :StudentExperimentDates
 
-  logs: [Logs!]!
+  logs(skip: Int, take: Int): [Logs!]!
   log(logId: String!): Logs
  
 }
