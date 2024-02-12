@@ -141,7 +141,7 @@ model Student {
   certificates        certificates[]
   closeApp            CloseApp[]
   classalpha          String @default("A")      
-  schoolName          String @default(" النور مدرسه ")
+  schoolName          String @default(" مدرسه النور ")
 
   @@unique([adminId, facilityId, generatedId])
 }
