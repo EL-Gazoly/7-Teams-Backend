@@ -12,7 +12,9 @@ const {
     ChapterQueries,
     certificatesQuery,
     closeAppQuery,
-    logQueries
+    logQueries,
+    schoolQuery,
+
     
   } = require('../../Resolvers');
   
@@ -30,7 +32,8 @@ const {
     ...ChapterQueries,
     ...certificatesQuery,
     ...closeAppQuery,
-    ...logQueries
+    ...logQueries,
+    ...schoolQuery
   };
   
   module.exports = Query;

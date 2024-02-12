@@ -187,6 +187,13 @@ const adminRelation = {
           adminId: parent.id
         }
       })
+    },
+    schools: async(parent)=>{
+      return await prisma.school.findMany({
+        where:{
+          adminId: parent.id
+        }
+      })
     }
   }
 };

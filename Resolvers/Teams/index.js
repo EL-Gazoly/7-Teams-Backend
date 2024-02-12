@@ -63,6 +63,13 @@ const teamRelation = {
             id: parent.adminId,
         },
         });
+    },
+    school: async (parent) => {
+        return await prisma.school.findUnique({
+            where: {
+                schoolId: parent.schoolId
+            }
+        })
     }
 
     },

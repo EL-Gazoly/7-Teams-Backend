@@ -12,7 +12,8 @@ const {
     CourseRelation,
     certificatesRelations,
     closeAppRelation,
-    logRelation
+    logRelation,
+    schoolRelations
   } = require('../../Resolvers');
   
   const Relations = {
@@ -29,7 +30,8 @@ const {
     ...ChapterRelations,
     ...certificatesRelations,
     ...closeAppRelation,
-    ...logRelation
+    ...logRelation,
+    ...schoolRelations
  
   };
   
