@@ -272,6 +272,7 @@ type Student {
   studnetExpriment: [StudentExperiment!]
   closeApps: [CloseApp!]
   classalpha: String
+  schoolName: String
 }
 
 input CreateStudentInput {
