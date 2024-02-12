@@ -28,6 +28,7 @@ model Admin {
   Team Teams[]
   closeApp CloseApp[]
   logs Logs[]
+  school School[]
 }
 
 model User{
@@ -88,6 +89,8 @@ model Teams{
   courses Courses[]
   student Student[]
   adminId String
+  schoolId String
+  school School @relation(fields: [schoolId], references: [schoolId])
   admin Admin @relation(fields: [adminId], references: [id])
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -137,7 +140,7 @@ model Student {
   studentExpriment    StudentExpriment[]
   certificates        certificates[]
   closeApp            CloseApp[]
-  classalpha          String @default("A")
+  classalpha          String @default("A")         
 
   @@unique([adminId, facilityId, generatedId])
 }
@@ -206,6 +209,16 @@ model Logs {
   adminId String
   admin Admin @relation(fields: [adminId], references: [id])
   action String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model School {
+  schoolId String @id @default(uuid())
+  name String
+  teams Teams[]
+  adminId String
+  admin Admin @relation(fields: [adminId], references: [id])
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }

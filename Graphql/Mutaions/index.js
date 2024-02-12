@@ -13,7 +13,8 @@ const {
     CourseMutation,
     certificatesMutation,
     closeAppMutation,
-    logMutations
+    logMutations,
+    schoolMutations,
   } = require('../../Resolvers');
   
   const Mutation = {
@@ -31,7 +32,8 @@ const {
     ...ChapterMutations,
     ...certificatesMutation,
     ...closeAppMutation,
-    ...logMutations
+    ...logMutations,
+    ...schoolMutations
     
   };
   

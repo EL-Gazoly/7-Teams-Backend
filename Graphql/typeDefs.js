@@ -34,6 +34,8 @@ type Query {
 
   logs(skip: Int, take: Int): [Logs!]!
   log(logId: String!): Logs
+  schools: [School!]!
+  school(schoolId: String!): School
  
 }
 scalar DateTime
@@ -90,6 +92,9 @@ type Mutation {
   createLog(data: CreateLogInput!): Logs!
   updateLog(logId: String!, data: CreateLogInput!): Logs!
   deleteLog(logId: String!): Logs!
+  createSchool(data: CreateSchoolInput!): School
+  updateSchool(schoolId:String ,name: String!): School
+  deleteSchool(schoolId:String):School
 }
 
 type Admin {
@@ -110,6 +115,7 @@ type Admin {
   Team: [Teams!]
   closeApps: [CloseApp!]
   logs: [Logs!]
+  schools: [School!]
 
 }
 
@@ -359,13 +365,17 @@ type Teams{
   classes: [Classes!]!
   adminId: String!
   admin: Admin!
+  schoolId: String!
+  school: School
 }
 
 input CreateTeamInput {
   name: String!
+  schoolId: String!
 }
 input UpdateTeamInput {
   name: String
+  schoolId: String!
 }
 
 type Classes{
@@ -462,6 +472,17 @@ type Logs {
 
 input CreateLogInput {
   action: String!
+}
+type School {
+  schoolId: String!
+  name: String!
+  teams: [Teams!]
+  adminId: String
+  admin: Admin
+}
+
+input CreateSchoolInput {
+  name: String
 }
 
 

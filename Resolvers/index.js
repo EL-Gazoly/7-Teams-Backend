@@ -87,6 +87,12 @@ const {
     logRelation
 
   } = require('./Logs/index.js')
+
+  const {
+    schoolQuery,
+    schoolMutations,
+    schoolRelations
+  } = require('./School/index.js')
    
    module.exports = {
      adminQuery,
@@ -145,6 +151,10 @@ const {
 
       logQueries,
       logMutations,
-      logRelation
+      logRelation,
+
+      schoolQuery,
+      schoolMutations,
+      schoolRelations
    };
    
