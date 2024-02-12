@@ -136,6 +136,18 @@ const studentMutations = {
           item.classId = "d401bb95-d5ad-4b34-ae7a-e5db984f2b14"
         }
       }
+      else if (item.team==="ابتدائي" || item.team == "الابتدائي"){
+        item.teamId = "d0be4668-a1b2-4ed5-a47b-fa3218a055b2"
+        if (item.class == 1){
+          item.classId = "299b30a9-cc2b-4d90-91c3-87a4e17c181e"
+        }
+        else if (item.class == 2){
+          item.classId = "3005a5f7-c133-434e-be98-7dd3b78fedfd"
+        }
+        else if (item.class == 3){
+          item.classId = "e713070c-853e-465d-9e72-0787f344147a"
+        }
+      }
       delete item.team
       delete item.class
     })
