@@ -91,16 +91,17 @@ const studentMutations = {
       })
       
     const data = excelData.Sheet1.map((item) => {
-      if (!item["first-name"] || !item["student-number"] || !item["team"] || !item["class"]) {
-        throw new Error('Incomplete data. Please provide first name and last name.');
+      if (!item["first-name"] || !item["middel-name"] ||  !item["last-name"] || !item["student-number"] || !item["team"] || !item["class"]) {
+        throw new Error('Incomplete data. Please provide all fields.');
       }
       return {
-        name: item["first-name"] + " " + item["middel-name"]+ " "+  item["last-name"],
+        name: item["first-name"] + " " + item["middel-name"]+ " "+ item["last-name"],
         facilityId: item["student-number"],
         generatedId: item["secret-number"],
         team : item["team"],
         class: item["class"],
-        adminId: ctx.user.adminId,
+        schoolName: item["school-name"],
+        adminId: ctx.user.adminId
       }
     })
    
@@ -108,6 +109,7 @@ const studentMutations = {
       if (item.generatedId === undefined || item.generatedId === null || item.generatedId === ""){
         item.generatedId =  generateID(item.name, item.facilityId);
       }
+
       item.generatedId = item.generatedId.toString()
       item.facilityId = item.facilityId.toString()
      if(item.team==="ثانوي" || item.team == "الثانوي"){
@@ -137,6 +139,7 @@ const studentMutations = {
       delete item.team
       delete item.class
     })
+   
     if (data.length === 0) {
       throw new Error('No data found in the uploaded Excel file.');
     }
