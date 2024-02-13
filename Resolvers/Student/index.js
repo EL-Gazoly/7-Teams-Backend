@@ -101,6 +101,7 @@ const studentMutations = {
         team : item["team"],
         class: item["class"],
         schoolName: item["school-name"],
+        classNumber: item["class-number"],
         adminId: ctx.user.adminId
       }
     })
@@ -147,7 +148,53 @@ const studentMutations = {
         else if (item.class == 3){
           item.classId = "e713070c-853e-465d-9e72-0787f344147a"
         }
+        else if (item.class == 4){
+          item.classId = "6b10f49d-a110-420d-8595-9b8616d7c854"
+        }
+        else if (item.class == 5){
+          item.classId = "1535cadc-70b9-4535-994b-e4c20c3912ae"
+        }
+        else if (item.class == 6){
+          item.classId = "99b559a7-0e9d-40fb-a952-6c25895ceedf"
+        }
       }
+    switch (item.classNumber) {
+      case 1:
+        item.classalpha = "A"
+        break;
+      case 2:
+        item.classalpha = "B"
+        break;
+      case 3:
+        item.classalpha = "C"
+        break;
+      case 4:
+        item.classalpha = "D"
+        break;
+      case 5:
+        item.classalpha = "E"
+        break;
+      case 6:
+        item.classalpha = "F"
+        break;
+      case 7:
+        item.classalpha = "G"
+        break;
+      case 8:
+        item.classalpha = "H"
+        break;
+      case 9:
+        item.classalpha = "I"
+        break;
+      case 10:
+        item.classalpha = "J"
+        break;
+      default:
+        item.classalpha = "A"
+        break;
+
+    }
+      delete item.classNumber
       delete item.team
       delete item.class
     })
