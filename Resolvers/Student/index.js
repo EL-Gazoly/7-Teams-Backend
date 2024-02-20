@@ -77,7 +77,6 @@ const studentMutations = {
     else {
       await prisma.logs.create({
         data: {
-          userId: null,
           action: `Created student ${student.name}`,
           adminId: ctx.user.adminId,
         },
@@ -238,7 +237,6 @@ const studentMutations = {
         else {
           await prisma.logs.create({
             data: {
-              userId: null,
               action: `Created ${createdStudents.count} student using excel file`,
               adminId: ctx.user.adminId,
             },
@@ -407,8 +405,7 @@ const studentMutations = {
       }
       else {
         await prisma.logs.create({
-          data: {
-            userId: null,
+          data: {      
             action: `student ${student.name} logged out using device ${macAddress}`,
             adminId: ctx.user.adminId,
           },

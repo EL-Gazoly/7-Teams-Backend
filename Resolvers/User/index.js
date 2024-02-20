@@ -43,8 +43,7 @@ const userMuation = {
     }
     else {
       await prisma.logs.create({
-        data: {
-          userId: null,
+        data: {      
           action: `Create user ${user.name}`,
           adminId: ctx.user.adminId,
         },
@@ -82,7 +81,6 @@ const userMuation = {
     else {
       await prisma.logs.create({
         data: {
-          userId: null,
           action: `Updated user ${user.name}`,
           adminId: ctx.user.adminId,
         },
@@ -175,7 +173,7 @@ const userRelation = {
     logs : async (parent) => {
       return await prisma.logs.findMany({
         where: {
-          userid: parent.id,
+          userId: parent.id,
         },
       });
     },

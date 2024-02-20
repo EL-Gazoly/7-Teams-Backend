@@ -1,10 +1,10 @@
 const prisma = require('../../config/database')
 
 const logQueries = {
-    logs: async (_parent, { pagination }) => {
+    logs: async (_parent, { pagination }, args) => {
         const { first, after } = pagination || {};
+        const { skip, take } = args;
         let cursorDate;
-        let take = 2; // Default value
         
         if (first) {
           take = first;
@@ -25,6 +25,7 @@ const logQueries = {
         // Fetch logs with pagination parameters
         const logs = await prisma.logs.findMany({
           ...paginationCondition,
+          skip,
           take,
           orderBy: {
             createdAt: 'asc', // Order by createdAt date
@@ -83,6 +84,7 @@ const logRelation = {
             });
         },
         user: async (parent) => {
+            if (!parent.userId) return null;
             return await prisma.user.findUnique({
                 where: {
                     id: parent.userId,

@@ -35,8 +35,7 @@ const roleMuation = {
       }
       else {
         await prisma.logs.create({
-          data: {
-            userId: null,
+          data: {        
             action: `Created role ${createdRole.name}`,
             adminId: ctx.user.adminId,
           },
@@ -66,7 +65,6 @@ const roleMuation = {
     else {
       await prisma.logs.create({
         data: {
-          userId: null,
           action: `Update role ${role.name}`,
           adminId: ctx.user.adminId,
         },

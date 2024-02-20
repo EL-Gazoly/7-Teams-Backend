@@ -3,7 +3,7 @@ type Query {
   admins: [Admin!]!
   admin: Admin
   users: [User!]!
-  user(id: String!): User
+  user(id: String!): User 
   roles: [Role!]!
   role(id: String!): Role
   devices: [Device!]!
@@ -467,7 +467,7 @@ type Logs {
   adminId: String!
   admin: Admin!
   userId: String!
-  user: User!
+  user: User
   action: String!
   createdAt: DateTime!
   updatedAt: DateTime!
