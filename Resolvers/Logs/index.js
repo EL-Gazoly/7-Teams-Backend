@@ -37,6 +37,13 @@ const logQueries = {
     
         return logs;
       },
+      logsCount: async (_parent, _args, ctx) => {
+        return await prisma.logs.count({
+          where: {
+            adminId: ctx.user.adminId,
+          },
+        });
+      },
     log: async (_parent, args) => {
         return await prisma.logs.findUnique({
         where: {

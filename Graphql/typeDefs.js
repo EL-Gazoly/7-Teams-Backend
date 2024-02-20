@@ -33,6 +33,7 @@ type Query {
   StudentExpermientByPeriod(studentId: String!) :StudentExperimentDates
 
   logs(skip: Int, take: Int): [Logs!]!
+  logsCount: Int
   log(logId: String!): Logs
   schools: [School!]!
   school(schoolId: String!): School

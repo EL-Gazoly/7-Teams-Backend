@@ -152,6 +152,7 @@ const isAuthenticated = rule({ cache: 'contextual' })(
       studentActuallyBegein: isAuthenticated,
       closeApps: isAuthenticated,
       logs: or(isAdmin, isLogsAccess),
+      logsCount: or(isAdmin, isLogsAccess),
       
     },
     Mutation: {
