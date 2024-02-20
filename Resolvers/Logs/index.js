@@ -50,6 +50,9 @@ const logMutations = {
     createLog: async (_parent, args, ctx) => {
         const { data } = args;
         data.adminId = ctx.user.adminId;
+        if (ctx?.user?.userid !== undefined){
+            data.userId = ctx.user.userid;
+        }
                 
         return await prisma.logs.create({
             data: data
