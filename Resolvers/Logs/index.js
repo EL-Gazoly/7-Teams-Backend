@@ -28,7 +28,7 @@ const logQueries = {
           skip,
           take,
           orderBy: {
-            createdAt: 'asc', // Order by createdAt date
+            createdAt: 'desc', // Order by createdAt in descending order this will give us the latest logs first 
           },
           where: {
             adminId: ctx.user.adminId,
