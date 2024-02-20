@@ -82,6 +82,13 @@ const logRelation = {
                 },
             });
         },
+        user: async (parent) => {
+            return await prisma.user.findUnique({
+                where: {
+                    id: parent.userId,
+                },
+            });
+        },
 
     },
 };

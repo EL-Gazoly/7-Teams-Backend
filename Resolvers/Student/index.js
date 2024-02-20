@@ -62,9 +62,28 @@ const studentMutations = {
     data.generatedId = studentId.toString();
     if(image) data.imageUrl = await readFile(image);
       data.adminId = ctx.user.adminId;
-    return await prisma.student.create({
+    const student = await prisma.student.create({
       data: data,
     });
+    if (ctx?.user?.userid !== undefined){
+      await prisma.logs.create({
+        data: {
+          action: `Created student ${student.name}`,
+          userId: ctx.user.userid,
+          adminId: ctx.user.adminId,
+        },
+      })
+    }
+    else {
+      await prisma.logs.create({
+        data: {
+          userId: null,
+          action: `Created student ${student.name}`,
+          adminId: ctx.user.adminId,
+        },
+      })
+    }
+    return student;
   },
 
   uploadStudentByExcel: async (_parent, args, ctx) => {
@@ -206,6 +225,26 @@ const studentMutations = {
       data: data,
       skipDuplicates: true,
     });
+    if (createdStudents.count > 0) {
+        if (ctx?.user?.userid !== undefined){
+          await prisma.logs.create({
+            data: {
+              action: `Created ${createdStudents.count} student using excel file`,
+              userId: ctx.user.userid,
+              adminId: ctx.user.adminId,
+            },
+          })
+        }
+        else {
+          await prisma.logs.create({
+            data: {
+              userId: null,
+              action: `Created ${createdStudents.count} student using excel file`,
+              adminId: ctx.user.adminId,
+            },
+          })
+        }
+  }
   
     return createdStudents.count;
  
@@ -356,6 +395,25 @@ const studentMutations = {
           studentId: null,
         },
       });
+
+      if (ctx?.user?.userid !== undefined){
+        await prisma.logs.create({
+          data: {
+            action: `student ${student.name} logged out using device ${macAddress}`,
+            userId: ctx.user.userid,
+            adminId: ctx.user.adminId,
+          },
+        })
+      }
+      else {
+        await prisma.logs.create({
+          data: {
+            userId: null,
+            action: `student ${student.name} logged out using device ${macAddress}`,
+            adminId: ctx.user.adminId,
+          },
+        })
+      }
 
       return student;
     }

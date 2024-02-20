@@ -159,7 +159,6 @@ type Role {
 
 input CreateRoleInput {
   name: String!
-  adminId: String
   isDevicesAccess: Boolean 
   isStudentsAccess: Boolean 
   isReportsAccess: Boolean 
@@ -205,6 +204,7 @@ type User {
   createdAt: DateTime
   updatedAt: DateTime
   token: String
+  logs: [Logs!]
  
 }
 
@@ -466,6 +466,8 @@ type Logs {
   logId: String!
   adminId: String!
   admin: Admin!
+  userId: String!
+  user: User!
   action: String!
   createdAt: DateTime!
   updatedAt: DateTime!
