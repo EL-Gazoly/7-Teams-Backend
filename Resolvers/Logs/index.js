@@ -1,9 +1,9 @@
 const prisma = require('../../config/database')
 
 const logQueries = {
-    logs: async (_parent, { pagination }, args) => {
+    logs: async (_parent, { pagination }, ctx, args) => {
         const { first, after } = pagination || {};
-        const { skip, take } = args;
+        const { skip, take } = args.variableValues;
         let cursorDate;
         
         if (first) {
@@ -29,6 +29,9 @@ const logQueries = {
           take,
           orderBy: {
             createdAt: 'asc', // Order by createdAt date
+          },
+          where: {
+            adminId: ctx.user.adminId,
           },
         });
     
