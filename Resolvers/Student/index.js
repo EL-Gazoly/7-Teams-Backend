@@ -276,7 +276,7 @@ const studentMutations = {
     });
   },
 
-  loginStudent: async (_parent, args) => {
+  loginStudent: async (_parent, args, ctx) => {
     const { generatedId, macAddress } = args;
   
     const student = await prisma.student.findFirst({
@@ -351,12 +351,30 @@ const studentMutations = {
           studentId: student.studentId,
         },
       });
+
+      if (ctx?.user?.userid !== undefined){
+        await prisma.logs.create({
+          data: {
+            action: `student ${student.name} logged in using device ${macAddress}`,
+            userId: ctx.user.userid,
+            adminId: ctx.user.adminId,
+          },
+        })
+      }
+      else {
+        await prisma.logs.create({
+          data: {
+            action: `student ${student.name} logged in using device ${macAddress}`,
+            adminId: ctx.user.adminId,
+          },
+        })
+      }
   
       return student;
     }
   },
   
-  logoutStudent: async (_parent, args) => {
+  logoutStudent: async (_parent, args, ctx) => {
     const { generatedId, macAddress } = args;
     const student =  await prisma.student.findFirst({
       where: {

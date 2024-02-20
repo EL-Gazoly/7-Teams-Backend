@@ -198,6 +198,8 @@ const isAuthenticated = rule({ cache: 'contextual' })(
       createCloseApp: isAuthenticated,
       createLog: or(isAdmin, isLogsAccess),
       createSchool: isAuthenticated,
+      loginStudent: isAuthenticated,
+      logoutStudent: isAuthenticated,
     },
   })
 
