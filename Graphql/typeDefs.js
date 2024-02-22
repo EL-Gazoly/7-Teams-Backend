@@ -3,7 +3,7 @@ type Query {
   admins: [Admin!]!
   admin: Admin
   users: [User!]!
-  user(id: String!): User
+  user(id: String!): User 
   roles: [Role!]!
   role(id: String!): Role
   devices: [Device!]!
@@ -33,6 +33,7 @@ type Query {
   StudentExpermientByPeriod(studentId: String!) :StudentExperimentDates
 
   logs(skip: Int, take: Int): [Logs!]!
+  logsCount: Int
   log(logId: String!): Logs
   schools: [School!]!
   school(schoolId: String!): School
@@ -159,7 +160,6 @@ type Role {
 
 input CreateRoleInput {
   name: String!
-  adminId: String
   isDevicesAccess: Boolean 
   isStudentsAccess: Boolean 
   isReportsAccess: Boolean 
@@ -205,6 +205,7 @@ type User {
   createdAt: DateTime
   updatedAt: DateTime
   token: String
+  logs: [Logs!]
  
 }
 
@@ -466,6 +467,8 @@ type Logs {
   logId: String!
   adminId: String!
   admin: Admin!
+  userId: String!
+  user: User
   action: String!
   createdAt: DateTime!
   updatedAt: DateTime!

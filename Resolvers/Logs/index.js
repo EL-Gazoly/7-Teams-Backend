@@ -1,10 +1,10 @@
 const prisma = require('../../config/database')
 
 const logQueries = {
-    logs: async (_parent, { pagination }) => {
+    logs: async (_parent, { pagination }, ctx, args) => {
         const { first, after } = pagination || {};
+        const { skip, take } = args.variableValues;
         let cursorDate;
-        let take = 2; // Default value
         
         if (first) {
           take = first;
@@ -25,13 +25,24 @@ const logQueries = {
         // Fetch logs with pagination parameters
         const logs = await prisma.logs.findMany({
           ...paginationCondition,
+          skip,
           take,
           orderBy: {
-            createdAt: 'asc', // Order by createdAt date
+            createdAt: 'desc', // Order by createdAt in descending order this will give us the latest logs first 
+          },
+          where: {
+            adminId: ctx.user.adminId,
           },
         });
     
         return logs;
+      },
+      logsCount: async (_parent, _args, ctx) => {
+        return await prisma.logs.count({
+          where: {
+            adminId: ctx.user.adminId,
+          },
+        });
       },
     log: async (_parent, args) => {
         return await prisma.logs.findUnique({
@@ -46,6 +57,9 @@ const logMutations = {
     createLog: async (_parent, args, ctx) => {
         const { data } = args;
         data.adminId = ctx.user.adminId;
+        if (ctx?.user?.userid !== undefined){
+            data.userId = ctx.user.userid;
+        }
                 
         return await prisma.logs.create({
             data: data
@@ -79,6 +93,14 @@ const logRelation = {
             return await prisma.admin.findUnique({
                 where: {
                     id: parent.adminId,
+                },
+            });
+        },
+        user: async (parent) => {
+            if (!parent.userId) return null;
+            return await prisma.user.findUnique({
+                where: {
+                    id: parent.userId,
                 },
             });
         },

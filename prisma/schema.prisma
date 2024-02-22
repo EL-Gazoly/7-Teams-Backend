@@ -46,6 +46,7 @@ model User{
   admin Admin @relation(fields: [adminId], references: [id])
   roleId String
   roles Roles @relation(fields: [roleId], references: [id])
+  logs Logs[]
   token String?
 }
 
@@ -207,6 +208,8 @@ model CloseApp {
 
 model Logs {
   logId String @id @default(uuid())
+  userId String?
+  user User? @relation(fields: [userId], references: [id])
   adminId String
   admin Admin @relation(fields: [adminId], references: [id])
   action String

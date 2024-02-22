@@ -32,10 +32,26 @@ const userMuation = {
     const user = await prisma.user.create({
       data: data,
     });
-    if(image) data.imageUrl = await readFile(image);
+    if (ctx?.user?.userid !== undefined){
+      await prisma.logs.create({
+        data: {
+          action: `Create user ${user.name}`,
+          userId: ctx.user.userid,
+          adminId: ctx.user.adminId,
+        },
+      })
+    }
+    else {
+      await prisma.logs.create({
+        data: {      
+          action: `Create user ${user.name}`,
+          adminId: ctx.user.adminId,
+        },
+      })
+    }
     return user;
   },
-  updateUser: async (_parent, args) => {
+  updateUser: async (_parent, args, ctx) => {
     const { id, data, image } = args;
     if (data.email) data.email = data.email.toLowerCase();
 
@@ -53,6 +69,23 @@ const userMuation = {
 
       data: data,
     });
+    if (ctx?.user?.userid !== undefined){
+      await prisma.logs.create({
+        data: {
+          action: `Updated user ${user.name}`,
+          userId: ctx.user.userid,
+          adminId: ctx.user.adminId,
+        },
+      })
+    }
+    else {
+      await prisma.logs.create({
+        data: {
+          action: `Updated user ${user.name}`,
+          adminId: ctx.user.adminId,
+        },
+      })
+    }
     return user;
   },
   deleteUser: async (_parent, data) => {
@@ -134,6 +167,13 @@ const userRelation = {
       return await prisma.roles.findUnique({
         where: {
           id: parent.roleId,
+        },
+      });
+    },
+    logs : async (parent) => {
+      return await prisma.logs.findMany({
+        where: {
+          userId: parent.id,
         },
       });
     },

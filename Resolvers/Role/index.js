@@ -24,19 +24,52 @@ const roleMuation = {
           admin: { connect: { id: ctx.user.adminId } },
         },
       });
-
+      if (ctx?.user?.userid !== undefined){
+        await prisma.logs.create({
+          data: {
+            action: `Created role ${createdRole.name}`,
+            userId: ctx.user.userid,
+            adminId: ctx.user.adminId,
+          },
+        })
+      }
+      else {
+        await prisma.logs.create({
+          data: {        
+            action: `Created role ${createdRole.name}`,
+            adminId: ctx.user.adminId,
+          },
+        })
+      }
       return createdRole;
     } catch (error) {
       throw new Error(`Could not create role: ${error}`);
     }
   },
-  updateRole: async (_parent, { id, data }) => {
+  updateRole: async (_parent, { id, data }, ctx) => {
     const role = await prisma.roles.update({
       where: {
         id: id,
       },
       data: data,
     });
+    if (ctx?.user?.userid !== undefined){
+      await prisma.logs.create({
+        data: {
+          action: `Update role ${role.name}`,
+          userId: ctx.user.userid,
+          adminId: ctx.user.adminId,
+        },
+      })
+    }
+    else {
+      await prisma.logs.create({
+        data: {
+          action: `Update role ${role.name}`,
+          adminId: ctx.user.adminId,
+        },
+      })
+    }
     return role;
   },
   deleteRole: async (_parent, { id }) => {
