@@ -82,7 +82,7 @@ type Mutation {
   updateCertificate(id: String!, data: UpdateCertificateInput!): Certificates!
   deleteCertificate(id: String!): Certificates!
 
-  loginStudent(generatedId: String!, macAddress: String!): Student!
+  loginStudent(generatedId: String!, password: String, macAddress: String!): Student!
   logoutStudent(generatedId: String!, macAddress: String!): Student!
 
   sendEmail(email: String!, certificate: Upload): String
@@ -274,6 +274,7 @@ type Student {
   closeApps: [CloseApp!]
   classalpha: String
   schoolName: String
+  password: String
 }
 
 input CreateStudentInput {
@@ -293,6 +294,7 @@ input UpdateStudentInput {
   deviceId: String
   teamId: String
   classId: String
+  password: String
 }
 
 type Expriment{

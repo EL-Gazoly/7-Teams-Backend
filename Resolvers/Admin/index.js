@@ -94,7 +94,7 @@ const adminMuation = {
       },
     });
     if (!admin) {
-      throw new Error('No such user found');
+      return new Error('No such user found');
     }
     const isPasswordValid = validatePassword(password, admin.hashedPassword);
     if (!isPasswordValid) return new Error('Invalid password');

@@ -98,7 +98,7 @@ const studentMutations = {
         }
       });
       if (!excelData || !excelData.Sheet1 || excelData.Sheet1.length === 0) {
-        throw new Error('No data found in the uploaded Excel file.');
+        return new Error('No data found in the uploaded Excel file.');
       }
      
       unlink(excefile, (err) => {
@@ -110,7 +110,7 @@ const studentMutations = {
       
     const data = excelData.Sheet1.map((item) => {
       if (!item["first-name"] || !item["middel-name"] ||  !item["last-name"] || !item["student-number"] || !item["team"] || !item["class"]) {
-        throw new Error('Incomplete data. Please provide all fields.');
+        return new Error('Incomplete data. Please provide all fields.');
       }
       return {
         name: item["first-name"] + " " + item["middel-name"]+ " "+ item["last-name"],
@@ -218,7 +218,7 @@ const studentMutations = {
     })
    
     if (data.length === 0) {
-      throw new Error('No data found in the uploaded Excel file.');
+      return new Error('No data found in the uploaded Excel file.');
     }
      const createdStudents = await prisma.student.createMany({
       data: data,
@@ -277,7 +277,7 @@ const studentMutations = {
   },
 
   loginStudent: async (_parent, args, ctx) => {
-    const { generatedId, macAddress } = args;
+    const { generatedId, macAddress, password } = args;
   
     const student = await prisma.student.findFirst({
       where: {
@@ -286,7 +286,10 @@ const studentMutations = {
     });
   
     if (!student) {
-      throw new Error('No such user found');
+      return new Error('No such user found');
+    }
+    if (password !== student.password) {
+      return Error('Incorrect password');
     }
   
     if (macAddress) {
@@ -297,7 +300,7 @@ const studentMutations = {
       });
   
       if (!device) {
-        throw new Error('No such device found');
+        return new Error('No such device found');
       }
   
       const oldStudent = await prisma.student.findFirst({
@@ -382,7 +385,7 @@ const studentMutations = {
       },
     });
     if (!student) {
-      throw new Error('No such user found');
+      return new Error('No such user found');
     }
     if (macAddress){
       const device = await prisma.device.findUnique({
@@ -391,7 +394,7 @@ const studentMutations = {
         },
       }); 
       if (!device){
-        throw new Error('No such device found');
+        return new Error('No such device found');
       }
 
       // update student and device 
