@@ -104,11 +104,11 @@ const userMuation = {
       },
     });
     if (!user) {
-      throw new Error('User not found');
+      return new Error('User not found');
     }
     // const isMatch = Bun.password.verifySync(data.hashedPassword, user.hashedPassword);
     // if (!isMatch) {
-    //   throw new Error('Invalid password');
+    //   return new Error('Invalid password');
     // }
     const isPasswordValid = validatePassword(data.hashedPassword, user.hashedPassword);
     if (!isPasswordValid) return new Error('Invalid password');

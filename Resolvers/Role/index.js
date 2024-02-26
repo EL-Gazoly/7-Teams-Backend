@@ -43,7 +43,7 @@ const roleMuation = {
       }
       return createdRole;
     } catch (error) {
-      throw new Error(`Could not create role: ${error}`);
+      return new Error(`Could not create role: ${error}`);
     }
   },
   updateRole: async (_parent, { id, data }, ctx) => {

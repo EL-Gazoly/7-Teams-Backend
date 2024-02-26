@@ -143,6 +143,7 @@ model Student {
   closeApp            CloseApp[]
   classalpha          String @default("A")      
   schoolName          String @default(" مدرسه النور ")
+  password            String @default("")
 
   @@unique([adminId, facilityId, generatedId])
 }
