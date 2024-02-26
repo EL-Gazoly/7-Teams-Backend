@@ -9,6 +9,17 @@ const studentQueries = {
   student: async (_parent, args) => {
     const student = await prisma.student.findFirst({
       where: {
+        studentId: args.studentId,
+      },
+    });
+    if (!student) {
+      return new Error('No such user found');
+    }
+    return student;
+  },
+  studentByGeneratedId: async (_parent, args) => {
+    const student = await prisma.student.findFirst({
+      where: {
         generatedId: args.generatedId,
       },
     });
