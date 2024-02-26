@@ -10,7 +10,8 @@ type Query {
   device(id: String!): Device
   deviceByMac(macAddress: String!): Device
   students: [Student!]!
-  student(generatedId: String!): Student
+  student(studentId: String!): Student
+  studentByGeneratedId(generatedId: String!): Student
   expriments: [Expriment!]!
   expriment(id: String!): Expriment
   studentExperiments: StudentExperimentDates
