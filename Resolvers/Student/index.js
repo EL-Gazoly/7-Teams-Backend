@@ -9,7 +9,7 @@ const studentQueries = {
   student: async (_parent, args) => {
     const student = await prisma.student.findFirst({
       where: {
-        studentId: args.studentId,
+        studentId: args.id,
       },
     });
     if (!student) {
