@@ -7,11 +7,15 @@ const studentQueries = {
     return await prisma.student.findMany({});
   },
   student: async (_parent, args) => {
-    return await prisma.student.findUnique({
+    const student = await prisma.student.findFirst({
       where: {
-        studentId: args.id,
+        generatedId: args.generatedId,
       },
     });
+    if (!student) {
+      return new Error('No such user found');
+    }
+    return student;
   },
   StudentExpermientByPeriod: async (_parent, args) => {
     const { studentId } = args;
