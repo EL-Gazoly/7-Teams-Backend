@@ -52,11 +52,10 @@ const userMuation = {
     return user;
   },
   updateUser: async (_parent, args, ctx) => {
-    const { id, data, image } = args;
+    const { id, data, image, removeImage } = args;
     if (data.email) data.email = data.email.toLowerCase();
-
     if(image) data.imageUrl = await readFile(image);
-    else if (!image) data.imageUrl = null;
+    if(removeImage) data.imageUrl = null;
 
     if (data.hashedPassword) {
       data.hashedPassword = generatePassword(data.hashedPassword);

@@ -48,7 +48,7 @@ type Mutation {
   deleteAdmin(id: String!): Admin!
   loginAdmin(email: String!, password: String!, deviceMacAddress: String, deviceName: String): Admin!
   createUser(data: CreateUserInput!, image: Upload): User!
-  updateUser(id: String!, data: UpdateUserInput!, image: Upload): User!
+  updateUser(id: String!, data: UpdateUserInput!, image: Upload, removeImage: Boolean): User!
   deleteUser(id: String!): User!
   loginUser(email: String!, hashedPassword: String!): User!
   createDevice(data: CreateDeviceInput!): Device!
