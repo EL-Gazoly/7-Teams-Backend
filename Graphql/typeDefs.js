@@ -11,7 +11,7 @@ type Query {
   deviceByMac(macAddress: String!): Device
   students: [Student!]!
   student(id: String!): Student
-  studentByGeneratedId(generatedId: String!): Student
+  studentByFacilityId(facilityId: String!): Student
   expriments: [Expriment!]!
   expriment(id: String!): Expriment
   studentExperiments: StudentExperimentDates
@@ -83,8 +83,8 @@ type Mutation {
   updateCertificate(id: String!, data: UpdateCertificateInput!): Certificates!
   deleteCertificate(id: String!): Certificates!
 
-  loginStudent(generatedId: String!, password: String, macAddress: String!): Student!
-  logoutStudent(generatedId: String!, macAddress: String!): Student!
+  loginStudent(facilityId: String!, password: String, macAddress: String!): Student!
+  logoutStudent(facilityId: String!, macAddress: String!): Student!
 
   sendEmail(email: String!, certificate: Upload): String
   uploadStudentByExcel(file: Upload): Int
@@ -257,7 +257,6 @@ input UpdateDeviceInput {
 scalar Upload
 
 type Student {
-  generatedId: Int!
   studentId: String!
   name: String!
   facilityId: String!

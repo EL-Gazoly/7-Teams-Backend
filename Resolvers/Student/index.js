@@ -17,10 +17,10 @@ const studentQueries = {
     }
     return student;
   },
-  studentByGeneratedId: async (_parent, args) => {
+  studentByFacilityId: async (_parent, args) => {
     const student = await prisma.student.findFirst({
       where: {
-        generatedId: args.generatedId,
+        facilityId: args.facilityId,
       },
     });
     if (!student) {
@@ -72,9 +72,6 @@ const studentQueries = {
 const studentMutations = {
   createStudent: async (_parent, args, ctx) => {
     const { data, image } = args;
-    const { name, facilityId } = data;
-    const studentId =  generateID(name, facilityId);
-    data.generatedId = studentId.toString();
     if(image) data.imageUrl = await readFile(image);
       data.adminId = ctx.user.adminId;
     const student = await prisma.student.create({
@@ -130,7 +127,7 @@ const studentMutations = {
       return {
         name: item["first-name"] + " " + item["middel-name"]+ " "+ item["last-name"],
         facilityId: item["student-number"],
-        generatedId: item["secret-number"],
+        password: item["secret-number"],
         team : item["team"],
         class: item["class"],
         schoolName: item["school-name"],
@@ -140,11 +137,8 @@ const studentMutations = {
     })
    
     data.forEach(async (item) => {
-      if (item.generatedId === undefined || item.generatedId === null || item.generatedId === ""){
-        item.generatedId =  generateID(item.name, item.facilityId);
-      }
 
-      item.generatedId = item.generatedId.toString()
+      item.password = item.password.toString()
       item.facilityId = item.facilityId.toString()
      if(item.team==="ثانوي" || item.team == "الثانوي"){
       item.teamId = "1781aa8d-369d-4875-8a32-c8aac39ea543"
@@ -292,11 +286,11 @@ const studentMutations = {
   },
 
   loginStudent: async (_parent, args, ctx) => {
-    const { generatedId, macAddress, password } = args;
+    const { facilityId, macAddress, password } = args;
   
     const student = await prisma.student.findFirst({
       where: {
-        generatedId: generatedId,
+        facilityId: facilityId,
       },
     });
   
@@ -393,10 +387,10 @@ const studentMutations = {
   },
   
   logoutStudent: async (_parent, args, ctx) => {
-    const { generatedId, macAddress } = args;
+    const { facilityId, macAddress } = args;
     const student =  await prisma.student.findFirst({
       where: {
-        generatedId: generatedId,
+        facilityId: facilityId,
       },
     });
     if (!student) {

@@ -120,8 +120,7 @@ model Courses{
   updatedAt DateTime @updatedAt
 }
 
-model Student {
-  generatedId         String             
+model Student {           
   studentId           String            @id @default(uuid())
   name                String
   facilityId          String            
@@ -143,9 +142,9 @@ model Student {
   closeApp            CloseApp[]
   classalpha          String @default("A")      
   schoolName          String @default(" مدرسه النور ")
-  password            String @default("")
+  password            String @default("0000")
 
-  @@unique([adminId, facilityId, generatedId])
+  @@unique([adminId, facilityId])
 }
 
 model Chatpers{
