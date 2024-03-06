@@ -1,4 +1,5 @@
 const prisma = require('../../config/database')
+const { readFile } = require('../../Middlewares/file')
 
 const schoolQuery = {
     schools: async()=>{
@@ -14,8 +15,9 @@ const schoolQuery = {
 }
 
 const schoolMutations = {
-    createSchool: async(_, {data}, ctx)=>{
+    createSchool: async(_, {data, image}, ctx)=>{
         data.adminId = ctx.user.adminId
+        if(image) data.imageUrl = await readFile(image);
         return await prisma.school.create({
            data
         })

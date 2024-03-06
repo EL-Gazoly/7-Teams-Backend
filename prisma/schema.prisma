@@ -142,7 +142,7 @@ model Student {
   closeApp            CloseApp[]
   classalpha          String @default("A")      
   schoolName          String @default(" مدرسه النور ")
-  password            String @default("0000")
+  password            String? @default("0000")
 
   @@unique([adminId, facilityId])
 }
@@ -219,6 +219,8 @@ model Logs {
 
 model School {
   schoolId String @id @default(uuid())
+  uniqueId Int @unique @default(autoincrement())
+  imageUrl String?
   name String
   teams Teams[]
   adminId String

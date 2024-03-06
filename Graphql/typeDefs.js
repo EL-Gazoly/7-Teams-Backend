@@ -94,7 +94,7 @@ type Mutation {
   createLog(data: CreateLogInput!): Logs!
   updateLog(logId: String!, data: CreateLogInput!): Logs!
   deleteLog(logId: String!): Logs!
-  createSchool(data: CreateSchoolInput!): School
+  createSchool(data: CreateSchoolInput!, image: Upload): School
   updateSchool(schoolId:String ,name: String!): School
   deleteSchool(schoolId:String):School
 }
@@ -485,6 +485,8 @@ type School {
   teams: [Teams!]
   adminId: String
   admin: Admin
+  uniqueId: String
+  imageUrl: String
 }
 
 input CreateSchoolInput {
