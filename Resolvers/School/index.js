@@ -2,8 +2,12 @@ const prisma = require('../../config/database')
 const { readFile } = require('../../Middlewares/file')
 
 const schoolQuery = {
-    schools: async()=>{
-        return await prisma.school.findMany() 
+    schools: async(_, args, ctx)=>{
+        return await prisma.school.findMany({
+            where: {
+                adminId: ctx.user.adminId
+            }
+        }) 
     },
     school: async(_, {schoolId} )=> {
         return await prisma.school.findUnique({
@@ -11,7 +15,17 @@ const schoolQuery = {
                 schoolId: schoolId
             }
         })
-    }
+    },
+    latestSchool: async(_, args, ctx)=>{
+        return await prisma.school.findFirst({
+            orderBy: {
+                createdAt: 'desc'
+            },
+            where: {
+                adminId: ctx.user.adminId
+            }
+        })
+    },
 }
 
 const schoolMutations = {

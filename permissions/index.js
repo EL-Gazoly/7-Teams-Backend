@@ -153,6 +153,8 @@ const isAuthenticated = rule({ cache: 'contextual' })(
       closeApps: isAuthenticated,
       logs: or(isAdmin, isLogsAccess),
       logsCount: or(isAdmin, isLogsAccess),
+      latestSchool: isAuthenticated,
+      schools: isAuthenticated,
       
     },
     Mutation: {

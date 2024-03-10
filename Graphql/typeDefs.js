@@ -38,6 +38,7 @@ type Query {
   log(logId: String!): Logs
   schools: [School!]!
   school(schoolId: String!): School
+  latestSchool: School
  
 }
 scalar DateTime
