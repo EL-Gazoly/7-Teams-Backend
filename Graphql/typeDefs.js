@@ -486,12 +486,13 @@ type School {
   teams: [Teams!]
   adminId: String
   admin: Admin
-  uniqueId: String
+  uniqueId: Int
   imageUrl: String
 }
 
 input CreateSchoolInput {
   name: String
+  uniqueId: Int
 }
 
 
