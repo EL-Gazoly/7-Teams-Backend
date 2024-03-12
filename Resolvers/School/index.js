@@ -36,12 +36,14 @@ const schoolMutations = {
            data
         })
     },
-    updateSchool: async(_, {schoolId, name}, ctx)=>{
+    updateSchool: async(_, {schoolId, data, image, removeImage}, ctx)=>{
+        if(image) data.imageUrl = await readFile(image);
+        if(removeImage) data.imageUrl = null;
         return await prisma.school.update({
             where: {
                 schoolId: schoolId
             },
-            name: name
+            data
         })
     },
     deleteCertificate: async(_, {schoolId})=>{
