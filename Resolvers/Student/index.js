@@ -98,124 +98,173 @@ const studentMutations = {
   },
 
   uploadStudentByExcel: async (_parent, args, ctx) => {
-    const { file } = args;
-    const excefile = await readFileExcel(file);
-    const excelData = await excelToJson({
-      sourceFile: excefile,
-      header: {
-        rows: 1
-      },
-      columnToKey: {
-        '*': '{{columnHeader}}'
-      }
-    });
-  
-    if (!excelData || !excelData.Sheet1 || excelData.Sheet1.length === 0) {
-      throw new Error('No data found in the uploaded Excel file.');
+  const { file } = args;
+  const excefile = await readFileExcel(file);
+  const excelData = await excelToJson({
+    sourceFile: excefile,
+    header: {
+      rows: 1
+    },
+    columnToKey: {
+      '*': '{{columnHeader}}'
     }
-  
-    const schoolTeamsCache = {};
-  
-    const data = excelData.Sheet1.map((item) => {
-      if (!item["first-name"] || !item["middel-name"] || !item["last-name"] || !item["student-number"] || !item["team"] || !item["class"]) {
-        throw new Error('Incomplete data. Please provide all fields.');
-      }
-      return {
-        name: `${item["first-name"]} ${item["middel-name"]} ${item["last-name"]}`,
-        facilityId: item["student-number"].toString(),
-        password: item["secret-number"].toString(),
-        team: item["team"],
-        class: item["class"],
-        schoolId: item["school-id"],
-        adminId: "a20f6805-417b-49cf-9832-8c8c6f97af18"
-      };
-    });
-  
-    await Promise.all(data.map(async (item) => {
-      let schoolId = schoolTeamsCache[item.schoolId];
-      if (!schoolId) {
-        const school = await prisma.school.findUnique({
-          where: {
-            uniqueId: item.schoolId
-          }
-        });
-        if (!school) {
-          throw new Error(`School with uniqueId ${item.schoolId} not found.`);
-        }
-        schoolId = school.schoolId;
-        schoolTeamsCache[item.schoolId] = schoolId;
-      }
-      const teamName = getTeamName(item.team);
-      let teamId = schoolTeamsCache[`${schoolId}-${teamName}`];
-      if (!teamId) {
-        const team = await prisma.teams.findFirst({
-          where: {
-            schoolId,
-            name: teamName
-          }
-        });
-        if (!team) {
-          throw new Error(`Team ${teamName} not found for school ${item.schoolId}.`);
-        }
-        teamId = team.teamId;
-        schoolTeamsCache[`${schoolId}-${teamName}`] = teamId;
-      }
-      item.teamId = teamId;
-  
-      // Logic for classId
-      const classNumberMap = {
-        1: "first",
-        2: "second",
-        3: "third",
-        4: "fourth",
-        5: "fifth",
-        6: "sixth"
-      };
-      const classNumber = classNumberMap[item.class] || "first";
-      const classes = await prisma.classes.findMany({
+  });
+
+  if (!excelData || !excelData.Sheet1 || excelData.Sheet1.length === 0) {
+    return new Error('No data found in the uploaded Excel file.');
+  }
+  const schoolTeamsCache = {};
+
+  const data = excelData.Sheet1.map((item) => {
+    if (!item["first-name"] || !item["middel-name"] ||  !item["last-name"] || !item["student-number"] || !item["team"] || !item["class"]) {
+      return new Error('Incomplete data. Please provide all fields.');
+    }
+    return {
+      name: item["first-name"] + " " + item["middel-name"]+ " "+ item["last-name"],
+      facilityId: item["student-number"],
+      password: item["secret-number"],
+      team: item["team"],
+      class: item["class"],
+      schoolId: item["school-id"],
+      classNumber: item["class-number"],
+      adminId: "a20f6805-417b-49cf-9832-8c8c6f97af18"
+    };
+  });
+
+
+
+  await Promise.all(data.map(async (item) => {
+    item.password = item.password.toString()
+    item.facilityId = item.facilityId.toString()
+    let schoolId;
+    if (schoolTeamsCache[item.schoolId]) {
+      schoolId = schoolTeamsCache[item.schoolId];
+    } else {
+      const school = await prisma.school.findUnique({
         where: {
-          teamId: item.teamId,
-          number: classNumber
+          uniqueId : item.schoolId
         }
       });
-      if (!classes || classes.length === 0) {
-        throw new Error(`Class ${classNumber} not found for team ${teamName}.`);
+      if (!school) {
+        throw new Error(`School with uniqueId ${item.schoolId} not found.`);
       }
-      item.classId = classes[0].classId;
-  
-      // Logic for classalpha
-      const classAlphaMap = {
-        1: "A",
-        2: "B",
-        3: "C",
-        4: "D",
-        5: "E",
-        6: "F",
-        7: "G",
-        8: "H",
-        9: "I",
-        10: "J"
-      };
-      item.classalpha = classAlphaMap[item.classNumber] || "A";
-  
-      delete item.schoolId;
-      delete item.classNumber;
-      delete item.team;
-      delete item.class;
-    }));
-  
-    if (data.length === 0) {
-      throw new Error('No data found in the uploaded Excel file.');
+      schoolId = school.schoolId;
+      schoolTeamsCache[item.schoolId] = schoolId;
     }
-  
-    const createdStudents = await prisma.student.createMany({
-      data,
-      skipDuplicates: true,
-    });
-  
-    return createdStudents.count;
+
+    let teamId;
+    const teamName = getTeamName(item.team);
+    if (schoolTeamsCache[`${schoolId}-${teamName}`]) {
+      teamId = schoolTeamsCache[`${schoolId}-${teamName}`];
+    } else {
+      const team = await prisma.teams.findFirst({
+        where: {
+          schoolId: schoolId,
+          name: teamName
+        }
+      });
+      if (!team) {
+        throw new Error(`Team ${teamName} not found for school ${item.schoolId}.`);
+      }
+      teamId = team.teamId;
+      schoolTeamsCache[`${schoolId}-${teamName}`] = teamId;
+    }
+    item.teamId = teamId;
+    // Your classId logic here...
+    let classNumber;
+  switch (item.class) {
+    case 1:
+      classNumber = "first";
+      break;
+    case 2:
+      classNumber = "second";
+      break;
+    case 3:
+      classNumber = "third";
+      break;
+    case 4:
+      classNumber = "fourth";
+      break;
+    case 5:
+      classNumber = "fifth";
+      break;
+    case 6:
+      classNumber = "sixth";
+      break;
+    default:
+      classNumber = "first";
+      break;
+
+      
   }
+  const classes = await prisma.classes.findMany({
+    where: {
+      teamId: item.teamId,
+      number: classNumber
+    }
+  });
+
+  if (!classes || classes.length === 0) {
+    throw new Error(`Class ${classNumber} not found for team ${item.team}.`);
+  }
+
+  item.classId = classes[0].classId;
   
+  switch (item.classNumber) {
+    case 1:
+      item.classalpha = "A"
+      break;
+    case 2:
+      item.classalpha = "B"
+      break;
+    case 3:
+      item.classalpha = "C"
+      break;
+    case 4:
+      item.classalpha = "D"
+      break;
+    case 5:
+      item.classalpha = "E"
+      break;
+    case 6:
+      item.classalpha = "F"
+      break;
+    case 7:
+      item.classalpha = "G"
+      break;
+    case 8:
+      item.classalpha = "H"
+      break;
+    case 9:
+      item.classalpha = "I"
+      break;
+    case 10:
+      item.classalpha = "J"
+      break;
+    default:
+      item.classalpha = "A"
+      break;
+
+  }
+    delete item.schoolId
+    delete item.classNumber
+    delete item.team
+    delete item.class
+
+
+  }));
+
+  if (data.length === 0) {
+    return new Error('No data found in the uploaded Excel file.');
+  }
+
+  const createdStudents = await prisma.student.createMany({
+    data: data,
+    skipDuplicates: true,
+  });
+
+  return createdStudents.count;
+}
 ,
 
   updateStudent: async (_parent, args) => {
