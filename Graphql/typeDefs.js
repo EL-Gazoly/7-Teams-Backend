@@ -148,7 +148,8 @@ type Role {
   adminId: String!
   admin: Admin!
   isDevicesAccess: Boolean 
-  isStudentsAccess: Boolean 
+  isStudentsAccess: Boolean
+  isSchoolAccess: Boolean 
   isReportsAccess: Boolean 
   isLogsAccess: Boolean 
   isRolesAccess: Boolean 
@@ -164,6 +165,7 @@ input CreateRoleInput {
   name: String!
   isDevicesAccess: Boolean 
   isStudentsAccess: Boolean 
+  isSchoolAccess: Boolean
   isReportsAccess: Boolean 
   isLogsAccess: Boolean 
   isRolesAccess: Boolean 
@@ -178,6 +180,7 @@ input UpdateRoleInput {
   name: String
   isDevicesAccess: Boolean 
   isStudentsAccess: Boolean 
+  isSchoolAccess: Boolean
   isReportsAccess: Boolean 
   isLogsAccess: Boolean 
   isRolesAccess: Boolean 

@@ -118,6 +118,20 @@ const isAuthenticated = rule({ cache: 'contextual' })(
       return false;
     }
   });
+
+  const isSchoolAccess = rule({ cache: 'contextual' })(async (parent, args, ctx, info) => {
+    const token = ctx.req.headers.authorization;
+    if (!token) {
+      return false;
+    }
+    try {
+      const decoded = await jwt.verify(token, `${process.env.JWT_SECRET_KET}`);
+      ctx.user = decoded;
+      return ctx.user.isSchoolAccess;
+    } catch (error) {
+      return false;
+    }
+  });
   
   
   
@@ -154,7 +168,8 @@ const isAuthenticated = rule({ cache: 'contextual' })(
       logs: or(isAdmin, isLogsAccess),
       logsCount: or(isAdmin, isLogsAccess),
       latestSchool: isAuthenticated,
-      schools: isAuthenticated,
+      schools: or(isAdmin, isSchoolAccess),
+      school: or(isAdmin, isSchoolAccess),
       
     },
     Mutation: {
@@ -200,10 +215,10 @@ const isAuthenticated = rule({ cache: 'contextual' })(
       uploadStudentByExcel: or(isAdmin, isStudentsAccess),
       createCloseApp: isAuthenticated,
       createLog: or(isAdmin, isLogsAccess),
-      createSchool: isAuthenticated,
+      createSchool: or(isAdmin, isSchoolAccess),
       loginStudent: isAuthenticated,
       logoutStudent: isAuthenticated,
-      updateSchool: isAuthenticated,
+      updateSchool: or(isAdmin, isSchoolAccess),
     },
   })
 
