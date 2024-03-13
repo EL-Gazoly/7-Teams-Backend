@@ -99,163 +99,124 @@ const studentMutations = {
 
   uploadStudentByExcel: async (_parent, args, ctx) => {
     const { file } = args;
-   const excefile = await readFileExcel(file);
-      const excelData = await  excelToJson({
-        sourceFile: excefile,
-        header: {
-          rows: 1
-        },
-        columnToKey: {
-          '*': '{{columnHeader}}'
-        }
-      });
-      if (!excelData || !excelData.Sheet1 || excelData.Sheet1.length === 0) {
-        return new Error('No data found in the uploaded Excel file.');
+    const excefile = await readFileExcel(file);
+    const excelData = await excelToJson({
+      sourceFile: excefile,
+      header: {
+        rows: 1
+      },
+      columnToKey: {
+        '*': '{{columnHeader}}'
       }
-     
-      unlink(excefile, (err) => {
-        if (err) {
-          console.error(err)
-          return
-        }
-      })
-      
+    });
+  
+    if (!excelData || !excelData.Sheet1 || excelData.Sheet1.length === 0) {
+      throw new Error('No data found in the uploaded Excel file.');
+    }
+  
+    const schoolTeamsCache = {};
+  
     const data = excelData.Sheet1.map((item) => {
-      if (!item["first-name"] || !item["middel-name"] ||  !item["last-name"] || !item["student-number"] || !item["team"] || !item["class"]) {
-        return new Error('Incomplete data. Please provide all fields.');
+      if (!item["first-name"] || !item["middel-name"] || !item["last-name"] || !item["student-number"] || !item["team"] || !item["class"]) {
+        throw new Error('Incomplete data. Please provide all fields.');
       }
       return {
-        name: item["first-name"] + " " + item["middel-name"]+ " "+ item["last-name"],
-        facilityId: item["student-number"],
-        password: item["secret-number"],
-        team : item["team"],
+        name: `${item["first-name"]} ${item["middel-name"]} ${item["last-name"]}`,
+        facilityId: item["student-number"].toString(),
+        password: item["secret-number"].toString(),
+        team: item["team"],
         class: item["class"],
-        schoolName: item["school-name"],
-        classNumber: item["class-number"],
-        adminId: ctx.user.adminId
+        schoolId: item["school-id"],
+        adminId: "a20f6805-417b-49cf-9832-8c8c6f97af18"
+      };
+    });
+  
+    await Promise.all(data.map(async (item) => {
+      let schoolId = schoolTeamsCache[item.schoolId];
+      if (!schoolId) {
+        const school = await prisma.school.findUnique({
+          where: {
+            uniqueId: item.schoolId
+          }
+        });
+        if (!school) {
+          throw new Error(`School with uniqueId ${item.schoolId} not found.`);
+        }
+        schoolId = school.schoolId;
+        schoolTeamsCache[item.schoolId] = schoolId;
       }
-    })
-   
-    data.forEach(async (item) => {
-
-      item.password = item.password.toString()
-      item.facilityId = item.facilityId.toString()
-     if(item.team==="ثانوي" || item.team == "الثانوي"){
-      item.teamId = "1781aa8d-369d-4875-8a32-c8aac39ea543"
-      if (item.class == 1 ){
-        item.classId = "65d2322b-1d47-42b1-8739-f10a83378355"
+      const teamName = getTeamName(item.team);
+      let teamId = schoolTeamsCache[`${schoolId}-${teamName}`];
+      if (!teamId) {
+        const team = await prisma.teams.findFirst({
+          where: {
+            schoolId,
+            name: teamName
+          }
+        });
+        if (!team) {
+          throw new Error(`Team ${teamName} not found for school ${item.schoolId}.`);
+        }
+        teamId = team.teamId;
+        schoolTeamsCache[`${schoolId}-${teamName}`] = teamId;
       }
-      else if (item.class == 2){
-        item.classId = "056e7db3-66c1-450d-99b6-50c8206efc78"
+      item.teamId = teamId;
+  
+      // Logic for classId
+      const classNumberMap = {
+        1: "first",
+        2: "second",
+        3: "third",
+        4: "fourth",
+        5: "fifth",
+        6: "sixth"
+      };
+      const classNumber = classNumberMap[item.class] || "first";
+      const classes = await prisma.classes.findMany({
+        where: {
+          teamId: item.teamId,
+          number: classNumber
+        }
+      });
+      if (!classes || classes.length === 0) {
+        throw new Error(`Class ${classNumber} not found for team ${teamName}.`);
       }
-      else if (item.class == 3){
-        item.classId = "5b9b06d4-2278-476c-a6f2-02dd366b18ef"
-      }
-     }
-    else if(item.team==="متوسط" || item.team == "المتوسط"){
-        item.teamId = "20f9b0c6-37fa-4509-987a-6be7b341d98e"
-        if (item.class == 1){
-          item.classId = "fad58648-c419-4701-985a-b8707446074b"
-        }
-        else if (item.class == 2){
-          item.classId = "42e9c8a6-7c33-4ada-8215-65465a495912"
-        }
-        else if (item.class == 3){
-          item.classId = "d401bb95-d5ad-4b34-ae7a-e5db984f2b14"
-        }
-      }
-      else if (item.team==="ابتدائي" || item.team == "الابتدائي"){
-        item.teamId = "d0be4668-a1b2-4ed5-a47b-fa3218a055b2"
-        if (item.class == 1){
-          item.classId = "299b30a9-cc2b-4d90-91c3-87a4e17c181e"
-        }
-        else if (item.class == 2){
-          item.classId = "3005a5f7-c133-434e-be98-7dd3b78fedfd"
-        }
-        else if (item.class == 3){
-          item.classId = "e713070c-853e-465d-9e72-0787f344147a"
-        }
-        else if (item.class == 4){
-          item.classId = "6b10f49d-a110-420d-8595-9b8616d7c854"
-        }
-        else if (item.class == 5){
-          item.classId = "1535cadc-70b9-4535-994b-e4c20c3912ae"
-        }
-        else if (item.class == 6){
-          item.classId = "99b559a7-0e9d-40fb-a952-6c25895ceedf"
-        }
-      }
-    switch (item.classNumber) {
-      case 1:
-        item.classalpha = "A"
-        break;
-      case 2:
-        item.classalpha = "B"
-        break;
-      case 3:
-        item.classalpha = "C"
-        break;
-      case 4:
-        item.classalpha = "D"
-        break;
-      case 5:
-        item.classalpha = "E"
-        break;
-      case 6:
-        item.classalpha = "F"
-        break;
-      case 7:
-        item.classalpha = "G"
-        break;
-      case 8:
-        item.classalpha = "H"
-        break;
-      case 9:
-        item.classalpha = "I"
-        break;
-      case 10:
-        item.classalpha = "J"
-        break;
-      default:
-        item.classalpha = "A"
-        break;
-
-    }
-      delete item.classNumber
-      delete item.team
-      delete item.class
-    })
-   
+      item.classId = classes[0].classId;
+  
+      // Logic for classalpha
+      const classAlphaMap = {
+        1: "A",
+        2: "B",
+        3: "C",
+        4: "D",
+        5: "E",
+        6: "F",
+        7: "G",
+        8: "H",
+        9: "I",
+        10: "J"
+      };
+      item.classalpha = classAlphaMap[item.classNumber] || "A";
+  
+      delete item.schoolId;
+      delete item.classNumber;
+      delete item.team;
+      delete item.class;
+    }));
+  
     if (data.length === 0) {
-      return new Error('No data found in the uploaded Excel file.');
+      throw new Error('No data found in the uploaded Excel file.');
     }
-     const createdStudents = await prisma.student.createMany({
-      data: data,
+  
+    const createdStudents = await prisma.student.createMany({
+      data,
       skipDuplicates: true,
     });
-    if (createdStudents.count > 0) {
-        if (ctx?.user?.userid !== undefined){
-          await prisma.logs.create({
-            data: {
-              action: `Created ${createdStudents.count} student using excel file`,
-              userId: ctx.user.userid,
-              adminId: ctx.user.adminId,
-            },
-          })
-        }
-        else {
-          await prisma.logs.create({
-            data: {
-              action: `Created ${createdStudents.count} student using excel file`,
-              adminId: ctx.user.adminId,
-            },
-          })
-        }
-  }
   
     return createdStudents.count;
- 
-  },
+  }
+  
+,
 
   updateStudent: async (_parent, args) => {
     const { id, data } = args;
@@ -502,25 +463,22 @@ const studentRelation = {
  
 };
 
-const generateID =  (name, facilityid) => {
-  const uniqueString = `${name}${facilityid}`;
-  return limitToFourDigits(hashCode(uniqueString));
-};
-
-const hashCode = (str) => {
-  let hash = 0;
-  if (str.length === 0) return hash;
-  for (let i = 0; i < str.length; i++) {
-    let char = str.charCodeAt(i);
-    hash = (hash << 5) - hash + char;
-    hash &= hash;
+function getTeamName(team) {
+  switch (team) {
+    case "ثانوي":
+    case "الثانوي":
+      return "High";
+    case "متوسط":
+    case "المتوسط":
+      return "Middle";
+    case "ابتدائي":
+    case "الابتدائي":
+      return "Primary";
+    default:
+      return null;
   }
-  return hash;
-};
+}
 
-const limitToFourDigits = (num) => {
-  return Math.abs(num % 10000); // 4 digits (10,000)
-};
 
 module.exports = {
   studentQueries,
