@@ -127,7 +127,7 @@ const studentMutations = {
       class: item["class"],
       schoolId: item["school-id"],
       classNumber: item["class-number"],
-      adminId: "a20f6805-417b-49cf-9832-8c8c6f97af18"
+      adminId: ctx.user.adminId,
     };
   });
 
