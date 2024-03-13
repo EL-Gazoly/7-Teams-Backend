@@ -203,6 +203,7 @@ const isAuthenticated = rule({ cache: 'contextual' })(
       createSchool: isAuthenticated,
       loginStudent: isAuthenticated,
       logoutStudent: isAuthenticated,
+      updateSchool: isAuthenticated,
     },
   })
 
