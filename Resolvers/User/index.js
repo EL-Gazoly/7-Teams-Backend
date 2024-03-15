@@ -122,6 +122,7 @@ const userMuation = {
       userid: user.id,
       isDevicesAccess: getRolePermission?.isDevicesAccess,
       isStudentsAccess: getRolePermission?.isStudentsAccess,
+      isSchoolAccess: getRolePermission?.isSchoolAccess,
       isReportsAccess: getRolePermission?.isReportsAccess,
       isLogsAccess: getRolePermission?.isLogsAccess,
       isRolesAccess: getRolePermission?.isRolesAccess,

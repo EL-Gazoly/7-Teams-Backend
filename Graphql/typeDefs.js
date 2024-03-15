@@ -11,7 +11,7 @@ type Query {
   deviceByMac(macAddress: String!): Device
   students: [Student!]!
   student(id: String!): Student
-  studentByGeneratedId(generatedId: String!): Student
+  studentByFacilityId(facilityId: String!): Student
   expriments: [Expriment!]!
   expriment(id: String!): Expriment
   studentExperiments: StudentExperimentDates
@@ -38,6 +38,7 @@ type Query {
   log(logId: String!): Logs
   schools: [School!]!
   school(schoolId: String!): School
+  latestSchool: School
  
 }
 scalar DateTime
@@ -83,8 +84,8 @@ type Mutation {
   updateCertificate(id: String!, data: UpdateCertificateInput!): Certificates!
   deleteCertificate(id: String!): Certificates!
 
-  loginStudent(generatedId: String!, password: String, macAddress: String!): Student!
-  logoutStudent(generatedId: String!, macAddress: String!): Student!
+  loginStudent(facilityId: String!, password: String, macAddress: String!): Student!
+  logoutStudent(facilityId: String!, macAddress: String!): Student!
 
   sendEmail(email: String!, certificate: Upload): String
   uploadStudentByExcel(file: Upload): Int
@@ -94,8 +95,8 @@ type Mutation {
   createLog(data: CreateLogInput!): Logs!
   updateLog(logId: String!, data: CreateLogInput!): Logs!
   deleteLog(logId: String!): Logs!
-  createSchool(data: CreateSchoolInput!): School
-  updateSchool(schoolId:String ,name: String!): School
+  createSchool(data: CreateSchoolInput!, image: Upload): School
+  updateSchool(schoolId:String ,data: UpdateSchoolInput!, image: Upload, removeImage: Boolean): School
   deleteSchool(schoolId:String):School
 }
 
@@ -147,7 +148,8 @@ type Role {
   adminId: String!
   admin: Admin!
   isDevicesAccess: Boolean 
-  isStudentsAccess: Boolean 
+  isStudentsAccess: Boolean
+  isSchoolAccess: Boolean 
   isReportsAccess: Boolean 
   isLogsAccess: Boolean 
   isRolesAccess: Boolean 
@@ -163,6 +165,7 @@ input CreateRoleInput {
   name: String!
   isDevicesAccess: Boolean 
   isStudentsAccess: Boolean 
+  isSchoolAccess: Boolean
   isReportsAccess: Boolean 
   isLogsAccess: Boolean 
   isRolesAccess: Boolean 
@@ -177,6 +180,7 @@ input UpdateRoleInput {
   name: String
   isDevicesAccess: Boolean 
   isStudentsAccess: Boolean 
+  isSchoolAccess: Boolean
   isReportsAccess: Boolean 
   isLogsAccess: Boolean 
   isRolesAccess: Boolean 
@@ -257,7 +261,6 @@ input UpdateDeviceInput {
 scalar Upload
 
 type Student {
-  generatedId: Int!
   studentId: String!
   name: String!
   facilityId: String!
@@ -486,9 +489,14 @@ type School {
   teams: [Teams!]
   adminId: String
   admin: Admin
+  uniqueId: String
+  imageUrl: String
 }
 
 input CreateSchoolInput {
+  name: String
+}
+input UpdateSchoolInput {
   name: String
 }
 

@@ -6,8 +6,8 @@ generator client {
 
 datasource db {
   provider = "postgresql"
-  url               = env("DIRECT_URL")
-  directUrl         = env("DIRECT_URL")
+  url      = env("DATABASE_URL")
+  // directUrl         = env("DIRECT_URL")
 }
 
 model Admin {
@@ -76,6 +76,7 @@ model Roles {
   isCertificatesAccess Boolean @default(false)
   isDashboardAccess Boolean @default(false)
   isLibraryAccess Boolean @default(false)
+  isSchoolAccess Boolean @default(false)
   adminId String
   admin Admin @relation(fields: [adminId], references: [id])
   users User[]
@@ -120,8 +121,7 @@ model Courses{
   updatedAt DateTime @updatedAt
 }
 
-model Student {
-  generatedId         String             
+model Student {           
   studentId           String            @id @default(uuid())
   name                String
   facilityId          String            
@@ -143,9 +143,9 @@ model Student {
   closeApp            CloseApp[]
   classalpha          String @default("A")      
   schoolName          String @default(" مدرسه النور ")
-  password            String @default("")
+  password            String? @default("0000")
 
-  @@unique([adminId, facilityId, generatedId])
+  @@unique([adminId, facilityId])
 }
 
 model Chatpers{
@@ -220,6 +220,8 @@ model Logs {
 
 model School {
   schoolId String @id @default(uuid())
+  uniqueId Int @unique @default(autoincrement())
+  imageUrl String?
   name String
   teams Teams[]
   adminId String
