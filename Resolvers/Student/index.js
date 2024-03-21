@@ -74,6 +74,47 @@ const studentMutations = {
     const { data, image } = args;
     if(image) data.imageUrl = await readFile(image);
       data.adminId = ctx.user.adminId;
+    const { schoolId, teamName , classNumber } = data;
+    const school = await prisma.school.findUnique({
+      where: {
+        schoolId: schoolId,
+      }
+    });
+
+    if (!school) {
+      return new Error(`School with id ${schoolId} not found.`);
+    }
+
+    const team = await prisma.teams.findFirst({
+      where: {
+        schoolId: schoolId,
+        name: teamName,
+      }
+    });
+
+    if (!team) {
+      return new Error(`Team with name ${teamName} not found for school ${schoolId}.`);
+    }
+
+    const classes = await prisma.classes.findMany({
+      where: {
+        teamId: team.teamId,
+        number: classNumber
+      }
+    });
+
+    if (!classes || classes.length === 0) {
+      return new Error(`Class ${classNumber} not found for team ${teamName}.`);
+    }
+
+    data.teamId = team.teamId;
+    data.classId = classes[0].classId;
+
+    delete data.schoolId;
+    delete data.teamName;
+    delete data.classNumber;
+
+
     const student = await prisma.student.create({
       data: data,
     });

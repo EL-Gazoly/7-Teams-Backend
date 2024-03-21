@@ -285,8 +285,11 @@ input CreateStudentInput {
   name: String!
   facilityId: String!
   imageUrl: String
-  teamId: String
-  classId: String
+  schoolId: String!
+  teamName: String!
+  classNumber: String!
+  classalpha: String!
+  password: String
 }
 input UpdateStudentInput {
   name: String
