@@ -41,6 +41,13 @@ const deviceMutation = {
       },
     });
   },
+  deleteAllDevices: async (_, args, ctx) => {
+    return await prisma.device.deleteMany({
+      where: {
+        adminId: ctx.user.adminId,
+      },
+    });
+  }
 };
 
 const deviceRelation = {

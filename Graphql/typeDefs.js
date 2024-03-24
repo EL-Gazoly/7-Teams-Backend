@@ -55,6 +55,7 @@ type Mutation {
   createDevice(data: CreateDeviceInput!): Device!
   updateDevice(id: String!, data: UpdateDeviceInput!): Device!
   deleteDevice(id: String!): Device!
+  deleteAllDevices: [Device!]
   createStudent(data: CreateStudentInput!, image: Upload) : Student!
   updateStudent(id: String!, data: UpdateStudentInput!): Student!
   deleteStudent(id: String!): Student!
