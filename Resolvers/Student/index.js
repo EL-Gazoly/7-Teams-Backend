@@ -308,14 +308,76 @@ const studentMutations = {
 }
 ,
 
-  updateStudent: async (_parent, args) => {
-    const { id, data } = args;
-    return await prisma.student.update({
+  updateStudent: async (_parent, args, ctx) => {
+    const { id, data ,image, removeImage } = args;
+    if(image) data.imageUrl = await readFile(image);
+    if(removeImage) data.imageUrl = null;
+      data.adminId = "a20f6805-417b-49cf-9832-8c8c6f97af18";
+    const { schoolId, teamName , classNumber } = data;
+    const school = await prisma.school.findUnique({
+      where: {
+        schoolId: schoolId,
+      }
+    });
+
+    if (!school) {
+      return new Error(`School with id ${schoolId} not found.`);
+    }
+
+    const team = await prisma.teams.findFirst({
+      where: {
+        schoolId: schoolId,
+        name: teamName,
+      }
+    });
+
+    if (!team) {
+      return new Error(`Team with name ${teamName} not found for school ${schoolId}.`);
+    }
+
+    const classes = await prisma.classes.findMany({
+      where: {
+        teamId: team.teamId,
+        number: classNumber
+      }
+    });
+
+    if (!classes || classes.length === 0) {
+      return new Error(`Class ${classNumber} not found for team ${teamName}.`);
+    }
+
+    data.teamId = team.teamId;
+    data.classId = classes[0].classId;
+
+    delete data.schoolId;
+    delete data.teamName;
+    delete data.classNumber;
+
+
+    const student =  await prisma.student.update({
       where: {
         studentId: id,
       },
       data: data,
     });
+    // if (ctx?.user?.userid !== undefined){
+    //   await prisma.logs.create({
+    //     data: {
+    //       action: `Updated student ${student.name}`,
+    //       userId: ctx.user.userid,
+    //       adminId: ctx.user.adminId,
+    //     },
+    //   })
+    // }
+    // else {
+    //   await prisma.logs.create({
+    //     data: {
+    //       action: `Updated student ${student.name}`,
+    //       adminId: ctx.user.adminId,
+    //     },
+    //   })
+    // }
+    return student;
   },
 
   deleteStudent: async (_parent, args) => {

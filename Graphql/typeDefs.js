@@ -57,7 +57,7 @@ type Mutation {
   deleteDevice(id: String!): Device!
   deleteAllDevices: [Device!]
   createStudent(data: CreateStudentInput!, image: Upload) : Student!
-  updateStudent(id: String!, data: UpdateStudentInput!): Student!
+  updateStudent(id: String!, data: UpdateStudentInput!, removeImage: Boolean, image: Upload): Student!
   deleteStudent(id: String!): Student!
   deleteManyStudents(ids: [String!]!): [Student!]!
   createExpriment(data: CreateExprimentInput!): Expriment!
@@ -296,13 +296,15 @@ input UpdateStudentInput {
   name: String
   facilityId: String
   imageUrl: String
+  schoolId: String
+  teamName: String
+  classNumber: String
+  classalpha: String
+  password: String
   TotalTime: Int
   completedCourses: Int
   adminId: String
   deviceId: String
-  teamId: String
-  classId: String
-  password: String
 }
 
 type Expriment{
