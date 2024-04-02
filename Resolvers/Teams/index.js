@@ -11,6 +11,21 @@ const teamQuery = {
         },
         });
     },
+    teamByName: async (_parent, { name }, ctx) => {
+        try{
+            return await prisma.teams.findMany({
+                where: {
+                    name: name,
+                    adminId: ctx.user.adminId
+                }
+            })
+        }
+        catch(err){
+            return err.message
+        }
+
+       
+    },
     
 }
 

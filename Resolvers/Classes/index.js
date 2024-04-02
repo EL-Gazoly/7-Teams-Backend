@@ -11,7 +11,33 @@ const ClassesQueries = {
                 classId: id
             }
         })
-    }
+    },
+    classesByNumber: async (parent, { number, name }, ctx) => {
+        try {
+          const teams = await prisma.teams.findMany({
+            where: {
+              name: name,
+              adminId: ctx.user.adminId,
+            },
+          });
+      
+          const teamIds = teams.map((team) => team.teamId);
+      
+          const classes = await prisma.classes.findMany({
+            where: {
+              number: number,
+              teamId: {
+                in: teamIds,
+              },
+            },
+          });
+         
+          return classes;
+        } catch (err) {
+          return err.message;
+        }
+      },
+      
 }
 
 const ClassesMutations = {

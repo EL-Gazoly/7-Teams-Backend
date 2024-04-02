@@ -18,8 +18,10 @@ type Query {
   studentExperiment(studentId: String!, exprimentId: String!): StudentExperiment
   teams: [Teams!]!
   team(id: String!): Teams
+  teamByName(name: String!): [Teams!]
   classes: [Classes!]!
   class(id: String!): Classes
+  classesByNumber(number: String!, name: String!): [Classes!]
   courses: [Courses!]!
   course(id: String!): Courses
   chapters: [Chapters!]!
