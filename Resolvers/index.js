@@ -93,6 +93,13 @@ const {
     schoolMutations,
     schoolRelations
   } = require('./School/index.js')
+
+  const {
+    MediaMutation,
+    MediaQueries,
+    MediaRelation
+
+  } = require('./Media/index.js')
    
    module.exports = {
      adminQuery,
@@ -155,6 +162,10 @@ const {
 
       schoolQuery,
       schoolMutations,
-      schoolRelations
+      schoolRelations,
+
+      MediaMutation,
+      MediaQueries,
+      MediaRelation
    };
    

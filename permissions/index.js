@@ -222,6 +222,7 @@ const isAuthenticated = rule({ cache: 'contextual' })(
       loginStudent: isAuthenticated,
       logoutStudent: isAuthenticated,
       updateSchool: or(isAdmin, isSchoolAccess),
+      uploadFileToS3: isAuthenticated,
     },
   })
 

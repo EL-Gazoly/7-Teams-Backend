@@ -196,7 +196,21 @@ const adminRelation = {
           adminId: parent.id
         }
       })
-    }
+    },
+    pictures: async(parent)=>{
+      return await prisma.pictures.findMany({
+        where:{
+          adminId: parent.id
+        }
+      })
+    },
+    videos: async(parent)=>{
+      return await prisma.videos.findMany({
+        where:{
+          adminId: parent.id
+        }
+      })
+    },
   }
 };
 

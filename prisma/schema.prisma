@@ -29,6 +29,8 @@ model Admin {
   closeApp CloseApp[]
   logs Logs[]
   school School[]
+  pictures Pictures[]
+  videos   Videos[]
 }
 
 model User{
@@ -124,7 +126,7 @@ model Courses{
 model Student {           
   studentId           String            @id @default(uuid())
   name                String
-  facilityId          String            
+  facilityId          String            @unique
   imageUrl            String?
   TotalTime           Int               @default(0)
   completedCourses    Int               @default(0)
@@ -143,6 +145,8 @@ model Student {
   closeApp            CloseApp[]
   classalpha          String @default("A")      
   password            String? @default("0000")
+  pictures            Pictures[]
+  videos              Videos[]
 
   @@unique([adminId, facilityId])
 }
@@ -225,6 +229,31 @@ model School {
   teams Teams[]
   adminId String
   admin Admin @relation(fields: [adminId], references: [id])
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Pictures {
+  pictureId String @id @default(uuid())
+  key String
+  facilityId String 
+  location String
+  student Student @relation(fields: [facilityId], references: [facilityId])  
+  adminId String
+  admin  Admin @relation(fields: [adminId], references: [id])
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+
+model Videos {
+  videoId String @id @default(uuid())
+  key String
+  facilityId String 
+  location String
+  student Student @relation(fields: [facilityId], references: [facilityId])  
+  adminId String
+  admin  Admin @relation(fields: [adminId], references: [id])
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
