@@ -32,7 +32,6 @@ const uploadToS3 = async (file) => {
 
         const response = await parallelUploads3.done()
        
-        console.log('Upload Success', response.Key);
         return {response, name};
     } catch (err) {
         console.log('Error', err);
@@ -53,6 +52,23 @@ const MediaQueries = {
             }
         })
     },
+    getPicturesByFacilityId: async (parent, args, ctx) => {
+        const { facilityId } = args;
+        return await prisma.pictures.findMany({
+            where: {
+                facilityId: facilityId
+            }
+        })
+    },
+    getVideosByFacilityId: async (parent, args, ctx) => {
+        const { facilityId } = args;
+        return await prisma.videos.findMany({
+            where: {
+                facilityId: facilityId
+            }
+        })
+    }
+    ,
     videos: async (parent, args, ctx) => {
         return await prisma.videos.findMany()
     },
@@ -74,6 +90,8 @@ const MediaMutation = {
         const {response, name} = await uploadToS3(file);
         const mimeType = mime.lookup(name);
          const {Location, Key} =  response;
+         console.log('Mime Type', mimeType);
+         
         if (mimeType === 'image/jpeg' || mimeType === 'image/png' || mimeType === 'image/jpg') {
             await prisma.pictures.create({
                 data: {

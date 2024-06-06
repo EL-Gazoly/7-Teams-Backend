@@ -45,7 +45,9 @@ type Query {
   pictures: [Pictures!]!
   videos: [Vidoes!]!
   picture(pictureId: String!): Pictures
+  getPicturesByFacilityId(facilityId: String!): [Pictures!]
   video(videoId: String!): Vidoes
+  getVideosByFacilityId(facilityId: String!): [Vidoes!]
  
 }
 scalar DateTime
