@@ -1,7 +1,7 @@
 const {parse, join} = require("path");
-const {createWriteStream, unlink} = require("fs");
-
-
+const {createWriteStream, unlink, promises} = require("fs");
+const { promisify } = require('util')
+const unlinkAsync = promisify(require('fs').unlink);
 module.exports.readFile = async (file) => {
     const {createReadStream, filename} = await file;
     const stream = createReadStream();
@@ -10,9 +10,31 @@ module.exports.readFile = async (file) => {
     let url = join(__dirname, `../public/${name}-${Date.now()}${ext}`);
     const imageStream = await createWriteStream(url)
     await stream.pipe(imageStream);
-    url = `/public${url.split('public')[1]}`;
     return url;
 }
+
+module.exports.readFileS3 = async (file) => {
+    const { createReadStream, filename } = await file;
+    const stream = createReadStream();
+    const { ext } = parse(filename);
+    const pathname = filename.split('.');
+    const name = `${pathname[0]}-${ext === ".png" ? "image" : "video"}${Math.floor((Math.random() * 10000) + 1)}-${Date.now()}${ext}`;
+    const url = join(__dirname, `../public/${name}`);
+    const imageStream = createWriteStream(url);
+
+    // Promisify the stream pipe operation
+    const pipePromise = new Promise((resolve, reject) => {
+        stream.pipe(imageStream)
+            .on('finish', resolve)
+            .on('error', reject);
+    });
+
+    await pipePromise; // Wait for the pipe operation to finish
+
+    const fileBuffer = await promises.readFile(url);
+    unlinkAsync(url)
+    return {fileBuffer, name};
+};
 
 module.exports.readFileExcel = async (file) => {
     const { createReadStream, filename } = await file;

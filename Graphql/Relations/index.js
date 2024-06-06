@@ -13,7 +13,8 @@ const {
     certificatesRelations,
     closeAppRelation,
     logRelation,
-    schoolRelations
+    schoolRelations,
+    MediaRelation 
   } = require('../../Resolvers');
   
   const Relations = {
@@ -31,7 +32,8 @@ const {
     ...certificatesRelations,
     ...closeAppRelation,
     ...logRelation,
-    ...schoolRelations
+    ...schoolRelations,
+    ...MediaRelation
  
   };
   

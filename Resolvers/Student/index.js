@@ -611,6 +611,20 @@ const studentRelation = {
         },
       });
     },
+    pictures: async (parent) => {
+      return await prisma.pictures.findMany({
+        where: {
+          facilityId: parent.facilityId,
+        },
+      });
+    },
+    videos: async (parent) => {
+      return await prisma.videos.findMany({
+        where: {
+          studentId: parent.studentId,
+        },
+      });
+    }
   },
  
 };

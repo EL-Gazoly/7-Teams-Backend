@@ -41,6 +41,13 @@ type Query {
   schools: [School!]!
   school(schoolId: String!): School
   latestSchool: School
+
+  pictures: [Pictures!]!
+  videos: [Vidoes!]!
+  picture(pictureId: String!): Pictures
+  getPicturesByFacilityId(facilityId: String!): [Pictures!]
+  video(videoId: String!): Vidoes
+  getVideosByFacilityId(facilityId: String!): [Vidoes!]
  
 }
 scalar DateTime
@@ -101,6 +108,8 @@ type Mutation {
   createSchool(data: CreateSchoolInput!, image: Upload): School
   updateSchool(schoolId:String ,data: UpdateSchoolInput!, image: Upload, removeImage: Boolean): School
   deleteSchool(schoolId:String):School
+
+  uploadFileToS3(file: Upload!, facilityId: String!): String
 }
 
 type Admin {
@@ -122,7 +131,8 @@ type Admin {
   closeApps: [CloseApp!]
   logs: [Logs!]
   schools: [School!]
-
+  pictures: [Pictures!]
+  videos: [Vidoes!]
 }
 
 input CreateAdminInput {
@@ -282,6 +292,8 @@ type Student {
   classalpha: String
   schoolName: String
   password: String
+  pictures: [Pictures!]
+  videos: [Vidoes!]
 }
 
 input CreateStudentInput {
@@ -506,6 +518,29 @@ input CreateSchoolInput {
 }
 input UpdateSchoolInput {
   name: String
+}
+type Pictures {
+  pictureId: String!
+  location: String!
+  key: String!
+  facilityId: String!
+  student: Student!
+  adminId: String!
+  admin: Admin!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
+type Vidoes {
+  videoId: String!
+  location: String!
+  key: String!
+  facilityId: String!
+  student: Student!
+  adminId: String!
+  admin: Admin!
+  createdAt: DateTime!
+  updatedAt: DateTime!
 }
 
 

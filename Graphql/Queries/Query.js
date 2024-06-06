@@ -14,7 +14,7 @@ const {
     closeAppQuery,
     logQueries,
     schoolQuery,
-
+    MediaQueries
     
   } = require('../../Resolvers');
   
@@ -33,7 +33,8 @@ const {
     ...certificatesQuery,
     ...closeAppQuery,
     ...logQueries,
-    ...schoolQuery
+    ...schoolQuery,
+    ...MediaQueries
   };
   
   module.exports = Query;
