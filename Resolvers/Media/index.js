@@ -92,6 +92,7 @@ const MediaMutation = {
          const {Location, Key} =  response;
          console.log('Mime Type', mimeType);
          
+         
         if (mimeType === 'image/jpeg' || mimeType === 'image/png' || mimeType === 'image/jpg') {
             await prisma.pictures.create({
                 data: {
@@ -107,7 +108,7 @@ const MediaMutation = {
                 data: {
                     location: Location,
                     key: Key,
-                    facilityId: "20246",
+                    facilityId: facilityId,
                     adminId: adminId
                 }
             })
