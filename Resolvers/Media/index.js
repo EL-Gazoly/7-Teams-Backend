@@ -136,6 +136,22 @@ const MediaRelation = {
                 }
             })
         }
+    },
+    Vidoes: {
+        student: async (parent, args, context, info) => {
+            return await prisma.student.findUnique({
+                where: {
+                    facilityId: parent.facilityId
+                }
+            })
+        },
+        admin: async (parent, args, context, info) => {
+            return await prisma.admin.findUnique({
+                where: {
+                    adminId: parent.adminId
+                }
+            })
+            }
     }
 
 }
