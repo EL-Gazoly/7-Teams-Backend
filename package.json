@@ -28,7 +28,8 @@
     "jsonwebtoken": "^9.0.2",
     "mime": "^4.0.3",
     "nodemailer": "^6.9.7",
-    "nodemon": "^3.0.2"
+    "nodemon": "^3.0.2",
+    "prisma-erd-generator": "^1.11.2"
   },
   "devDependencies": {
     "prisma": "^5.14.0"
